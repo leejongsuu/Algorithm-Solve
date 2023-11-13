@@ -1,3 +1,39 @@
+
+import java.util.Scanner;
+
+class Main {
+	
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		String str = sc.next();
+		char ch = sc.next().charAt(0);
+		
+		int[] len = new int[str.length()];
+		int p = 101;
+		
+		for(int i=0; i< str.length(); i++) {
+			if(str.charAt(i)==ch) 
+				p=0;
+			else
+				++p;
+			len[i]=p;
+		}
+		
+		for(int i=str.length()-1; i>-1; i--) {
+			if(str.charAt(i)==ch)
+				p=0;
+			else
+				++p;
+			if(p<len[i])
+				len[i]=p;
+		}
+		for(int n : len)
+			System.out.print(n+" ");
+	}
+}
+
 // import java.util.Scanner;
 
 // class Main {
@@ -51,37 +87,3 @@
 // 	}
 // }
 
-import java.util.Scanner;
-
-class Main {
-	
-	public static void main(String[] args) {
-		
-		Scanner sc = new Scanner(System.in);
-		
-		String str = sc.next();
-		char ch = sc.next().charAt(0);
-		
-		int[] len = new int[str.length()];
-		int p = 101;
-		
-		for(int i=0; i< str.length(); i++) {
-			if(str.charAt(i)==ch) 
-				p=0;
-			else
-				++p;
-			len[i]=p;
-		}
-		
-		for(int i=str.length()-1; i>-1; i--) {
-			if(str.charAt(i)==ch)
-				p=0;
-			else
-				++p;
-			if(p<len[i])
-				len[i]=p;
-		}
-		for(int n : len)
-			System.out.print(n+" ");
-	}
-}
