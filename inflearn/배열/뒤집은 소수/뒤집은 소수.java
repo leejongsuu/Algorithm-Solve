@@ -1,6 +1,7 @@
 // 예시 입력 9     32 55 62 20 250 370 200 30 100
 
 // 예시 출력 23 2 73 2 3
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
