@@ -10,19 +10,14 @@ class Main {
 	public int[] solution(int n, int[] arr){
 
 		int[] answer = new int[n];
-		Arrays.fill(answer, 1);
 		
 		for(int i=0; i<n; i++) {
-			for(int j=i+1; j<n; j++)
-				if(arr[i]<arr[j])
-					answer[i]++;
+			int cnt=1;
+			for(int j=0; j<n; j++) {
+				if(arr[j]>arr[i]) cnt++;
+			}
+			answer[i]=cnt;
 		}
-		
-		for(int i=n-1; i>=0; i--)
-			for(int j=i-1; j>=0; j--)
-				if(arr[i]<arr[j])
-					answer[i]++;
-			
 		return answer;
 	}
 	
