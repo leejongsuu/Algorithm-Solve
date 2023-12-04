@@ -12,7 +12,7 @@ class Node{
 
 public class Main {
     Node root;
-    public int DFS(Node root){
+    public int BFS(Node root){
         Queue<Node> Q = new LinkedList<>();
         Q.offer(root);
         int level = 0;
@@ -36,6 +36,6 @@ public class Main {
         tree.root.rt = new Node(3);
         tree.root.lt.lt = new Node(4);
         tree.root.lt.rt = new Node(5);
-        System.out.println(tree.DFS(tree.root));
+        System.out.println(tree.BFS(tree.root));
     }
 }
