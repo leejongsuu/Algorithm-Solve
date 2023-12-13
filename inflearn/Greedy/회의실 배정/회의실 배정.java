@@ -45,13 +45,13 @@ public class Main {
 
     public int Greedy() {
 
-        int answer = 1;
+         int answer = 0;
         Collections.sort(meeting);
-        int max = meeting.get(0).e;
-        for (int i = 1; i < meeting.size(); i++) {
-            if (meeting.get(i).s >= max) {
-                max = meeting.get(i).e;
+        int et = 0;
+        for (time t : meeting) {
+            if (t.s >= et) {
                 answer++;
+                et = t.e;
             }
         }
 
