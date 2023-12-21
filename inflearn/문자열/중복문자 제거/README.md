@@ -28,3 +28,27 @@
 <p>str.indexOf('a') -> 0을 반환해줌 </p>
 <p>str.indexOf('c') -> 2를 반환해줌 </p>
 <p>따라서 반복문안에 인덱스 i와 str.indexOf(i)가 같은것만 출력하면 중복이 자연스럽게 제거.</p>
+<p>
+ 문제로 돌아가서, ksekkset을 예시 입력으로 들면 
+
+str.charAt(i)      i        str.indexOf(str.charAt(i)
+k  0  0
+
+s  1  1
+
+e  2  2
+
+k  3  0
+
+k  4  0
+
+s  5  1
+
+e  6  2
+
+t  7  1
+
+이렇게 나옴
+
+따라서 중복문자를 제거하기 위해 i=str.indexOf(str.charAt(i)) 조건을 걸어줘서 처음 나온 문자의 위치를 찾음  —> answer에 추가.
+</p>
