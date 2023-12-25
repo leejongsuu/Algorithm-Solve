@@ -1,49 +1,28 @@
-### 풀이 1
 import java.util.Scanner;
 
-class Main {
-	
-	public static void main(String[] args) {
-		
-		Scanner sc = new Scanner(System.in);
-		
-		int n = sc.nextInt();
-		String str = sc.next();
-		String answer="";
-		int sum=0;
-		
-		for(int i=0; i<n; i++)
-		{
-			for(int j=0;j<7;j++)
-				if(str.charAt(j)=='#')
-					sum+=Math.pow(2, 6-j);
-			answer+=(char)sum;
-			sum=0;
-			str=str.substring(7);
-		}
-		System.out.println(answer);
-	}
-}
+public class Main {
 
-###풀이 2
-import java.util.Scanner;
+    public String solution(int n, String str){
 
-class Main {
-	
-	public static void main(String[] args) {
-		
-		Scanner sc = new Scanner(System.in);
-		
-		int n = sc.nextInt();
-		String str = sc.next().replace('#','1').replace('*','0');
-		String answer="";
-		for(int i=0; i<n; i++)
-		{
-			String tmp=str.substring(0,7);
-			int num = Integer.parseInt(tmp, 2);
-			answer+=(char)num;
-			str=str.substring(7);
-		}
-		System.out.println(answer);
-	}
+        String answer = "";
+
+        for (int i = 0; i < n; i++) {
+            String temp = str.substring(0, 7);
+            answer += (char) Integer.parseInt(temp, 2);
+            str = str.substring(7);
+        }
+
+        return answer;
+    }
+
+    public static void main(String[] args){
+
+        Main T = new Main();
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        String str = sc.next().replace('#','1').replace('*','0');
+
+        System.out.println(T.solution(n, str));
+    }
 }
