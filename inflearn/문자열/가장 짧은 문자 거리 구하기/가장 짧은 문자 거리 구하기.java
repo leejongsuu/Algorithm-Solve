@@ -1,5 +1,5 @@
 //예시 입력 teachermode e
-//예시 출력 1 0 12 1 0 1 2 2 1 0
+//예시 출력 1 0 1 2 1 0 1 2 2 1 0
 
 import java.util.Scanner;
 
