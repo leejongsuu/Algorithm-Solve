@@ -1,5 +1,6 @@
 //예시 입력
-/* AbaAeCe
+/* 
+AbaAeCe
 baeeACA
 */
 
@@ -8,31 +9,33 @@ baeeACA
 import java.util.HashMap;
 import java.util.Scanner;
 
-class Main {
-	
-	public void solution(String Astr, String Bstr){
-		
-		HashMap<Character,Integer> Amap = new HashMap<>();
-		HashMap<Character,Integer> Bmap = new HashMap<>();
-		
-		for(char c : Astr.toCharArray())
-			Amap.put(c, Amap.getOrDefault(c,0)+1);
-		for(char c : Bstr.toCharArray())
-			Bmap.put(c, Bmap.getOrDefault(c,0)+1);
-		
-		if(Amap.equals(Bmap))
-			System.out.println("YES");
-		else
-			System.out.println("NO");
-	}
-	
-	public static void main(String[] args) {
-		Main T = new Main();
-		Scanner sc = new Scanner(System.in);
-		
-		String Astr = sc.next();
-		String Bstr = sc.next();
-		
-		T.solution(Astr, Bstr);
-	}
+public class Main {
+
+    static HashMap<Character, Integer> aMap = new HashMap<>();
+    static HashMap<Character, Integer> bMap = new HashMap<>();
+
+    public String solution(String a, String b) {
+
+        String answer = "NO";
+
+        if(a.length()!=b.length()) return "NO";
+        for (int i = 0; i < a.length(); i++) {
+            aMap.put(a.charAt(i), aMap.getOrDefault(a.charAt(i), 0) + 1);
+            bMap.put(b.charAt(i), bMap.getOrDefault(b.charAt(i), 0) + 1);
+        }
+        if(aMap.equals(bMap)) return "YES";
+
+        return answer;
+    }
+
+    public static void main(String[] args){
+
+        Main T = new Main();
+        Scanner sc = new Scanner(System.in);
+
+        String a = sc.next();
+        String b = sc.next();
+
+        System.out.println(T.solution(a, b));
+    }
 }
