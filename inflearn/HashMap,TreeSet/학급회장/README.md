@@ -34,5 +34,5 @@ HashMap
 
 3. 여기서 map.getOrDefault(x,0)+1이 아닌 map.get(x)+1을 쓰면 처음 Key값이 들어갈 때 에러남 주의
 
-4. 최대 value를 가진 key를 찾아서 출
+4. 최대 value를 가진 key를 찾아서 출력
 </p>
