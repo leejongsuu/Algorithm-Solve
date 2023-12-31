@@ -17,20 +17,19 @@ import java.util.Stack;
 public class Main {
 
 
-    public int solution(int[][]board, int[] moves) {
+    public int solution(int[][] board, int[] moves) {
 
         int answer = 0;
         Stack<Integer> stack = new Stack<>();
 
         for (int pos : moves) {
             for (int i = 0; i < board.length; i++) {
-                int tmp = board[i][pos - 1];
-                if(tmp==0) continue;
-                board[i][pos - 1] = 0;
-                if (!stack.isEmpty() && stack.peek() == tmp) {
-                    answer += 2;
+                if(board[i][pos-1]==0) continue;
+                if (!stack.isEmpty() && stack.peek() == board[i][pos - 1]) {
                     stack.pop();
-                } else stack.push(tmp);
+                    answer += 2;
+                } else stack.push(board[i][pos - 1]);
+                board[i][pos - 1] = 0;
                 break;
             }
         }
@@ -46,7 +45,9 @@ public class Main {
         int n = sc.nextInt();
         int[][] board = new int[n][n];
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) board[i][j] = sc.nextInt();
+            for (int j = 0; j < n; j++) {
+                board[i][j] = sc.nextInt();
+            }
         }
 
         int m = sc.nextInt();
