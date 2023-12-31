@@ -12,20 +12,16 @@ import java.util.Scanner;
 
 public class Main {
 
-
     public String solution(String require, String str) {
 
         String answer = "YES";
         Queue<Character> Q = new LinkedList<>();
-        for(char c : require.toCharArray()) Q.add(c);
+        for(char c : require.toCharArray()) Q.offer(c);
 
-        for (char c : str.toCharArray()) {
-            if (Q.contains(c)) {
-                if(c!=Q.poll()) return "NO";
-            }
-        }
+        for (char c : str.toCharArray())
+            if (Q.contains(c) && c!=Q.poll()) return "NO";
+
         if(!Q.isEmpty()) return "NO";
-
 
         return answer;
     }
@@ -37,6 +33,7 @@ public class Main {
 
         String require = sc.next();
         String str = sc.next();
+
 
         System.out.println(T.solution(require, str));
     }
