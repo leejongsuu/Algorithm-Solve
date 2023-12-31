@@ -13,53 +13,53 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-class Person{
-	int id;
-	int priority;
-	public Person(int id, int priority) {
-		this.id = id;
-		this.priority = priority;
-	}
+class Point {
+    int risk, seq;
+
+    public Point(int risk, int seq) {
+        this.risk = risk;
+        this.seq = seq;
+    }
 }
 
-class Main {
-	
-	public int solution(int m, int[] arr){
-		
-		int answer = 0;
-		Queue<Person> queue = new LinkedList<>();
-		for(int i=0; i<arr.length; i++)
-			queue.add(new Person(i, arr[i]));
-		
-		while(!queue.isEmpty()) {
-			Person tmp = queue.poll();
-			for(Person p : queue) {
-				if(p.priority>tmp.priority) {
-					queue.add(tmp);
-					tmp=null;
-					break;
-				}
-			}
-			if(tmp!=null) {
-				answer++;
-				if(tmp.id == m)
-					return answer;
-			}
-		}
-		
-		return answer;
-	}
-	
-	public static void main(String[] args) {
-		Main T = new Main();
-		Scanner sc = new Scanner(System.in);
-		
-		int n = sc.nextInt();
-		int m = sc.nextInt();
-		int[] arr = new int[n];
-		for(int i = 0; i<n; i++)
-			arr[i] = sc.nextInt();
-		
-		System.out.println(T.solution(m, arr));
-	}
+public class Main {
+
+    public int solution(int m, Queue<Point> Q) {
+
+        int answer = 0;
+        
+        while (!Q.isEmpty()) {
+            Point p = Q.poll();
+            boolean check = true;
+            
+            for (Point tmp : Q)
+                if (tmp.risk > p.risk) {
+                    Q.offer(p);
+                    check = false;
+                    break;
+                }
+            
+            if (check) {
+                answer++;
+                if(p.seq==m) return answer;
+            }
+        }
+        return answer;
+    }
+
+    public static void main(String[] args){
+
+        Main T = new Main();
+        Scanner sc = new Scanner(System.in);
+
+        Queue<Point> Q = new LinkedList<>();
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            int x = sc.nextInt();
+            Q.add(new Point(x, i));
+        }
+
+        System.out.println(T.solution(m, Q));
+    }
 }
