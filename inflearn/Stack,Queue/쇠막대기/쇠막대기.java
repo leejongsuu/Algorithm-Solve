@@ -12,8 +12,7 @@ public class Main {
         int answer = 0;
         Stack<Character> stack = new Stack<>();
 
-        stack.push(str.charAt(0));
-        for (int i = 1; i < str.length(); i++) {
+        for (int i = 0; i < str.length(); i++) {
             if(str.charAt(i)=='(') stack.push(str.charAt(i));
             else{
                 stack.pop();
