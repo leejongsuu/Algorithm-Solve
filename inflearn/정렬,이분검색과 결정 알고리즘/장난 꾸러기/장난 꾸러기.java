@@ -16,8 +16,7 @@ public class Main {
         int[] origin = arr.clone();
         Arrays.sort(arr);
         for(int i = 0; i<n;i++)
-            if(origin[i]!=arr[i])
-                System.out.print(i+1 +" ");
+            if(origin[i]!=arr[i]) System.out.print((i+1) +" ");
     }
 
     public static void main(String[] args) {
@@ -26,9 +25,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
-        }
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        
         T.solution(n,arr);
     }
 }
