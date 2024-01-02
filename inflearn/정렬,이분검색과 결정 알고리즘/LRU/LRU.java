@@ -11,37 +11,36 @@ import java.util.Scanner;
 
 public class Main {
 
-    public int[] solution(int n, int[] arr){
+    public int[] solution(int n, int[] arr) {
 
         int[] answer = new int[n];
+        for (int i : arr) {
 
-        for(int i : arr){
             int pos = -1;
-            for(int j=0; j<n; j++) if(i==answer[j]) pos = j;
-            if(pos==-1)
-                for(int j=n-1; j>0; j--)
-                    answer[j] = answer[j-1];
+            for (int j = 0; j < n; j++) if(answer[j] == i) pos = j;
+
+            if (pos == -1)
+                for (int j = n - 1; j > 0; j--) answer[j] = answer[j - 1];
             else
-                for(int j=pos; j>0; j--)
-                    answer[j] = answer[j-1];
-            answer[0]=i;
+                for (int j = pos; j > 0; j--) answer[j] = answer[j - 1];
+
+            answer[0] = i;
         }
 
         return answer;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         int n = sc.nextInt();
         int m = sc.nextInt();
         int[] arr = new int[m];
-        for(int i=0; i<m; i++)
-            arr[i]=sc.nextInt();
+        for (int i = 0; i < m; i++) arr[i] = sc.nextInt();
 
-        for(int i : T.solution(n, arr))
-            System.out.print(i+" ");
+        for(int x : T.solution(n, arr)) System.out.print(x + " ");
     }
 }
 
@@ -51,29 +50,30 @@ import java.util.Scanner;
 
 public class Main {
 
-    public ArrayList<Integer> solution(int n, int[] arr){
+    public ArrayList<Integer> solution(int n, int m, int[] arr) {
+
         ArrayList<Integer> answer = new ArrayList<>(n);
 
         for(int i : arr){
             if(answer.contains(i)) answer.remove(answer.indexOf(i));
-            if(answer.size()==n) answer.remove(answer.size()-1);
-            answer.add(0,i);
+            if(answer.size()==n) answer.remove(n - 1);
+            answer.add(0, i);
         }
 
         return answer;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         int n = sc.nextInt();
         int m = sc.nextInt();
         int[] arr = new int[m];
-        for(int i=0; i<m; i++)
-            arr[i]=sc.nextInt();
+        for (int i = 0; i < m; i++) arr[i] = sc.nextInt();
 
-        for(int i : T.solution(n, arr))
-            System.out.print(i+" ");
+        for(int x : T.solution(n, m, arr)) System.out.print(x + " ");
+
     }
 }
