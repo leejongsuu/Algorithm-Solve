@@ -1,3 +1,5 @@
+//예시 입력 10
+//예시 출력 1 1 2 3 5 8 13 21 34 55
 import java.util.Scanner;
 
 public class Main {
