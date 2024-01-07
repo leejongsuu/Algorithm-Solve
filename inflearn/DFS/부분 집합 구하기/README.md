@@ -20,5 +20,7 @@ DFS
 ### 풀이 
 
 <p>
+DFS 알고리즘을 사용하여 풀었다.
 
+![KakaoTalk_20231204_003319052.jpg](https://prod-files-secure.s3.us-west-2.amazonaws.com/f588df76-b460-41f2-b5ce-32ee2b9359a2/f9422273-3793-4993-a64c-dca75b48348a/KakaoTalk_20231204_003319052.jpg)
 </p>
