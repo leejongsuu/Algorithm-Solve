@@ -21,25 +21,29 @@
 6 : 2
 */
 
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {
+
     static int n, m;
     static int[] ch;
     static int[][] graph;
 
-    public void BFS(int v){
+    public void BFS(int v) {
+
         Queue<Integer> Q = new LinkedList<>();
-        Q.offer(v);
         int level = 1;
-        while(!Q.isEmpty()){
+        Q.offer(v);
+
+        while (!Q.isEmpty()) {
             int len = Q.size();
             for (int i = 0; i < len; i++) {
-                int x = Q.poll();
-                for (int j = 1; j <= n; j++) {
-                    if (graph[x][j] == 1 && ch[j] == 0) {
+                int nv = Q.poll();
+                for (int j = 2; j <= n; j++) {
+                    if (graph[nv][j] == 1 && ch[j] == 0) {
                         Q.offer(j);
                         ch[j] = level;
                     }
@@ -50,21 +54,22 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
         m = sc.nextInt();
-        graph = new int[n+1][n+1];
         ch = new int[n + 1];
-        for(int i=0; i<m; i++){
+        graph = new int[n + 1][n + 1];
+
+        for (int i = 0; i < m; i++) {
             int a = sc.nextInt();
             int b = sc.nextInt();
-            graph[a][b]=1;
+            graph[a][b] = 1;
         }
 
         T.BFS(1);
-        for (int i = 2; i <= n; i++) {
-            System.out.println(i + " : " + ch[i]);
-        }
+        for (int i = 2; i <= n; i++) System.out.println(i + " : " + ch[i]);
     }
 }
