@@ -13,15 +13,18 @@
 import java.util.Scanner;
 
 public class Main {
-    static int n, total, max=0;
-    static int[][] arr;
 
-    public void DFS(int L, int time, int score){
+    static int n, total, max=0;
+    static int[][] score;
+
+    public void DFS(int L, int time, int sum){
+
         if(time>total) return;
-        if(L==n) max = Math.max(score, max);
+
+        if(L==n) max = Math.max(sum, max);
         else {
-            DFS(L + 1, time + arr[L][1],score+arr[L][0]);
-            DFS(L + 1, time, score);
+            DFS(L + 1, time + score[L][1],sum+score[L][0]);
+            DFS(L + 1, time, sum);
         }
 
     }
@@ -29,13 +32,13 @@ public class Main {
     public static void main(String[] args) {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
         total = sc.nextInt();
-        arr = new int[n][2];
+        score = new int[n][2];
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < 2; j++) {
-                arr[i][j] = sc.nextInt();
-            }
+            for (int j = 0; j < 2; j++) score[i][j] = sc.nextInt();
+
         T.DFS(0, 0, 0);
         System.out.println(max);
     }
