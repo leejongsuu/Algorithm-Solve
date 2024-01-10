@@ -8,33 +8,35 @@
 import java.util.Scanner;
 
 public class Main {
+
     static String answer = "NO";
-    static int n, total=0;
+    static int n, total = 0;
     static int[] arr;
 
-    public void DFS(int L, int sum){
-        if(answer.equals("YES")) return;
-        if(sum>total/2) return;
-        if(L==n){
-            if((total-sum)==sum){
-                answer = "YES";
-            }
-        } else{
+    public void DFS(int L, int sum) {
+        if (sum> (total-sum) || answer.equals("YES") ) return;
+        if (L == n) {
+            if(sum == (total-sum)) answer = "YES";
+        }
+        else {
             DFS(L + 1, sum + arr[L]);
             DFS(L + 1, sum);
         }
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
         arr = new int[n];
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
             total += arr[i];
         }
-        T.DFS(0, 0);
+
+        T.DFS(0,0);
         System.out.println(answer);
     }
 }
