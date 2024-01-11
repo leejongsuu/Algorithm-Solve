@@ -4,21 +4,27 @@
 import java.util.Scanner;
 
 public class Main {
+
     static int n, r;
-    int[][] di = new int[35][35];
+    static int[][] dis;
 
     public int DFS(int n, int r) {
-        if(di[n][r]>0) return di[n][r];
-        if (r == 1) return n;
-        else if (r == n) return 1;
-        else return di[n][r]=DFS(n - 1, r - 1) + DFS(n - 1, r);
+        if(dis[n][r]>0) return dis[n][r];
+
+        if(n==r || r==0) return 1;
+        else return dis[n][r] = DFS(n - 1, r - 1) + DFS(n - 1, r);
+
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
         r = sc.nextInt();
+        dis = new int[n+1][r+1];
+
         System.out.println(T.DFS(n, r));
     }
 }
