@@ -16,8 +16,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static int n;
-    static int m;
+    static int n, m;
     static int[] arr;
 
     public void DFS(int L) {
