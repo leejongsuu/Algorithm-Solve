@@ -12,34 +12,35 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
-    static int n, total;
-    static Integer[] arr;
-    static int answer = Integer.MAX_VALUE;
 
-    public void DFS(int L, int sum){
-        if(sum>total) return;
-        if(L>=answer) return;
-        if(sum==total){
-            answer = Math.min(answer, L);
-        }
+    static int n, total, answer = Integer.MAX_VALUE;
+    static Integer[] coin;
+
+    public void DFS(int cnt, int sum) {
+
+        if (sum > total || cnt >= answer) return;
+
+        if (sum == total) answer = Math.min(answer, cnt);
         else {
-            for(int i=0; i<n; i++){
-                DFS(L + 1, sum + arr[i]);
+            for (int i =0; i <n; i++) {
+                DFS(cnt + 1, sum + coin[i]);
             }
         }
+
     }
 
     public static void main(String[] args) {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
-        arr = new Integer[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
-        }
-        Arrays.sort(arr, Collections.reverseOrder());
+        coin = new Integer[n];
+        for (int i = 0; i < n; i++) coin[i] = sc.nextInt();
         total = sc.nextInt();
-        T.DFS(0,0);
+
+        Arrays.sort(coin, Collections.reverseOrder());
+
+        T.DFS(0, 0);
         System.out.println(answer);
     }
 }
