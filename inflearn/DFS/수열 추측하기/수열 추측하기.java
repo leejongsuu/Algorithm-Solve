@@ -4,48 +4,53 @@
 import java.util.Scanner;
 
 public class Main {
-    static int n, t;
-    static int[] c, p, ch;
-    static int[][] di;
-    static boolean flag = false;
+
+    static int n, total;
+    static int[] arr, c, ch;
+    static int[][] dis;
+    static Boolean check = false;
 
     public int combi(int n, int r) {
-        if(di[n][r]>0) return di[n][r];
-        if(n==r || r==0) return 1;
-        else return di[n][r]=combi(n - 1, r - 1) + combi(n - 1, r);
+
+        if(dis[n][r]>0) return dis[n][r];
+
+        if (n==r || r==0) return 1;
+        else return dis[n][r] = combi(n - 1, r) + combi(n - 1, r - 1);
     }
 
-    public void DFS(int L, int sum) {
-        if(flag) return;
-        if(L==n && sum==t){
-            for(int x : p)
-                System.out.print(x + " ");
-            flag = true;
+    public void DFS(int L , int sum) {
+
+        if (sum>total || check) return;
+
+        if(sum==total && L==n){
+            for (int x : arr) System.out.print(x + " ");
+            check = true;
         }
         else {
-            for (int i = 1; i <= n; i++) {
+            for (int i = 1; i <= n; i++)
                 if(ch[i]==0){
-                    ch[i]=1;
-                    p[L]=i;
-                    DFS(L+1,sum+(p[L]*c[L]));
+                    ch[i] = 1;
+                    arr[L] = i;
+                    DFS(L + 1, sum + arr[L] * c[L]);
                     ch[i] = 0;
                 }
-            }
         }
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
-        t = sc.nextInt();
+        total = sc.nextInt();
+        arr = new int[n];
         c = new int[n];
-        p = new int[n];
         ch = new int[n + 1];
-        di = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            c[i] = T.combi(n - 1, i);
-        }
+        dis = new int[n][n];
+
+        for (int i = 0; i < n; i++) c[i] = T.combi(n - 1, i);
+
         T.DFS(0, 0);
     }
 }
