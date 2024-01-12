@@ -13,28 +13,34 @@ import java.util.Scanner;
 
 public class Main {
 
-    static int n, r;
-    static int[] p;
-    public void DFS(int L, int S) {
-        if (L == r) {
-            for(int x : p){
-                System.out.print(x + " ");
-            }
+    static int n, m;
+    static int[] arr;
+
+    public void DFS(int L, int j) {
+
+        if(L==m){
+            for(int x : arr) System.out.print(x+" ");
             System.out.println();
-        } else{
-            for (int i = S; i <= n; i++) {
-                p[L] = i;
-                DFS(L + 1, i + 1);
+        }
+
+        else {
+            for (int i = j+1; i <= n; i++) {
+                arr[L] = i;
+                DFS(L + 1, i);
             }
         }
+
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
-        r = sc.nextInt();
-        p = new int[r];
-        T.DFS(0,1);
+        m = sc.nextInt();
+        arr = new int[m];
+
+        T.DFS(0, 0);
     }
 }
