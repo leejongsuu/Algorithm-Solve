@@ -22,9 +22,8 @@ public class Main {
 
         if (sum == total) answer = Math.min(answer, cnt);
         else {
-            for (int i =0; i <n; i++) {
-                DFS(cnt + 1, sum + coin[i]);
-            }
+            for(int c : coin)
+                DFS(cnt + 1, sum + c);
         }
 
     }
