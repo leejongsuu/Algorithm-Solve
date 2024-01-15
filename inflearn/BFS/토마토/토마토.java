@@ -14,8 +14,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 class Point {
-    int x;
-    int y;
+    int x, y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -25,51 +24,63 @@ class Point {
 
 public class Main {
 
-    static int x, y, count=0;
-    static int[][] box, dis;
+    static int m, n, cnt=0;
     static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
+    static int[] dy = {0, -1, 0, 1};
+    static int[][] box;
     static Queue<Point> Q = new LinkedList<>();
 
     public int BFS() {
 
         int level = 0;
         while (!Q.isEmpty()) {
+
             int len = Q.size();
+            boolean check = false;
+
             for (int i = 0; i < len; i++) {
                 Point p = Q.poll();
-                for(int j=0; j<4; j++){
+                for (int j = 0; j < 4; j++) {
                     int nx = p.x + dx[j];
                     int ny = p.y + dy[j];
-                    if (nx >= 0 && nx < x && ny >= 0 && ny < y && box[ny][nx] == 0) {
-                        Q.offer(new Point(nx, ny));
+                    if(nx>=0 && nx<m && ny>=0 && ny<n && box[ny][nx]==0){
+                        check = true;
                         box[ny][nx] = 1;
-                        count--;
+                        Q.offer(new Point(nx, ny));
+                        cnt--;
                     }
                 }
             }
-            level++;
+            if(check) level++;
         }
-        if(count ==0) return level - 1;
+        
+        if(cnt==0) return level;
         else return -1;
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
 
-        x = sc.nextInt();
-        y = sc.nextInt();
-        box = new int[y][x];
-        dis = new int[y][x];
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                int data = sc.nextInt();
-                if(data==1) Q.offer(new Point(j, i));
-                else if(data==0) count++;
-                box[i][j] = data;
+        m = sc.nextInt();
+        n = sc.nextInt();
+        box = new int[n][m];
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++){
+                int tomato = sc.nextInt();
+
+                if(tomato==1) Q.offer(new Point(j, i));
+                else if(tomato==0) cnt++;
+
+                box[i][j] = tomato;
             }
-        }
+
+        if(cnt==0) System.out.println(0);
+        else System.out.println(T.BFS());
+    }
+}
         if(count==0) System.out.println(0);
         else System.out.println(T.BFS());
     }
