@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-class time implements Comparable<time>{
+class time implements Comparable<time> {
     int s, e;
 
     public time(int s, int e) {
@@ -33,25 +33,23 @@ class time implements Comparable<time>{
 
     @Override
     public int compareTo(time o) {
-        if(this.e==o.e) return this.s - o.s;
-        else return this.e - o.e;
+       if(o.s==this.s) return this.e - o.e;
+       else return o.s - this.s;
     }
 }
 
 public class Main {
 
-    static int n;
-    static ArrayList<time> meeting;
+    public int solution(ArrayList<time> list) {
 
-    public int Greedy() {
+        int answer = 0;
+        Collections.sort(list);
 
-         int answer = 0;
-        Collections.sort(meeting);
-        int et = 0;
-        for (time t : meeting) {
-            if (t.s >= et) {
+        int min = Integer.MAX_VALUE;
+        for (time t : list) {
+            if (t.e <= min) {
+                min = t.s;
                 answer++;
-                et = t.e;
             }
         }
 
@@ -59,15 +57,19 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        meeting = new ArrayList<>(n);
+
+        int n = sc.nextInt();
+        ArrayList<time> list = new ArrayList<>(n);
+
         for (int i = 0; i < n; i++) {
             int start = sc.nextInt();
             int end = sc.nextInt();
-            meeting.add(new time(start, end));
+            list.add(new time(start, end));
         }
-        System.out.println(T.Greedy());
+
+        System.out.println(T.solution(list));
     }
 }
