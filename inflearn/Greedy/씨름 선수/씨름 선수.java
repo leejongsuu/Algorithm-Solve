@@ -10,54 +10,57 @@
 
 //예시 출력 3
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-class body implements Comparable<body>{
-    int ht, wt;
+class Person implements Comparable<Person> {
+    int h, w;
 
-    public body(int ht, int wt) {
-        this.ht = ht;
-        this.wt = wt;
+    public Person(int h, int w) {
+        this.h = h;
+        this.w = w;
     }
 
     @Override
-    public int compareTo(body o) {
-        return o.ht - this.ht;
+    public int compareTo(Person o) {
+        if (o.h == this.h) return o.w - this.w;
+        else return o.h - this.h;
     }
 }
 
 public class Main {
 
-    static int n;
-    static ArrayList<body> player;
-
-    public int Greedy() {
+    public int solution(ArrayList<Person> list) {
 
         int answer = 0;
-        Collections.sort(player);
-        int wtMax = Integer.MIN_VALUE;
+        Collections.sort(list);
 
-        for(body b : player)
-            if(b.wt>wtMax){
-                wtMax = b.wt;
+        int min = Integer.MIN_VALUE;
+        for (Person p : list) {
+            if (p.w > min) {
                 answer++;
+                min = p.w;
             }
+        }
+
         return answer;
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        player = new ArrayList<>(n);
+
+        int n = sc.nextInt();
+        ArrayList<Person> list = new ArrayList<>(n);
+
         for (int i = 0; i < n; i++) {
             int height = sc.nextInt();
             int weight = sc.nextInt();
-            player.add(new body(height, weight));
+            list.add(new Person(height, weight));
         }
-        System.out.println(T.Greedy());
+
+        System.out.println(T.solution(list));
     }
 }
