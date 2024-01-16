@@ -27,31 +27,27 @@ class Point {
 public class Main {
 
     static int n;
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, -1, 0, 1};
+    static int[] dx = {0, -1, 0, 1};
+    static int[] dy = {-1, 0, 1, 0};
     static int[][] maze;
 
     public int BFS(int v) {
 
         Queue<Point> Q = new LinkedList<>();
-
         Q.offer(new Point(v, v));
-        int level = 0;
 
+        int level = 0;
         while (!Q.isEmpty()) {
             int len = Q.size();
             for (int i = 0; i < len; i++) {
                 Point p = Q.poll();
+                maze[p.x][p.y] = 1;
                 if (p.x == n - 1 && p.y == n - 1) return level;
-                else {
-                    for (int j = 0; j < 4; j++) {
-                        int nx = p.x + dx[j];
-                        int ny = p.y + dy[j];
-                        if (nx >= 0 && nx < n && ny >= 0 && ny < n && maze[nx][ny] == 0) {
-                            Q.offer(new Point(nx, ny));
-                            maze[nx][ny] = 1;
-                        }
-                    }
+                for (int j = 0; j < 4; j++) {
+                    int nx = p.x + dx[j];
+                    int ny = p.y + dy[j];
+                    if (nx >= 0 && nx < n && ny >= 0 && ny < n && maze[nx][ny] == 0)
+                        Q.offer(new Point(nx, ny));
                 }
             }
             level++;
@@ -67,11 +63,10 @@ public class Main {
 
         n = sc.nextInt();
         maze = new int[n][n];
-
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++) maze[i][j] = sc.nextInt();
 
-        maze[0][0] = 1;
         System.out.println(T.BFS(0));
+
     }
 }
