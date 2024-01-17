@@ -15,37 +15,34 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-class Order implements Comparable<Order>{
+class Schedule implements Comparable<Schedule> {
+
     int money, day;
 
-    public Order(int money, int day) {
+    public Schedule(int money, int day) {
         this.money = money;
         this.day = day;
     }
 
     @Override
-    public int compareTo(Order o) {
+    public int compareTo(Schedule o) {
         return o.day - this.day;
     }
 }
 
-
 public class Main {
 
-    static int n, max = Integer.MIN_VALUE;
-    static ArrayList<Order> schedule;
-
-    public int Greedy() {
+    public int solution(int n, int max, ArrayList<Schedule> list) {
 
         int answer = 0;
+        Collections.sort(list);
         PriorityQueue<Integer> pQ = new PriorityQueue<>(Collections.reverseOrder());
-        Collections.sort(schedule);
 
-        int j=0;
+        int j = 0;
         for (int i = max; i > 0; i--) {
             for (; j < n; j++) {
-                if(schedule.get(j).day<i) break;
-                pQ.offer(schedule.get(j).money);
+                if(list.get(j).day<i) break;
+                pQ.offer(list.get(j).money);
             }
             if(!pQ.isEmpty()) answer += pQ.poll();
         }
@@ -54,16 +51,21 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        schedule = new ArrayList<>(n);
+
+        int n = sc.nextInt();
+        int max = Integer.MAX_VALUE;
+        ArrayList<Schedule> list = new ArrayList<>(5);
+
         for (int i = 0; i < n; i++) {
             int m = sc.nextInt();
             int d = sc.nextInt();
-            schedule.add(new Order(m, d));
-            if(d>max) max = d;
+            list.add(new Schedule(m, d));
+            if (d > max) max = d;
         }
-        System.out.println(T.Greedy());
+
+        System.out.println(T.solution(n, max, list));
     }
 }
