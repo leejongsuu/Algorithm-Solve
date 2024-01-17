@@ -34,13 +34,11 @@ Greedy
 <p>
 우선순위 큐 이용해서 문제를 풀었다.
 
-먼저 Compare 인터페이스 통해
+먼저 Compare 인터페이스 통해 스케줄 객체를 날짜 내림차순으로 정렬.
 
-스케줄 객체를 날짜 내림차순으로 정렬.
+max에 가장 긴 날짜를 넣어놓자.
 
-가장 마지막 날짜를 max에 넣어놓자.
-
-예시 입력으로 예를 들자면
+예시 입력으로 보면
 
 money day
 
@@ -54,9 +52,7 @@ money day
 
 30 1
 
-20 1 이런 순으로 정렬이 될거다.
-
-max =3 이다.
+20 1 이런 순으로 정렬이 되고, max =3 이다.
 
 이제 루프를 돌면서 같은 날짜의 수입을 다 큐에 넣고 다음 루프의 날짜가 바뀌면 우선순위 큐를 통해 돈이 가장 높은걸 선택함.
 
@@ -67,4 +63,21 @@ max =3 이다.
 둘째 날) pq : { 30, 40 ,50 } —> 50 선택
 
 첫째 날) pq : {30, 40, 30, 20 } → 40 선택
+
+여기서 주의할 점
+
+1. 우선순위 큐에 넣을 객체는 CompareTo를 통해 정렬 정해줘야함.
+
+2. `PriorityQueue<Integer> pQ = new PriorityQueue<>(Collections.*reverseOrder*());` 해서 Money도 내림차순으로
+
+3. 예를 들어 `PriorityQueue<``Schedule> pQ = new PriorityQueue<>();` 이렇게 해서하면 day랑 money 둘다 우선순위를 정해주지 못함 → compareTo를 통해 money와 day를 둘다 내림차순으로 정렬했다고 치자. {60,3} , {30, 3} ,{50,2} 여기서 내가 원하는 우선순위는
+    
+    60,3 → 50, 2 → 30,3 이지만 이렇게 안됨. 60,3 → 30,3 → 50,2 로 나와버림 (3 day가 2day보다 크므로) 따라서 `PriorityQueue<Integer> pQ = new PriorityQueue<>(Collections.*reverseOrder*());` 이렇게 해주자.
+    
+
+1. `if(!pQ.isEmpty()) answer += pQ.poll();` if(!pQ.isEmpty())를 빼주면 안됨 왜냐하면
+    
+    만약 예시가 {30,3} , {40,2}, {20,1} 이렇게 day가 순차적으로 내려오면 상관없는데
+    
+    {30,3}, {20,1} 이런식이면 pQ가 비어있는데 answer+=pQ.poll();이 되서 에러가남.
 </p>
