@@ -40,7 +40,6 @@ class Edge implements Comparable<Edge> {
 
 public class Main {
 
-    static int n, m;
     static int[] dis;
     static ArrayList<ArrayList<Edge>> graph;
 
@@ -71,8 +70,8 @@ public class Main {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
 
-        n = sc.nextInt();
-        m = sc.nextInt();
+        int n = sc.nextInt();
+        int m = sc.nextInt();
 
         dis = new int[n + 1];
         Arrays.fill(dis, Integer.MAX_VALUE);
