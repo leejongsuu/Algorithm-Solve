@@ -40,7 +40,7 @@ class Edge implements Comparable<Edge> {
 public class Main {
 
     static int[] unf;
-    static ArrayList<Edge> list;
+    static ArrayList<Edge> list = new ArrayList<>();;
 
     public static int Find(int v) {
         if(v==unf[v]) return v;
@@ -54,8 +54,10 @@ public class Main {
     }
 
     public static int solution() {
+
         int answer = 0;
         Collections.sort(list);
+
         for (Edge ob : list) {
             int fv1 = Find(ob.v1);
             int fv2 = Find(ob.v2);
@@ -64,6 +66,7 @@ public class Main {
                 Union(ob.v1, ob.v2);
             }
         }
+
         return answer;
     }
 
@@ -72,15 +75,17 @@ public class Main {
 
         int n = sc.nextInt();
         int m = sc.nextInt();
+
         unf = new int[n + 1];
-        list = new ArrayList<>();
         for (int i = 1; i <= n; i++) unf[i] = i;
+
         for (int i = 0; i < m; i++) {
             int a = sc.nextInt();
             int b = sc.nextInt();
             int c = sc.nextInt();
             list.add(new Edge(a, b, c));
         }
+
         System.out.println(solution());
     }
 }
