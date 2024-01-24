@@ -41,3 +41,50 @@ public class Main {
         System.out.println(T.solution(n));
     }
 }
+
+//풀이 2
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+
+    public int solution(int[] arr) {
+
+        int[] lis = new int[arr.length];
+        int len = 0;  // LIS의 길이
+
+        for (int num : arr) {
+            int index = Arrays.binarySearch(lis, 0, len, num);
+
+            // binarySearch 반환 값이 음수일 때는 적절한 위치를 찾지 못한 경우
+            if (index < 0) {
+                index = -(index + 1);
+            }
+
+            // LIS를 갱신
+            lis[index] = num;
+
+            // 현재 원소가 LIS의 끝에 추가될 경우 길이 증가
+            if (index == len) {
+                len++;
+            }
+        }
+
+        return len;
+    }
+
+    public static void main(String[] args) {
+        Main T = new Main();
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        System.out.println(T.solution(arr));
+    }
+}
