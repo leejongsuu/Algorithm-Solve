@@ -10,7 +10,6 @@
 
 //예시 출력 41
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -22,10 +21,11 @@ public class Main {
 
         dy[0] = 0;
         for (int i = 0; i < n; i++) {
-            for (int j = m; j >=time[i]; j--) {
+            for (int j = m; j>=time[i]; j--) {
                 dy[j] = Math.max(dy[j], dy[j - time[i]] + score[i]);
             }
         }
+
         return dy[m];
     }
 
@@ -35,13 +35,16 @@ public class Main {
 
         n = sc.nextInt();
         m = sc.nextInt();
+
         score = new int[n];
         time = new int[n];
+        dy = new int[m + 1];
+
         for (int i = 0; i < n; i++) {
             score[i] = sc.nextInt();
             time[i] = sc.nextInt();
         }
-        dy = new int[m + 1];
+
         System.out.println(T.solution());
     }
 }
