@@ -33,10 +33,11 @@ public class Main {
 
         n = sc.nextInt();
         coin = new int[n];
+
         for (int i = 0; i < n; i++) coin[i] = sc.nextInt();
 
         m = sc.nextInt();
-        dy = new int[m+1];
+        dy = new int[m + 1];
         Arrays.fill(dy, Integer.MAX_VALUE);
 
         System.out.println(T.solution());
