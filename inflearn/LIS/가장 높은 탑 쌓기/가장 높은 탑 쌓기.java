@@ -14,52 +14,57 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
-class Brick implements Comparable<Brick> {
-    int s,h, w;
+class brick implements Comparable<brick> {
+    int st, ht, wt;
 
-    public Brick(int s, int h, int w) {
-        this.s = s;
-        this.h = h;
-        this.w = w;
+    public brick(int st, int ht, int wt) {
+        this.st = st;
+        this.ht = ht;
+        this.wt = wt;
     }
 
     @Override
-    public int compareTo(Brick o) {
-        return o.s - this.s;
+    public int compareTo(brick o) {
+        return o.st - this.st;
     }
 }
 
 public class Main {
 
-    static int[] dy;
-    static ArrayList<Brick> list;
+    static int n;
+    static int[] di;
+    static ArrayList<brick> list = new ArrayList<>();
 
-    public int solution(int n) {
+    public int solution() {
 
         Collections.sort(list);
-        dy[0] = list.get(0).h;
+        di[0] = list.get(0).ht;
+
         for (int i = 1; i < n; i++) {
-            int max_h = 0;
+            int max = 0;
             for (int j = i - 1; j >= 0; j--) {
-                if(list.get(i).w<list.get(j).w && dy[j]>max_h) max_h = dy[j];
+                if (list.get(j).wt>list.get(i).wt && di[j]>max) max = di[j];
             }
-            dy[i] = list.get(i).h + max_h;
+            di[i] = max + list.get(i).ht;
         }
-        return Arrays.stream(dy).max().getAsInt();
+
+        return Arrays.stream(di).max().getAsInt();
     }
 
     public static void main(String[] args) {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        dy = new int[n];
-        list = new ArrayList<>(n);
+
+        n = sc.nextInt();
+        di = new int[n];
+
         for (int i = 0; i < n; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            int c = sc.nextInt();
-            list.add(new Brick(a, b, c));
+            int s = sc.nextInt();
+            int h = sc.nextInt();
+            int w = sc.nextInt();
+            list.add(new brick(s, h, w));
         }
-        System.out.println(T.solution(n));
+
+        System.out.println(T.solution());
     }
 }
