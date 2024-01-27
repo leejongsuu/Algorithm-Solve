@@ -9,25 +9,18 @@ public class Main {
         int t = sc.nextInt();
 
         for (int i = 0; i < t; i++) {
-            boolean check = false;
-            String answer = "";
-            
             int h = sc.nextInt();
             int w = sc.nextInt();
             int n = sc.nextInt();
-            for (int j = 1; j <= w; j++) {
-                if (check) break;
-                for (int k = 1; k <= h; k++) {
-                    n--;
-                    if (n==0) {
-                        check = true;
-                        answer += String.valueOf(k);
-                        answer += j < 10 ? ("0" + String.valueOf(j)) : String.valueOf(j);
-                        break;
-                    }
-                }
-            }
-            System.out.println(answer);
+
+            //계산된 층 수
+            int floor = n % h == 0 ? h : n % h;
+
+            //계산된 호 수
+            int roomNum = ((n - 1) / h) + 1;
+
+            //출력
+            System.out.println(floor * 100 + roomNum);
         }
     }
 }
