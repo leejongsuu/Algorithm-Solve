@@ -10,19 +10,18 @@ public class Main {
         int[] alphabet = new int[26];
 
         int max = 0;
-        int location = 0;
-        boolean check = false;
+        char ch = '?';
         for (char c : str.toCharArray()) {
             int i = c - 'A';
             alphabet[i]++;
             if (alphabet[i] > max) {
                 max = alphabet[i];
-                location = i;
-                check = false;
+                ch = c;
             } else if (alphabet[i] == max) {
-                check = true;
+                ch = '?';
             }
         }
-        System.out.println(check ? "?" : (char) (location + 'A'));
+
+        System.out.println(ch);
     }
 }
