@@ -6,21 +6,15 @@ public class Main {
 
     public int solution (int n) {
 
-        if(n==1) return 1;
-        else {
-            int cnt = 1, i = 1, lt = 2, rt = 7;
-            while (lt <= n) {
-                cnt++;
-                if (lt <= n && rt >= n) {
-                    return cnt;
-                } else {
-                    lt += 6 * i;
-                    rt += 6 * (i + 1);
-                    i++;
-                }
-            }
+        int cnt = 1;
+        int range = 2;
+
+        while (range <= n) {
+            range = range + (6 * cnt);
+            cnt++;
         }
-        return 1;
+
+        return cnt;
     }
 
     public static void main(String[] args) throws IOException {
@@ -32,7 +26,6 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
 
         System.out.println(T.solution(n));
-
     }
 }
 
