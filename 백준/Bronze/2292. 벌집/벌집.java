@@ -4,13 +4,13 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    public int solution (int n) {
+    public int solution(int n) {
 
         int cnt = 1;
         int range = 2;
 
         while (range <= n) {
-            range = range + (6 * cnt);
+            range += cnt * 6;
             cnt++;
         }
 
