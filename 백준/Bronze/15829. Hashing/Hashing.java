@@ -5,14 +5,18 @@ import java.io.InputStreamReader;
 public class Main {
 
 
-    public int solution(String str) {
+    public long solution(String str) {
 
-        int sum = 0, i = 0;
+        int prime = 1234567891;
+        long r = 1;
+        long sum = 0;
+
         for (char c : str.toCharArray()) {
-            sum += ((c - 'a') + 1) * Math.pow(31, i);
-            i++;
+            sum += (((c - 'a') + 1) * r) % prime;
+            r = (r * 31) % prime;
         }
-        return sum;
+
+        return sum % prime;
     }
 
     public static void main(String[] args) throws IOException {
