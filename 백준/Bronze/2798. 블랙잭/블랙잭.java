@@ -8,6 +8,7 @@ public class Main {
     static int[] arr;
 
     public void solution(int L, int start, int sum) {
+
         if (sum > m || answer == m) return;
 
         if (L == 3) {
@@ -17,6 +18,7 @@ public class Main {
                 solution(L + 1, i + 1, sum + arr[i]);
             }
         }
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -39,4 +41,3 @@ public class Main {
         System.out.println(answer);
     }
 }
-
