@@ -6,20 +6,21 @@ public class Main {
 
     public void solution(int n, int m) {
 
-        int i = 2, maxCommon = 1;
+        int gcd = getGcd(n, m);
 
-        while (i <= Math.min(n, m)) {
-            if (n % i == 0 && m % i == 0) {
-                maxCommon *= i;
-                n /= i;
-                m /= i;
-            } else {
-                i++;
-            }
+        System.out.println(gcd);
+        System.out.println((n * m) / gcd);
+    }
+    
+    public int getGcd(int a, int b) {
+        
+        while (b != 0) {
+            int temp = a % b;
+            a = b;
+            b = temp;
         }
 
-        System.out.println(maxCommon);
-        System.out.println(maxCommon * n * m);
+        return a;
     }
 
     public static void main(String[] args) throws IOException {
@@ -27,9 +28,9 @@ public class Main {
         Main T = new Main();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String[] input = br.readLine().split(" ");
-        int n = Integer.parseInt(input[0]);
-        int m = Integer.parseInt(input[1]);
+        String[] Input = br.readLine().split(" ");
+        int n = Integer.parseInt(Input[0]);
+        int m = Integer.parseInt(Input[1]);
 
         T.solution(n, m);
     }
