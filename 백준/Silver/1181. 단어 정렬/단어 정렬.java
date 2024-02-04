@@ -13,15 +13,15 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        String[] strArr = new String[n];
+        String[] str = new String[n];
 
         for (int i = 0; i < n; i++) {
-            strArr[i] = br.readLine();
+            str[i] = br.readLine();
         }
 
-        Arrays.stream(strArr)
-                .distinct()
+        Arrays.stream(str)
                 .sorted(Comparator.comparing(String::length).thenComparing(Comparator.naturalOrder()))
+                .distinct()
                 .forEach(System.out::println);
     }
 }
