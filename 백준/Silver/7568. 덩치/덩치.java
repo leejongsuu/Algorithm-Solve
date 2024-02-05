@@ -6,16 +6,20 @@ public class Main {
 
     public void solution(int n, int[] wt, int[] ht) {
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
 
             int rank = 1;
+
             for (int j = 0; j < n; j++) {
                 if (wt[j] > wt[i] && ht[j] > ht[i]) {
                     rank++;
                 }
             }
-            System.out.print(rank + " ");
+            sb.append(rank).append(' ');
         }
+
+        System.out.println(sb);
     }
 
     public static void main(String[] args) throws IOException {
