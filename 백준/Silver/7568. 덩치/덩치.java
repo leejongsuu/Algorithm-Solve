@@ -8,14 +8,10 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-
             int rank = 1;
-
             for (int j = 0; j < n; j++) {
-                if (i==j) continue;
-                if (wt[j] > wt[i] && ht[j] > ht[i]) {
-                    rank++;
-                }
+                if (i == j) continue;
+                if (wt[j] > wt[i] && ht[j] > ht[i]) rank++;
             }
             sb.append(rank).append(' ');
         }
@@ -29,16 +25,15 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
-
+        int[] wt = new int[n];
+        int[] ht = new int[n];
         String[] input;
-        int[] weight = new int[n];
-        int[] height = new int[n];
         for (int i = 0; i < n; i++) {
             input = br.readLine().split(" ");
-            weight[i] = Integer.parseInt(input[0]);
-            height[i] = Integer.parseInt(input[1]);
+            wt[i] = Integer.parseInt(input[0]);
+            ht[i] = Integer.parseInt(input[1]);
         }
 
-        T.solution(n, weight, height);
+        T.solution(n, wt, ht);
     }
 }
