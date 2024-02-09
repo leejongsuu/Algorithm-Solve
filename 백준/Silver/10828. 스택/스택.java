@@ -1,64 +1,62 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main {
 
-    static ArrayList<Integer> list = new ArrayList<>();
+    static int[] stack;
+    static int index = -1;
+
+    public static int size() {
+        return index + 1;
+    }
 
     public static void push(int x) {
-        list.add(x);
+        stack[++index] = x;
     }
 
     public static int pop() {
-        if (list.isEmpty()) {
-            return -1;
-        } else {
-            return list.remove(list.size() - 1);
-        }
+        if (index<0) return -1;
+        else return stack[index--];
     }
-    
-    public static int size() {
-        return list.size();
-    }
-    
+
     public static int empty() {
-        if (list.isEmpty()) {
-            return 1;
-        } else {
-            return 0;
-        } 
+        if (size()>0) return 0;
+        else return 1;
     }
-    
+
     public static int top() {
-        if (list.isEmpty()) {
-            return -1;
-        } else {
-            return list.get(list.size() - 1);
-        } 
+        if (size()>0) return stack[index];
+        else return -1;
     }
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(br.readLine());
-        StringBuilder sb = new StringBuilder();
+        stack = new int[n];
+
         String[] input;
         for (int i = 0; i < n; i++) {
             input = br.readLine().split(" ");
-            if (input[0].equals("push")) {
-                push(Integer.parseInt(input[1]));
-            } else if (input[0].equals("top")) {
-                sb.append(top()).append('\n');
-            } else if (input[0].equals("size")) {
-                sb.append(size()).append('\n');
-            } else if (input[0].equals("pop")) {
-                sb.append(pop()).append('\n');
-            } else if (input[0].equals("empty")) {
-                sb.append(empty()).append('\n');
+            switch (input[0]) {
+                case "push":
+                    push(Integer.parseInt(input[1]));
+                    break;
+                case "top":
+                    sb.append(top()).append('\n');
+                    break;
+                case "size":
+                    sb.append(size()).append('\n');
+                    break;
+                case "empty":
+                    sb.append(empty()).append('\n');
+                    break;
+                case "pop":
+                    sb.append(pop()).append('\n');
+                    break;
             }
         }
 
