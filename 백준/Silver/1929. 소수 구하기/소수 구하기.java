@@ -4,6 +4,19 @@ import java.io.InputStreamReader;
 
 public class Main {
 
+    static boolean[] prime;
+
+    public static void get_prime(int n) {
+        //true : 소수X , false = 소수
+        prime[0] = prime[1] = true;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (prime[i]) continue;
+            for (int j = i; i * j <= n; j++) {
+                prime[i * j] = true;
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -13,25 +26,14 @@ public class Main {
         int M = Integer.parseInt(input[0]);
         int N = Integer.parseInt(input[1]);
 
-        // 수정: 배열 크기 조정
-        boolean[] isPrime = new boolean[N - M + 1];
+        prime = new boolean[N + 1];
 
-        // 에라토스테네스의 체 알고리즘
-        for (int i = 2; i * i <= N; i++) {
-            int start = M / i * i;
-            if (start < M)
-                start += i;
-            if (start == i)
-                start += i;
-            for (int j = start; j <= N; j += i) {
-                isPrime[j - M] = true;
-            }
-        }
+        get_prime(N);
 
-        // 수정: 출력 형식 맞추기
-        for (int i = Math.max(2, M); i <= N; i++) {
-            if (!isPrime[i - M])
+        for (int i = M; i <= N; i++) {
+            if (!prime[i]) {
                 sb.append(i).append('\n');
+            }
         }
 
         System.out.println(sb);
