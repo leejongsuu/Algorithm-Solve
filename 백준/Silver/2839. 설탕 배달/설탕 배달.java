@@ -5,28 +5,32 @@ import java.util.Arrays;
 
 public class Main {
 
-    public static int solution(int n) {
 
-        int[] salt = new int[n + 1];
-        int[] bag = {3, 5};
-        Arrays.fill(salt, Integer.MAX_VALUE);
+    public int solution(int n, int[] arr) {
 
-        salt[0] = 0;
-        for (int i = 0; i < 2; i++) {
-            for (int j = bag[i]; j <= n; j++) {
-                if (salt[j-bag[i]]==Integer.MAX_VALUE) continue;
-                salt[j] = Math.min(salt[j], salt[j - bag[i]] + 1);
+        Arrays.fill(arr, Integer.MAX_VALUE);
+        arr[0] = 0;
+
+        int[] di = {3, 5};
+        for (int i = 0; i < di.length; i++) {
+
+            for (int j = di[i]; j <= n; j++) {
+                if (arr[j - di[i]] == Integer.MAX_VALUE) continue;
+                arr[j] = Math.min(arr[j], arr[j - di[i]] + 1);
             }
         }
 
-        return salt[n] == Integer.MAX_VALUE ? -1 : salt[n];
+        return arr[n] == Integer.MAX_VALUE ? -1 : arr[n];
     }
 
     public static void main(String[] args) throws IOException {
 
+        Main T = new Main();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int n = Integer.parseInt(br.readLine());
-        System.out.println(solution(n));
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N + 1];
+
+        System.out.println(T.solution(N, arr));
     }
 }
