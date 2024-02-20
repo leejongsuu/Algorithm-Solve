@@ -18,7 +18,7 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             String str = br.readLine();
-            map.put(str, map.getOrDefault(str, 0) + 1);
+            map.put(str, i);
         }
 
         TreeSet<String> answer = new TreeSet<>();
