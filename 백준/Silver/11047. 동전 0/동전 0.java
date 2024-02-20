@@ -6,15 +6,15 @@ import java.util.Arrays;
 public class Main {
 
     static int solution(int n, int k, int[] coin) {
-        int[] arr = new int[k + 1];
-        Arrays.fill(arr, Integer.MAX_VALUE);
-        arr[0] = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = coin[i]; j <= k; j++) {
-                arr[j] = Math.min(arr[j], arr[j - coin[i]] + 1);
-            }
+
+        int cnt = 0;
+        for (int i = n - 1; i >= 0; i--) {
+
+            if (coin[i]>k) continue;
+            cnt += k / coin[i];
+            k %= coin[i];
         }
-        return arr[k];
+        return cnt;
     }
 
     public static void main(String[] args) throws IOException {
