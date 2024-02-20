@@ -1,16 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class Main {
 
     static int solution(int n, int k, int[] coin) {
 
         int cnt = 0;
-        for (int i = n - 1; i >= 0; i--) {
-
-            if (coin[i]>k) continue;
+        for (int i = n - 1; k > 0 && i >= 0; i--) {
+            
+            if (coin[i] > k) continue;
             cnt += k / coin[i];
             k %= coin[i];
         }
