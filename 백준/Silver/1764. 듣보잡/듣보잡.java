@@ -1,7 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 public class Main {
 
@@ -15,10 +16,8 @@ public class Main {
         int M = Integer.parseInt(input[1]);
 
         HashMap<String, Integer> map = new HashMap<>();
-
         for (int i = 0; i < N; i++) {
-            String str = br.readLine();
-            map.put(str, i);
+            map.put(br.readLine(), 0);
         }
 
         TreeSet<String> answer = new TreeSet<>();
@@ -30,9 +29,10 @@ public class Main {
         }
 
         sb.append(answer.size()).append('\n');
-        for (String s : answer) {
-            sb.append(s).append('\n');
+        for (String str : answer) {
+            sb.append(str).append('\n');
         }
+        
         System.out.println(sb);
     }
 }
