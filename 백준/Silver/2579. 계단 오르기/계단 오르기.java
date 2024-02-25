@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 
 public class Main {
 
+
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -12,7 +14,6 @@ public class Main {
 
         int[] stair = new int[N + 1];
         int[] dy = new int[N + 1];
-
 
         for (int i = 1; i <= N; i++) {
             stair[i] = Integer.parseInt(br.readLine());
@@ -24,7 +25,7 @@ public class Main {
         }
 
         for (int i = 3; i <= N; i++) {
-            dy[i] = Math.max(dy[i - 3] + stair[i - 1], dy[i - 2]) + stair[i];
+            dy[i] = Math.max(dy[i - 2], dy[i - 3] + stair[i - 1]) + stair[i];
         }
 
         System.out.println(dy[N]);
