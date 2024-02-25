@@ -4,19 +4,17 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    static int[] arr;
+    static int[] unf;
 
     static int Find(int v) {
-        if (v == arr[v]) return v;
-        else return arr[v] = Find(arr[v]);
+        if (v == unf[v]) return v;
+        else return unf[v] = Find(unf[v]);
     }
 
     static void Union(int a, int b) {
         int fa = Find(a);
         int fb = Find(b);
-        if (fa != fb) {
-            arr[fa] = fb;
-        }
+        if (fa != fb) unf[fa] = fb;
     }
 
     public static void main(String[] args) throws IOException {
@@ -24,9 +22,9 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        arr = new int[N + 1];
 
-        for (int i = 1; i <= N; i++) arr[i] = i;
+        unf = new int[N + 1];
+        for (int i = 1; i <= N; i++) unf[i] = i;
 
         int M = Integer.parseInt(br.readLine());
         for (int i = 0; i < M; i++) {
@@ -40,6 +38,7 @@ public class Main {
                 cnt++;
             }
         }
+
         System.out.println(cnt);
     }
 }
