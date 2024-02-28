@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -15,40 +14,44 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        int[] arr = new int[N];
+        int[] tree = new int[N];
+
+        int max = 0;
 
         st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+            tree[i] = Integer.parseInt(st.nextToken());
+
+            if (max < tree[i]) {
+                max = tree[i];
+            }
         }
 
-        System.out.println(solution(N, M, arr));
+        System.out.println(solution(max, M, tree));
     }
 
-    static long solution(int n, int m, int[] arr) {
+    static long solution(int hi, int m, int[] tree) {
 
-        Arrays.sort(arr);
-        long lo = 0;
-        long hi = arr[n - 1];
+        int lo = 0;
 
         while (lo < hi) {
-
-            long mid = (lo + hi) / 2;
-
+            
+            int mid = (lo + hi) / 2;
             long sum = 0;
-            for (int i = 0; i < n; i++) {
-                if (arr[i] > mid) {
-                    sum += arr[i] - mid;
+
+            for (int h : tree) {
+                if (h - mid > 0) {
+                    sum += h - mid;
                 }
             }
 
-            if (sum >= m) {
-                lo = mid + 1;
-            } else {
+            if (sum < m) {
                 hi = mid;
+            } else {
+                lo = mid + 1;
             }
         }
-
+        
         return lo - 1;
     }
 
