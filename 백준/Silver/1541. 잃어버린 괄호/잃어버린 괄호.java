@@ -8,28 +8,23 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-
-        String[] subtraction = br.readLine().split("-");
-
         int sum = 0;
+        String[] di = br.readLine().split("-");
 
-        for (int i = 0; i < subtraction.length; i++) {
-
+        for (int i = 0; i < di.length; i++) {
             int temp = 0;
+            String[] split = di[i].split("\\+");
 
-            // 뺄셈으로 나뉜 토큰을 덧셈으로 분리하여 해당 토큰들을 더함.
-            String[] addition = subtraction[i].split("\\+");
-
-            for (String s : addition) {
-                temp += Integer.parseInt(s);
+            for (int j = 0; j < split.length; j++) {
+                temp += Integer.parseInt(split[j]);
             }
             if (i == 0) {
-                sum += temp;
+                sum = temp;
             } else {
                 sum -= temp;
             }
         }
-
         System.out.println(sum);
     }
+
 }
