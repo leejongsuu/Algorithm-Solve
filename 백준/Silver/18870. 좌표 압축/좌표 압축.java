@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -18,15 +19,12 @@ public class Main {
             arr[i] = Integer.parseInt(input[i]);
         }
 
-        //좌표를 복사하고 정렬
         int[] sortedArr = arr.clone();
         Arrays.sort(sortedArr);
 
-        // 좌표와 압축 결과를 저장할 HashMap
         HashMap<Integer, Integer> map = new HashMap<>();
         int compressIdx = 0;
 
-        // 정렬된 좌표를 순회하며 압축 결과를 계산
         map.put(sortedArr[0], compressIdx++);
         for (int i = 1; i < N; i++) {
             if (sortedArr[i] != sortedArr[i - 1]) {
@@ -36,14 +34,9 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            Integer value = map.get(arr[i]);
-            sb.append(value).append(' ');
+            sb.append(map.get(arr[i])).append(' ');
         }
 
         System.out.println(sb);
     }
-
 }
-
-
-
