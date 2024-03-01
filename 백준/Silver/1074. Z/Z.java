@@ -31,18 +31,15 @@ public class Main {
         int newSize = size / 2;
 
         if (r < row + newSize && c < col + newSize) {
-            solve(row, col, newSize);   // 2사분면
-        }
-        if (r < row + newSize && col + newSize <= c) {
-            result += (size * size) / 4;    //1사분면
+            solve(row, col, newSize);
+        } else if (r < row + newSize && col + newSize <= c) {
+            result += (newSize * newSize);
             solve(row, col + newSize, newSize);
-        }
-        if (row + newSize <= r && c < col + newSize) {
-            result += ((size * size) / 4) * 2;    //3사분면
+        } else if (row + newSize <= r && c < col + newSize) {
+            result += (newSize * newSize) * 2;
             solve(row + newSize, col, newSize);
-        }
-        if (row + newSize <= r && col + newSize <= c) {
-            result += ((size * size / 4)) * 3;    //4사분면
+        } else if (row + newSize <= r && col + newSize <= c) {
+            result += (newSize * newSize) * 3;
             solve(row + newSize, col + newSize, newSize);
         }
     }
