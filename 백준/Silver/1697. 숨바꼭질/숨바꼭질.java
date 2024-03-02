@@ -6,7 +6,6 @@ import java.util.Queue;
 
 public class Main {
 
-    static int N;
 
     public static void main(String[] args) throws IOException {
 
@@ -14,38 +13,35 @@ public class Main {
 
         String[] input = br.readLine().split(" ");
         int N = Integer.parseInt(input[0]);
-        int M = Integer.parseInt(input[1]);
-
-        System.out.println(BFS(N, M));
-    }
-
-    static int BFS(int n, int m) {
+        int K = Integer.parseInt(input[1]);
 
         int size = 100001;
         boolean[] visited = new boolean[size];
 
         Queue<Integer> Q = new LinkedList<>();
-        Q.offer(n);
+        Q.offer(N);
 
         int level = 0;
         while (!Q.isEmpty()) {
             int len = Q.size();
             for (int i = 0; i < len; i++) {
-
                 int current = Q.poll();
-                visited[current] = true;
-
-                if (current == m) {
-                    return level;
+                if (K == current) {
+                    System.out.println(level);
+                    break;
                 } else {
-                    if (current - 1 >= 0 &&!visited[current-1]) {
+                    if (current - 1 >= 0 && !visited[current - 1]) {
                         Q.offer(current - 1);
+                        visited[current - 1] = true;
                     }
-                    if (current < m) {
-                        if (current != 0 && (current * 2 <= size) &&!visited[current*2]) {
+
+                    if (current < K) {
+                        if (current != 0 && 2 * current <= size && !visited[2 * current]) {
                             Q.offer(2 * current);
+                            visited[2 * current] = true;
                         }
                         if (current + 1 <= size && !visited[current + 1]) {
+                            visited[current + 1] = true;
                             Q.offer(current + 1);
                         }
                     }
@@ -53,6 +49,5 @@ public class Main {
             }
             level++;
         }
-        return level;
     }
 }
