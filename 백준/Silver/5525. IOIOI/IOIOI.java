@@ -10,21 +10,22 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
-        String str = br.readLine();
 
-        String PN = "IOI";
-        for (int i = 1; i < N; i++) {
-            PN += "OI";
+        char[] strArr = br.readLine().toCharArray();
+        int[] memo = new int[M];
+        int ans = 0;
+
+        for (int i = 1; i < M - 1; i++) {
+            if (strArr[i] == 'O' && strArr[i + 1] == 'I') {
+                memo[i + 1] = memo[i - 1] + 1;
+
+                if (memo[i + 1] >= N && strArr[i - (2 * N) + 1] == 'I') {
+                    ans++;
+                }
+            }
         }
 
-        int cnt = 0;
-        int index;
+        System.out.println(ans);
 
-        while ((index = str.indexOf(PN)) != -1) {
-            cnt++;
-            str = str.substring(index+2);
-        }
-
-        System.out.println(cnt);
     }
 }
