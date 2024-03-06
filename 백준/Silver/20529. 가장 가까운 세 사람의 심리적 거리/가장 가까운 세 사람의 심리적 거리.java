@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class Main {
 
@@ -11,10 +10,9 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
-
         for (int i = 0; i < T; i++) {
-            int N = Integer.parseInt(br.readLine());
 
+            int N = Integer.parseInt(br.readLine());
             String[] str = br.readLine().split(" ");
 
             if (N > 32) {
@@ -23,6 +21,7 @@ public class Main {
             }
 
             int min = getMin(N, str);
+
             sb.append(min).append('\n');
         }
 
@@ -30,7 +29,9 @@ public class Main {
     }
 
     private static int getMin(int N, String[] str) {
+
         int min = Integer.MAX_VALUE;
+
         for (int j = 0; j < N - 2; j++) {
             for (int k = j + 1; k < N - 1; k++) {
                 for (int l = k + 1; l < N; l++) {
@@ -41,11 +42,11 @@ public class Main {
                         cnt += str[k].charAt(x) == str[l].charAt(x) ? 0 : 1;
                     }
                     min = Math.min(min, cnt);
-                    
-                    if (min == 0) return 0;
+                    if (min == 0) break;
                 }
             }
         }
+        
         return min;
     }
 }
