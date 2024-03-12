@@ -14,16 +14,15 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         N = Integer.parseInt(br.readLine());
-
         color = new char[N][N];
         abColor = new char[N][N];
 
         for (int i = 0; i < N; i++) {
-            String str = br.readLine();
+            String input = br.readLine();
             for (int j = 0; j < N; j++) {
-                char c = str.charAt(j);
+                char c = input.charAt(j);
                 color[i][j] = abColor[i][j] = c;
-                if (abColor[i][j] == 'G') {
+                if (c == 'G') {
                     abColor[i][j] = 'R';
                 }
             }
@@ -43,6 +42,7 @@ public class Main {
                 }
             }
         }
+
         System.out.println(cnt + " " + abCnt);
     }
 
