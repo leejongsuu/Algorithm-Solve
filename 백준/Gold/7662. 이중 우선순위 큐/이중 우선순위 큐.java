@@ -9,50 +9,50 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
         StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
         for (int i = 0; i < T; i++) {
+
             int N = Integer.parseInt(br.readLine());
-            TreeMap<Integer, Integer> map = new TreeMap<>();
+            TreeMap<Integer, Integer> tMap = new TreeMap<>();
 
             for (int j = 0; j < N; j++) {
-                StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+                st = new StringTokenizer(br.readLine(), " ");
                 String command = st.nextToken();
                 int num = Integer.parseInt(st.nextToken());
 
                 if (command.equals("I")) {
-                    map.put(num, map.getOrDefault(num, 0) + 1);
+                    tMap.put(num, tMap.getOrDefault(num, 0) + 1);
                 } else {
-                    if (map.isEmpty()) {
+                    if (tMap.isEmpty()) {
                         continue;
                     }
 
                     if (num == 1) {
-                        int max = map.lastKey();
-                        if (map.get(max) == 1) {
-                            map.remove(max);
+                        Integer key = tMap.lastKey();
+                        if (tMap.get(key) == 1) {
+                            tMap.remove(key);
                         } else {
-                            map.put(max, map.get(max) - 1);
+                            tMap.put(key, tMap.get(key) - 1);
                         }
-                    } else {
-                        int min = map.firstKey();
-                        if (map.get(min) == 1) {
-                            map.remove(min);
+                    } else if (num == -1) {
+                        Integer key = tMap.firstKey();
+                        if (tMap.get(key) == 1) {
+                            tMap.remove(key);
                         } else {
-                            map.put(min, map.get(min) - 1);
+                            tMap.put(key, tMap.get(key) - 1);
                         }
                     }
                 }
             }
-
-            if (map.isEmpty()) {
-                sb.append("EMPTY").append("\n");
+            if (tMap.isEmpty()) {
+                sb.append("EMPTY").append('\n');
             } else {
-                sb.append(map.lastKey()).append(" ").append(map.firstKey()).append("\n");
+                sb.append(tMap.lastKey()).append(" ").append(tMap.firstKey()).append('\n');
             }
         }
-        
         System.out.println(sb);
     }
 }
