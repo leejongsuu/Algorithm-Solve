@@ -26,7 +26,7 @@ public class Main {
 
     static int solution(int n) {
         dy[0] = 1;
-//        int max_len = 0;
+        int max_len = 1;
         for (int i = 1; i < n; i++) {
             int max = 0;
             for (int j = i - 1; j >= 0; j--) {
@@ -34,11 +34,11 @@ public class Main {
                     max = dy[j];
                 }
                 dy[i] = max + 1;
-//                max_len = Math.max(max_len, dy[i]);
+                max_len = Math.max(max_len, dy[i]);
             }
         }
-        return Arrays.stream(dy).max().getAsInt();
-//        return max_len;
+//        return Arrays.stream(dy).max().getAsInt();
+        return max_len;
     }
 }
 
