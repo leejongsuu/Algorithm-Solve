@@ -8,31 +8,36 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
         String[] input = br.readLine().split(" ");
         int N = Integer.parseInt(input[0]);
         int M = Integer.parseInt(input[1]);
-        HashMap<Integer, String> IndexMap = new HashMap<>();
-        HashMap<String, Integer> nameMap = new HashMap<>();
 
+        HashMap<String, String> map1 = new HashMap<>(N);
+        HashMap<String, String> map2 = new HashMap<>(N);
 
         for (int i = 1; i <= N; i++) {
-            String str = br.readLine();
-            nameMap.put(str, i);
-            IndexMap.put(i, str);
+            String data = br.readLine();
+            map1.put(data, String.valueOf(i));
+            map2.put(String.valueOf(i), data);
         }
 
+        StringBuilder sb = new StringBuilder();
+
         for (int i = 0; i < M; i++) {
-            String str = br.readLine();
-            if (Character.isDigit(str.charAt(0))) {
-                sb.append(IndexMap.get(Integer.parseInt(str))).append('\n');
+            String search = br.readLine();
+            if (Character.isDigit(search.charAt(0))) {
+                sb.append(map2.get(search)).append('\n');
             } else {
-                sb.append(nameMap.get(str)).append('\n');
+                sb.append(map1.get(search)).append('\n');
             }
         }
-        br.close();
 
         System.out.println(sb);
     }
+
+
 }
+
+
+
