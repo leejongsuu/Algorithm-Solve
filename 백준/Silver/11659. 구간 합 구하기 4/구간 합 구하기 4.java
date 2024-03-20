@@ -1,34 +1,32 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
-        String[] input = br.readLine().split(" ");
-        int N = Integer.parseInt(input[0]);
-        int M = Integer.parseInt(input[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        int[] arr = new int[N + 1];
-        int[] di = new int[N + 1];
-        int sum = 0;
+        int[] sum = new int[N + 1];
 
-        String[] value = br.readLine().split(" ");
-        for (int i = 1; i <= N; i++) {
-            arr[i] = Integer.parseInt(value[i - 1]);
-            sum += arr[i];
-            di[i] = sum;
+        st = new StringTokenizer(br.readLine(), " ");
+        sum[1] = Integer.parseInt(st.nextToken());
+        for (int i = 2; i <= N; i++) {
+            sum[i] = sum[i - 1] + Integer.parseInt(st.nextToken());
         }
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < M; i++) {
-            String[] input2 = br.readLine().split(" ");
-            int hi = Integer.parseInt(input2[1]);
-            int lo = Integer.parseInt(input2[0]);
-            sb.append(di[hi] - di[lo - 1]).append('\n');
+            st = new StringTokenizer(br.readLine(), " ");
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            sb.append(sum[e] - sum[s - 1]).append('\n');
         }
 
         System.out.println(sb);
