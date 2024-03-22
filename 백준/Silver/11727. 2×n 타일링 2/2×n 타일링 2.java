@@ -7,15 +7,15 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
 
-        int[] di = new int[n + 1];
-        di[0] = 1;
-        di[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            di[i] = (di[i - 1] + 2 * di[i - 2]) % 10007;
+        int N = Integer.parseInt(br.readLine());
+
+        int[] dp = new int[N + 1];
+        dp[0] = dp[1] = 1;
+        for (int i = 2; i <= N; i++) {
+            dp[i] = (2 * dp[i - 2] + dp[i - 1]) % 10007;
         }
 
-        System.out.println(di[n]);
+        System.out.println(dp[N]);
     }
 }
