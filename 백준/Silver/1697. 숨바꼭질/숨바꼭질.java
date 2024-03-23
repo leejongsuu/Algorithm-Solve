@@ -56,7 +56,6 @@ public class Main {
             }
             level++;
         }
-
         return level;
     }
 }
