@@ -24,7 +24,8 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static int solution(int m, int n, int x, int y) {
+    static int solution(int m, int n, int x, int y) {
+
         x -= 1;
         y -= 1;
 
