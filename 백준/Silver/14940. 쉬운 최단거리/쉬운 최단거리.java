@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -63,11 +62,13 @@ public class Main {
 
     private static void solution(int y, int x) {
 
-        int[][] ch = new int[N][M];
+        boolean[][] visited = new boolean[N][M];
+
         int[] dy = {1, 0, -1, 0};
         int[] dx = {0, 1, 0, -1};
 
         di[y][x] = 0;
+        visited[y][x] = true;
 
         Queue<Point> Q = new LinkedList<>();
         Q.offer(new Point(y, x));
@@ -78,9 +79,9 @@ public class Main {
             for (int i = 0; i < 4; i++) {
                 int ny = now.y + dy[i];
                 int nx = now.x + dx[i];
-                if (ny >= 0 && nx >= 0 && ny < N && nx < M && graph[ny][nx] == 1 && ch[ny][nx] == 0) {
+                if (ny >= 0 && nx >= 0 && ny < N && nx < M && graph[ny][nx] == 1 && !visited[ny][nx]) {
                     di[ny][nx] = di[now.y][now.x] + 1;
-                    ch[ny][nx] = 1;
+                    visited[ny][nx] = true;
                     Q.offer(new Point(ny, nx));
                 }
             }
