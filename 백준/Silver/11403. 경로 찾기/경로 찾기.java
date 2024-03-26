@@ -31,8 +31,7 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                int num = solution(i, j);
-                sb.append(num).append(' ');
+                sb.append(solution(i, j)).append(' ');
             }
             sb.append('\n');
         }
@@ -41,19 +40,19 @@ public class Main {
     }
 
     private static int solution(int i, int j) {
-
+        
         Queue<Integer> Q = new LinkedList<>();
-        int[] ch = new int[N];
-
+        boolean[] visited = new boolean[N];
+        
         Q.offer(i);
         while (!Q.isEmpty()) {
             int current = Q.poll();
             for (int num : graph.get(current)) {
-                if (ch[num] == 1) continue;
+                if (visited[num]) continue;
                 if (num == j) {
                     return 1;
                 } else {
-                    ch[num] = 1;
+                    visited[num] = true;
                     Q.offer(num);
                 }
             }
