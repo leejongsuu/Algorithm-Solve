@@ -1,61 +1,59 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-
-    static int N, M, answer = Integer.MAX_VALUE;
-    static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        visited = new boolean[M + 1];
+        long N = Integer.parseInt(st.nextToken());
+        long M = Integer.parseInt(st.nextToken());
 
-        DFS(1, N);
-
-        if (answer == Integer.MAX_VALUE) {
-            System.out.println(-1);
-        } else {
-            System.out.println(answer);
-        }
+        System.out.println(BFS(N, M));
     }
 
-    static void DFS(int L, int num) {
+    static long BFS(long n, long m) {
 
-        if (num > M || L > answer) return;
+        Queue<Long> Q = new LinkedList<>();
+        Q.offer(n);
 
-        int value = Func1(num);
-        int value2 = Func2(num);
+        int level = 1;
+        while (!Q.isEmpty()) {
+            int len = Q.size();
+            for (int i = 0; i < len; i++) {
+                long now = Q.poll();
 
-        if (value == M || value2 == M) {
-            answer = L + 1;
-            return;
+                long num1 = Func1(now);
+                long num2 = Func2(now);
+
+                if (num1 == m || num2 == m) {
+                    return level + 1;
+                }
+
+                if (num1 < m) {
+                    Q.offer(num1);
+                }
+
+                if (num2 < m) {
+                    Q.offer(num2);
+                }
+            }
+            level++;
         }
-
-        if (value < M && !visited[value]) {
-            visited[value] = true;
-            DFS(L + 1, value);
-        }
-
-        if (value2 < M && !visited[value2]) {
-            visited[value2] = true;
-            DFS(L + 1, value2);
-        }
+        return -1;
     }
 
-    static int Func1(int n) {
-        long result = (2L * n) % Integer.MAX_VALUE;
-        return (int) result;
+    static long Func1(long n) {
+        return (2L * n);
     }
 
-    static int Func2(int n) {
-        long result = (10L * n + 1) % Integer.MAX_VALUE;
-        return (int) result;
+    static long Func2(long n) {
+        return (10L * n + 1);
     }
 }
