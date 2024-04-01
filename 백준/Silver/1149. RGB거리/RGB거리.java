@@ -5,52 +5,49 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    final static int Red = 0;
-    final static int Green = 1;
-    final static int Blue = 2;
+    static final int Red = 0;
+    static final int Green = 1;
+    static final int Blue = 2;
 
-    static int[][] Cost, DP;
+    static int[][] house, dp;
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+        house = new int[n][3];
+        dp = new int[n][3];
 
-        Cost = new int[N][3];
-        DP = new int[N][3];
-
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-            Cost[i][Red] = Integer.parseInt(st.nextToken());
-            Cost[i][Green] = Integer.parseInt(st.nextToken());
-            Cost[i][Blue] = Integer.parseInt(st.nextToken());
+            house[i][Red] = Integer.parseInt(st.nextToken());
+            house[i][Green] = Integer.parseInt(st.nextToken());
+            house[i][Blue] = Integer.parseInt(st.nextToken());
         }
 
-        DP[0][Red] = Cost[0][Red];
-        DP[0][Green] = Cost[0][Green];
-        DP[0][Blue] = Cost[0][Blue];
+        dp[0][Red] = house[0][Red];
+        dp[0][Green] = house[0][Green];
+        dp[0][Blue] = house[0][Blue];
 
-        System.out.println(Math.min(DFS(N - 1, Red), Math.min(DFS(N - 1, Green), DFS(N - 1, Blue))));
+        System.out.println(Math.min(DFS(n - 1, Red), Math.min(DFS(n - 1, Green), DFS(n - 1, Blue))));
     }
 
     static int DFS(int n, int color) {
 
-        // 만약 탐색하지 않은 배열이라면
-        if (DP[n][color] == 0) {
-
-
-            // color의 색에 따라 이전 집의 서로 다른 색을 재귀 호출하여 최솟값과 현재 집의 비용을 더해서 DP에 저장한다.
-            if (color == Red) {
-                DP[n][color] = Math.min(DFS(n - 1, Green), DFS(n - 1, Blue)) + Cost[n][color];
-            } else if (color == Green) {
-                DP[n][color] = Math.min(DFS(n - 1, Red), DFS(n - 1, Blue)) + Cost[n][color];
-            } else if (color == Blue) {
-                DP[n][color] = Math.min(DFS(n - 1, Red), DFS(n - 1, Green)) + Cost[n][color];
-            }
+        if (dp[n][color] != 0) {
+            return dp[n][color];
         }
 
-        return DP[n][color];
+        if (color == Red) {
+            return dp[n][Red] = Math.min(DFS(n - 1, Green), DFS(n - 1, Blue)) + house[n][Red];
+        } else if (color == Green) {
+            return dp[n][Green] = Math.min(DFS(n - 1, Red), DFS(n - 1, Blue)) + house[n][Green];
+        } else if (color == Blue) {
+            return dp[n][Blue] = Math.min(DFS(n - 1, Red), DFS(n - 1, Green)) + house[n][Blue];
+        }
+
+        return dp[n][color];
     }
 }
