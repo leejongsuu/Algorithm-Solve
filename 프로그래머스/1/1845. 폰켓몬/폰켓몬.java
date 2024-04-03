@@ -2,23 +2,18 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] nums) {
+        
         int answer = 0;
         
-        HashMap<Integer, Integer> map = new HashMap();
+        HashSet<Integer> hash = new HashSet<>();
         
-        for(int i=0; i<nums.length; i++)
-        {
-            map.put(nums[i], map.getOrDefault(map.get(nums[i]),0)+1);
+        int len = nums.length;
+        for(int i=0; i<len; i++){
+            hash.add(nums[i]);
         }
         
-        int len = nums.length / 2;
-        int size = map.size();
+        answer = Math.min(len/2,hash.size());
         
-        if(len < size){
-            answer = len;
-        } else {
-            answer = size;
-        }
         return answer;
     }
 }
