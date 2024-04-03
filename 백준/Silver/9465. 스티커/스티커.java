@@ -10,15 +10,16 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
-        for (int i = 0; i < T; i++) {
+        StringBuilder sb = new StringBuilder();
 
+        for (int i = 0; i < T; i++) {
             int N = Integer.parseInt(br.readLine());
             int[][] arr = new int[2][N + 1];
             int[][] dp = new int[2][N + 1];
+
             for (int j = 0; j < 2; j++) {
-                StringTokenizer st = new StringTokenizer(br.readLine());
+                StringTokenizer st = new StringTokenizer(br.readLine(), " ");
                 for (int k = 1; k <= N; k++) {
                     arr[j][k] = Integer.parseInt(st.nextToken());
                 }
