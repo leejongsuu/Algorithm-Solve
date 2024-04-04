@@ -11,8 +11,8 @@ class Solution {
         }
         
         int sum = 1;
-        for(String key : map.keySet()) {
-            sum *= (map.get(key) + 1);
+        for(Integer value : map.values()) {
+            sum *= (value + 1);
         }
         
         answer = sum - 1;
