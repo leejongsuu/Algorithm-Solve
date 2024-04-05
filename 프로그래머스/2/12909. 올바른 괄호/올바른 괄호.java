@@ -4,24 +4,17 @@ class Solution {
     boolean solution(String s) {
         boolean answer = true;
         
-        Stack<Character> stack = new Stack<>();
-        
+        int count = 0;
         for(char c : s.toCharArray()) {
-            if(c=='(') {
-                stack.push(c);
-            } else {
-                if(stack.isEmpty()) {
-                    answer = false;
-                    break;
-                } else {
-                    stack.pop();
-                }
+            if(c=='(') count ++;
+            else if(c==')') count --;
+            
+            if(count < 0) {
+                answer = false;
+                break;
             }
         }
-        
-        if(!stack.isEmpty()) {
-            answer = false;
-        }
+        if(count !=0) answer = false;
 
         return answer;
     }
