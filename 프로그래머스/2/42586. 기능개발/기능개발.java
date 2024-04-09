@@ -7,10 +7,9 @@ class Solution {
         Queue<Integer> Q = new LinkedList<>();
         ArrayList<Integer> list = new ArrayList<>();
         
-        for(int i=0; i<speeds.length; i++) {
-            double remain = 100 - progresses[i];
-            double fNeedDay = remain / speeds[i];
-            
+        for(int i=0; i < speeds.length; i++) {
+            double sub = 100 - progresses[i];
+            double fNeedDay = sub / speeds[i];
             int date = (int) Math.ceil(fNeedDay);
             
             if(!Q.isEmpty() && Q.peek() < date) {
@@ -23,7 +22,7 @@ class Solution {
         list.add(Q.size());
         
         answer = new int[list.size()];
-        for(int i=0; i<list.size(); i++) {
+        for(int i=0; i<answer.length; i++) {
             answer[i] = list.get(i);
         }
         
