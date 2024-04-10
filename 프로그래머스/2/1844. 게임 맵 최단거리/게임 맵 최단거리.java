@@ -2,61 +2,30 @@ import java.util.*;
 
 class Solution {
     
-    class Point {
-        int y, x;
-        public Point(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-    }
-    
     public int solution(int[][] maps) {
-        int answer = 0;
         
-        int n = maps.length;
-        int m = maps[0].length;
-        int[][] board = new int[n][m];
+        int row = maps.length;
+        int col = maps[0].length;
         
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<m; j++) {
-                board[i][j]=maps[i][j];
-            }
-        }
+        int[][] direction = {{1,0}, {0,1}, {-1,0}, {0,-1}};
         
-        answer = BFS(n, m, board);
+        Queue<int[]> Q = new LinkedList<>();
+        Q.offer(new int[]{0,0,1});
         
-        return answer;
-    }
-    
-    public int BFS(int n, int m, int[][] board) {
-        
-        int[] dy = {1,0,-1,0};
-        int[] dx = {0,1,0,-1};
-        
-        board[0][0] = 0;
-        
-        Queue<Point> Q = new LinkedList<>();
-        Q.offer(new Point(0,0));
-        
-        int level = 0;
         while(!Q.isEmpty()) {
-            int len = Q.size();
-            for(int i=0; i<len; i++) {
-                Point current = Q.poll();
-                if(current.y == n-1 && current.x == m-1) {
-                    return level + 1;
-                }
-                for(int j=0; j<4; j++) {
-                    int ny = current.y + dy[j];
-                    int nx = current.x + dx[j];
-                    
-                    if(ny>=0 && nx>=0 && ny<n && nx<m && board[ny][nx] == 1) {
-                        board[ny][nx] = 0;
-                        Q.offer(new Point(ny, nx));
-                    }
+            int[] current = Q.poll();
+            
+            if(current[0] ==  row - 1 && current[1] == col -1) return current[2];
+            
+            for(int[] dir : direction) {
+                int ny = current[0] + dir[0];
+                int nx = current[1] + dir[1];
+                int distance = current[2];
+                if(ny>=0 && nx>=0 && ny < row && nx< col && maps[ny][nx]==1) {
+                    maps[ny][nx] = 0;
+                    Q.offer(new int[]{ny,nx, distance + 1});
                 }
             }
-            level++;
         }
         
         return -1;
