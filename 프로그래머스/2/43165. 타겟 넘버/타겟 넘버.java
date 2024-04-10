@@ -1,6 +1,6 @@
 class Solution {
     
-    static int cnt = 0;
+    int cnt = 0;
     
     public int solution(int[] numbers, int target) {
               
