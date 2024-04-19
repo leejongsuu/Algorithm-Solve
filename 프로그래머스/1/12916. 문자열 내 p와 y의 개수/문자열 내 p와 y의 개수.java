@@ -2,20 +2,15 @@ import java.util.*;
 
 class Solution {
     boolean solution(String s) {
-        boolean answer = true;
         
-        int p_cnt = 0;
-        int y_cnt = 0; 
+        int cnt = 0;
+        
         
         for(char c : s.toLowerCase().toCharArray()) {
-            if(c == 'p') p_cnt++;
-            if(c == 'y') y_cnt++;
-        }
-        
-        if(p_cnt!=y_cnt) {
-            answer = false;
+            if(c == 'p') cnt++;
+            if(c == 'y') cnt--;
         }
 
-        return answer;
+        return cnt == 0 ? true : false;
     }
 }
