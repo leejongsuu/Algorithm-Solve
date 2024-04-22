@@ -9,6 +9,6 @@ class Solution {
             }
         }
         
-        return new String("김서방은 "+index+"에 있다");     
+        return "김서방은 "+index+"에 있다";    
     }
 }
