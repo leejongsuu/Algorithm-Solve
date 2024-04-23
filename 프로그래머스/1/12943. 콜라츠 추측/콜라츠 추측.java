@@ -1,15 +1,13 @@
 class Solution {
     public int solution(int num) {
-        int answer = -1;
+        long n = (long) num;
         
         for(int i=0; i<500; i++) {
-            if(num == 1) return i;
+            if(n == 1) return i;
             
-            if(num % 2 == 0) num /= 2;
-            else if(num % 2 == 1) num = num * 3 + 1;
-            System.out.print(i +" "+num +" ");
+            n = (n%2 == 0) ? n/2 : 3*n + 1; 
         }
         
-        return answer;
+        return -1;
     }
 }
