@@ -1,23 +1,12 @@
-import java.util.TreeSet;
-
+import java.util.Arrays;
 class Solution {
     public int[] solution(int[] arr, int divisor) {
+        int[] answer = Arrays.stream(arr).filter(i -> i%divisor==0).sorted().toArray();
         
-        TreeSet<Integer> treeSet = new TreeSet<>();
-        for(int i : arr) {
-            if(i % divisor == 0) treeSet.add(i);
-        }
-        
-        int size = treeSet.size();
-        if(size == 0) {
+        if(answer.length == 0) {
             return new int[]{-1};
-        } else {
-            int[] answer = new int[size];
-            int i = 0;
-            for(int n : treeSet) {
-                answer[i++] = n;
-            }
-            return answer;
         }
+        
+        return answer;
     }
 }
