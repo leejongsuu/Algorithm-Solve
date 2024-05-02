@@ -16,7 +16,6 @@ public class Main {
 
         for (int i = 1; i <= length_1; i++) {
             for (int j = 1; j <= length_2; j++) {
-
                 if (str1[i - 1] == str2[j - 1]) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
                 } else {
