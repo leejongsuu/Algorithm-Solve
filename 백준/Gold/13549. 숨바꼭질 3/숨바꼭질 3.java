@@ -26,31 +26,33 @@ public class Main {
 
         while (!queue.isEmpty()) {
             Info current = queue.poll();
-            if(current.time >= minTime) continue;
+            if (current.time >= minTime) continue;
 
             if (current.pos == k) {
                 minTime = current.time;
             }
 
-            // 순간이동 처리
-            int nextPos = current.pos * 2;
-            int nextTime = current.time;
-            if (nextPos < len && nextTime < visited[nextPos]) {
-                visited[nextPos] = nextTime;
-                queue.add(new Info(nextPos, current.time));
-            }
+            if (current.pos < k) {
+                // 순간이동 처리
+                int nextPos = current.pos * 2;
+                int nextTime = current.time;
+                if (nextPos < len && nextTime < visited[nextPos]) {
+                    visited[nextPos] = nextTime;
+                    queue.add(new Info(nextPos, current.time));
+                }
 
-            // 한 칸 앞으로 이동 처리
-            nextPos = current.pos + 1;
-            nextTime = current.time + 1;
-            if (nextPos < len && nextTime < visited[nextPos]) {
-                visited[nextPos] = nextTime;
-                queue.add(new Info(nextPos, current.time + 1));
+                // 한 칸 앞으로 이동 처리
+                nextPos = current.pos + 1;
+                nextTime = current.time + 1;
+                if (nextPos < len && nextTime < visited[nextPos]) {
+                    visited[nextPos] = nextTime;
+                    queue.add(new Info(nextPos, current.time + 1));
+                }
             }
 
             // 한 칸 뒤로 이동 처리
-            nextPos = current.pos - 1;
-            nextTime = current.time + 1;
+            int nextPos = current.pos - 1;
+            int nextTime = current.time + 1;
             if (nextPos >= 0 && nextTime < visited[nextPos]) {
                 visited[nextPos] = nextTime;
                 queue.add(new Info(nextPos, current.time + 1));
