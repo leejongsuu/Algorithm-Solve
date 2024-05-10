@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -31,7 +32,7 @@ public class Main {
             for (int j = 0; j < N; j++) {
                 int num = Integer.parseInt(st.nextToken());
                 if (num == 1) home.add(new Point(i, j));
-                if (num == 2) chicken.add(new Point(i, j));
+                else if (num == 2) chicken.add(new Point(i, j));
             }
         }
         DFS(0, 0);
@@ -40,28 +41,25 @@ public class Main {
 
     private static void DFS(int L, int start) {
         if (L == M) {
-            answer = Math.min(answer, cal_distance(combination));
+            answer = Math.min(answer, calculate_distance(combination));
             return;
         }
 
-        for (int i = start; i < chicken.size(); i++) {
+        for(int i = start; i < chicken.size(); i++) {
             combination[L] = i;
             DFS(L + 1, i + 1);
         }
     }
 
-    private static int cal_distance(int[] combination) {
+    private static int calculate_distance(int[] combination) {
 
         int sum_distance = 0;
-
         for (Point h : home) {
-
             int min_distance = Integer.MAX_VALUE;
             for (int i : combination) {
                 Point c = chicken.get(i);
-                min_distance = Math.min(min_distance, (Math.abs(h.y - c.y) + Math.abs(h.x - c.x)));
+                min_distance = Math.min(min_distance, Math.abs(h.y - c.y) + Math.abs(h.x - c.x));
             }
-
             sum_distance += min_distance;
         }
 
