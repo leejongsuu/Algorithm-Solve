@@ -1,22 +1,15 @@
 class Solution {
-    public String[] solution(int n, int[] arr1, int[] arr2) {
-        
-        char[][] map = new char[n][n];
-        for(int i = 0; i < n; i++) {
-            int j = n - 1;
-            while(j >= 0) {
-                if(arr1[i] % 2 == 1 || arr2[i] % 2 == 1) map[i][j] = '#';
-                else map[i][j] = ' ';
-                arr1[i] /= 2;
-                arr2[i] /= 2;
-                j--;
-            }
-        }
-        
-        String[] answer = new String[n];
-        for(int i = 0; i < n; i++) {
-            answer[i] = String.valueOf(map[i]);
-        }
-        return answer;
-    }
+  public String[] solution(int n, int[] arr1, int[] arr2) {
+      String[] answer = new String[n];
+      
+      for(int i = 0; i < n; i++) {
+          String temp = String.format("%16s", Integer.toBinaryString(arr1[i] | arr2[i]));
+          temp = temp.substring(temp.length() - n);
+          temp = temp.replaceAll("1", "#");
+          temp = temp.replaceAll("0", " ");
+          answer[i] = temp;
+      }
+      
+      return answer;
+  }
 }
