@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
+
 public class Main {
 
     static class Node implements Comparable<Node> {
@@ -22,36 +23,29 @@ public class Main {
     }
 
     static int N, E;
-    static int[] dist;
-    static boolean[] visited;
     static ArrayList<ArrayList<Node>> graph = new ArrayList<>();
     static final int INF = 200000 * 1000;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         E = Integer.parseInt(st.nextToken());
-
-        dist = new int[N + 1];
-        visited = new boolean[N + 1];
-        Arrays.fill(dist, INF);
         for (int i = 0; i <= N; i++) {
             graph.add(new ArrayList<>());
         }
 
         for (int i = 0; i < E; i++) {
             st = new StringTokenizer(br.readLine(), " ");
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
-            graph.get(start).add(new Node(end, weight));
-            graph.get(end).add(new Node(start, weight));
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+
+            graph.get(s).add(new Node(e, w));
+            graph.get(e).add(new Node(s, w));
         }
 
         st = new StringTokenizer(br.readLine(), " ");
-
         int v1 = Integer.parseInt(st.nextToken());
         int v2 = Integer.parseInt(st.nextToken());
 
@@ -65,35 +59,33 @@ public class Main {
         res2 += dijkstra(v2, v1);
         res2 += dijkstra(v1, N);
 
-        int ans = (res1 >= INF && res2 >= INF ? -1 : Math.min(res1, res2));
-
+        int ans = (res1 >= INF && res2 >= INF) ? -1 : Math.min(res1, res2);
         System.out.println(ans);
     }
 
     private static int dijkstra(int start, int end) {
+
+        int[] dist = new int[N + 1];
+
         Arrays.fill(dist, INF);
-        Arrays.fill(visited, false);
-
         dist[start] = 0;
-        PriorityQueue<Node> PQ = new PriorityQueue<>();
-        PQ.offer(new Node(start, 0));
 
-        while (!PQ.isEmpty()) {
-            Node current = PQ.poll();
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.offer(new Node(start, 0));
 
-            if (!visited[current.end]) {
-                visited[current.end] = true;
-                for (Node node : graph.get(current.end)) {
+        while (!pq.isEmpty()) {
+            Node current = pq.poll();
 
-                    if (!visited[node.end] && dist[node.end] > dist[current.end] + node.weight) {
-                        dist[node.end] = dist[current.end] + node.weight;
-                        PQ.offer(new Node(node.end, dist[node.end]));
-                    }
+            if (dist[current.end] < current.weight) continue;
+
+            for (Node next : graph.get(current.end)) {
+                int newDist = dist[current.end] + next.weight;
+                if (newDist < dist[next.end]) {
+                    dist[next.end] = newDist;
+                    pq.offer(new Node(next.end, newDist));
                 }
             }
-
         }
-
         return dist[end];
     }
 }
