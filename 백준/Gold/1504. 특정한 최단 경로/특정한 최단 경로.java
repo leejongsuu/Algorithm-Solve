@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-
 public class Main {
 
     static class Node implements Comparable<Node> {
@@ -28,19 +27,17 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         E = Integer.parseInt(st.nextToken());
-        for (int i = 0; i <= N; i++) {
-            graph.add(new ArrayList<>());
-        }
+        for (int i = 0; i <= N; i++) graph.add(new ArrayList<>());
 
         for (int i = 0; i < E; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             int s = Integer.parseInt(st.nextToken());
             int e = Integer.parseInt(st.nextToken());
             int w = Integer.parseInt(st.nextToken());
-
             graph.get(s).add(new Node(e, w));
             graph.get(e).add(new Node(s, w));
         }
@@ -63,29 +60,30 @@ public class Main {
         System.out.println(ans);
     }
 
-    private static int dijkstra(int start, int end) {
-
+    static int dijkstra(int start, int end) {
         int[] dist = new int[N + 1];
-
         Arrays.fill(dist, INF);
         dist[start] = 0;
 
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(start, 0));
+        PriorityQueue<Node> PQ = new PriorityQueue<>();
+        PQ.offer(new Node(start, 0));
 
-        while (!pq.isEmpty()) {
-            Node current = pq.poll();
+        while (!PQ.isEmpty()) {
+            Node current = PQ.poll();
+            int currentEnd = current.end;
+            int currentWeight = current.weight;
+            if (dist[currentEnd] < currentWeight) continue;
 
-            if (dist[current.end] < current.weight) continue;
-
-            for (Node next : graph.get(current.end)) {
-                int newDist = dist[current.end] + next.weight;
-                if (newDist < dist[next.end]) {
+            for (Node next : graph.get(currentEnd)) {
+                int newDist = dist[currentEnd] + next.weight;
+                if (dist[next.end] > newDist) {
                     dist[next.end] = newDist;
-                    pq.offer(new Node(next.end, newDist));
+                    PQ.offer(new Node(next.end, newDist));
                 }
             }
         }
+
         return dist[end];
     }
+
 }
