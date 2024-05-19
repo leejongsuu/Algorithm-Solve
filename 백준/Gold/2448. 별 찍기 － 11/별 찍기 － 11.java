@@ -11,11 +11,12 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
         stars = new char[N][2 * N - 1];
+
         for (int i = 0; i < N; i++) {
             Arrays.fill(stars[i], ' ');
         }
 
-        star(0, N - 1, N);
+        partition(0, N - 1, N);
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
@@ -28,7 +29,8 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static void star(int r, int c, int size) {
+    private static void partition(int r, int c, int size) {
+
         if (size == 3) {
             stars[r][c] = '*';
             stars[r + 1][c - 1] = stars[r + 1][c + 1] = '*';
@@ -37,8 +39,8 @@ public class Main {
         }
 
         int newSize = size / 2;
-        star(r, c, newSize);
-        star(r + newSize, c - newSize, newSize);
-        star(r + newSize, c + newSize, newSize);
+        partition(r, c, newSize);
+        partition(r + newSize, c - newSize, newSize);
+        partition(r + newSize, c + newSize, newSize);
     }
 }
