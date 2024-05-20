@@ -6,10 +6,8 @@ class Solution {
         
         Arrays.sort(score);
                 
-        for(int i = score.length; i>=0; i-=m) {    
-            if(i - m < 0) break;
-            int[] temp = Arrays.copyOfRange(score, i - m, i);
-            answer += temp[0] * m;
+        for(int i = score.length; i >=m; i-=m) {
+            answer += score[i-m] * m;
         }
         
         return answer;
