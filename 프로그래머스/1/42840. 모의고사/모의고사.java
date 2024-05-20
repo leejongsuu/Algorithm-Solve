@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.ArrayList;
 
 class Solution {
@@ -13,7 +12,7 @@ class Solution {
             if(answers[i] == pattern[2][i % 10]) person[2]++;
         }
         
-        int max = Arrays.stream(person).max().getAsInt();
+        int max = Math.max(person[0], Math.max(person[1], person[2]));
         ArrayList<Integer> list = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             if(person[i] == max) list.add(i+1);
