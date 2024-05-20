@@ -1,27 +1,22 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 class Solution {
     public int[] solution(int[] answers) {
-
-        int[][] patterns = new int[][]{
-            {1,2,3,4,5},
-            {2,1,2,3,2,4,2,5},
-            {3,3,1,1,2,2,4,4,5,5}
-        };
         
-        int[] hit = new int[3];
+        int[][] pattern = new int[][]{{1,2,3,4,5}, {2,1,2,3,2,4,2,5}, {3,3,1,1,2,2,4,4,5,5}};
+        int[] person =new int[3];
         
-        for(int i=0; i < hit.length; i++) {
-            for(int j=0; j < answers.length; j++) {
-                if(patterns[i][j % patterns[i].length] == answers[j]) hit[i]++;
-            }
+        for(int i = 0; i < answers.length; i++) {
+            if(answers[i] == pattern[0][i % 5]) person[0]++;
+            if(answers[i] == pattern[1][i % 8]) person[1]++;
+            if(answers[i] == pattern[2][i % 10]) person[2]++;
         }
         
-        int max = Math.max(hit[0], Math.max(hit[1], hit[2]));
-        List<Integer> list = new ArrayList<>();
-        
-        for(int i=0; i<3; i++) {
-            if(hit[i] == max) list.add(i+1);
+        int max = Arrays.stream(person).max().getAsInt();
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i = 0; i < 3; i++) {
+            if(person[i] == max) list.add(i+1);
         }
         
         return list.stream().mapToInt(Integer::intValue).toArray();
