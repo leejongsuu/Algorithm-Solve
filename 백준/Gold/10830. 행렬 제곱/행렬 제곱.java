@@ -1,28 +1,24 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.*;
 import java.util.StringTokenizer;
 
-public class Main {
+class Main {
 
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         int N = Integer.parseInt(st.nextToken());
         long B = Long.parseLong(st.nextToken());
 
         int[][] matrix = new int[N][N];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < N; j++) {
                 matrix[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        int[][] result = matrixPower(B, matrix);
+        int[][] result = matrixPower(N, B, matrix);
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
@@ -35,9 +31,7 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static int[][] matrixPower(long exp, int[][] matrix) {
-
-        int N = matrix.length;
+    private static int[][] matrixPower(int N, long exp, int[][] matrix) {
         int[][] result = new int[N][N];
 
         for (int i = 0; i < N; i++) {
@@ -58,7 +52,6 @@ public class Main {
     private static int[][] multiply(int[][] a, int[][] b) {
         int N = a.length;
         int[][] result = new int[N][N];
-
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 for (int k = 0; k < N; k++) {
