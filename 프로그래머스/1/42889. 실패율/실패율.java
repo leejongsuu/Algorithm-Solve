@@ -4,9 +4,8 @@ class Solution {
     
     public int[] solution(int N, int[] stages) {
         
-        int[] arr = new int[N+1];
+        int[] arr = new int[N+2];
         for(int i : stages) {
-            if(i > N) continue;
             arr[i]++;
         }
         
