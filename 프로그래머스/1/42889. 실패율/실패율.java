@@ -1,34 +1,26 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 class Solution {
-    
     public int[] solution(int N, int[] stages) {
         
         int[] arr = new int[N+2];
-        for(int i : stages) {
-            arr[i]++;
-        }
+        for(int i : stages) arr[i]++;
         
-        int denominator = stages.length;
         ArrayList<Stage> list = new ArrayList<>();
-        for(int i = 1; i <= N; i++) {
+        int denominator = stages.length;
+        for(int i = 1; i <=N; i++) {
             denominator -= arr[i-1];
             if(denominator <= 0) {
                 list.add(new Stage(i, 0));
                 continue;
             }
-            double result = (double) arr[i] / denominator;
-            list.add(new Stage(i, result));
+            double cal = (double) arr[i] / denominator;
+            list.add(new Stage(i, cal));
         }
         
         Collections.sort(list);
-       
-        int[] result = new int[N];
-        for(int i = 0; i < N; i++) {
-            result[i] = list.get(i).number;
-        }
-        
-        return result;
+        return list.stream().mapToInt(Stage::getNumber).toArray();
     }
     
     class Stage implements Comparable<Stage> {
@@ -38,6 +30,10 @@ class Solution {
         public Stage(int number, double failureRate) {
             this.number = number;
             this.failureRate = failureRate;
+        }
+        
+        public int getNumber() {
+            return this.number;
         }
         
         @Override
