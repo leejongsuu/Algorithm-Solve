@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.regex.Pattern;
 
 class Solution {
     public int solution(String[] babbling) {
@@ -10,29 +11,19 @@ class Solution {
         set.add("woo");
         set.add("ma");
         
+        Pattern pattern = Pattern.compile("^(aya|ye|woo|ma)+$");
+        
         for(String str : babbling) {
-            StringBuilder sb = new StringBuilder();
-            int len = str.length();
-            int sum = 0;
-            String before ="";
             
-            for(int i = 0; i < len; i++) {
-                sb.append(str.charAt(i));
-                if(sb.length() > 3) break;
-                
-                if(set.contains(sb.toString())) {
-                    if(sb.toString().equals(before)) {
+            if(pattern.matcher(str).matches()) {
+                boolean flag = true;
+                for(String s : set) {
+                    if(str.contains(s + s)) {
+                        flag = false;
                         break;
                     }
-                    else {
-                        before = sb.toString();
-                        sum += before.length();
-                        sb.setLength(0);
-                    }
                 }
-            }
-            if(len == sum) {
-                answer++;
+                if(flag) answer++;
             }
         }
         
