@@ -1,28 +1,23 @@
-import java.util.*;
-
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
         
-        Arrays.sort(lost);
+        int[] result = new int[n+2];
+        for(int i : lost) result[i]--;
+        for(int i : reserve) result[i]++;
         
-        int answer = n;
-        
-        int[] person = new int[n+2];
-        for(int l : lost) person[l]--;
-        for(int r : reserve) person[r]++;
-        
-        for(int i=1; i<=n; i++) {
-            if(person[i] == -1) {
-                if(person[i-1] == 1) {
-                    person[i-1]--;
-                    person[i]++;
-                } else if(person[i+1] == 1) {
-                    person[i+1]--;
-                    person[i]++;
-                } else {
-                    answer--;
+        int answer = 0;
+        for(int i = 1; i <= n; i++) {
+            if(result[i] < 0) {
+                if(result[i-1] > 0) {
+                    result[i-1]--;
+                    result[i]++;
+                } else if(result[i+1] > 0) {
+                    result[i+1]--;
+                    result[i]++;
                 }
             }
+            
+            if(result[i] >= 0) answer++;
         }
         
         return answer;
