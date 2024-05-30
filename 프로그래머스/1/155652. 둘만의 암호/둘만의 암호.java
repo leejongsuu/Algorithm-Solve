@@ -1,26 +1,25 @@
 class Solution {
     public String solution(String s, String skip, int index) {
-        boolean[] skipSet = new boolean[26];
-        for (char ch : skip.toCharArray()) {
-            skipSet[ch - 'a'] = true;
-        }
-
-        int len = s.length();
-        char[] result = new char[len];
         
-        for (int i = 0; i < len; i++) {
-            char word = s.charAt(i);
+        boolean[] visited = new boolean[26];
+        for(int i = 0; i < skip.length(); i++) {
+            visited[skip.charAt(i) - 'a'] = true;
+        }
+        
+        char[] result = s.toCharArray();
+        for(int i = 0; i < result.length; i++) {
+            
+            int j = result[i] - 'a';
             int cnt = 0;
-            int j = word - 'a';
-            while (cnt < index) {
-                j = (j + 1) % 26;
-                if (!skipSet[j]) {
-                    cnt++;
-                }
+            while(cnt < index) {
+                if(visited[++j % 26]) continue;
+                cnt++;
             }
+            j %= 26;
             result[i] = (char) (j + 'a');
         }
         
         return new String(result);
+    
     }
 }
