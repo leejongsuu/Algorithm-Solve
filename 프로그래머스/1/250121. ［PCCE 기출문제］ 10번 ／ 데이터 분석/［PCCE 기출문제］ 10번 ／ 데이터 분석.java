@@ -16,16 +16,11 @@ class Solution {
         int sortByIndex = map.get(sort_by);
         
         // 스트림을 사용하여 필터링 및 정렬
-        List<int[]> filteredAndSortedData = Arrays.stream(data)
+        int[][] result = Arrays.stream(data)
             .filter(row -> row[extIndex] < val_ext) // ext 기준으로 필터링
             .sorted(Comparator.comparingInt(row -> row[sortByIndex])) // sort_by 기준으로 정렬
-            .collect(Collectors.toList());
+            .toArray(int[][]::new);
         
-        // 리스트를 배열로 변환
-        int[][] result = new int[filteredAndSortedData.size()][];
-        for (int i = 0; i < filteredAndSortedData.size(); i++) {
-            result[i] = filteredAndSortedData.get(i);
-        }
         
         return result;
     }
