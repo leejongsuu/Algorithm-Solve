@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -18,41 +19,45 @@ class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
         int[][] graph = new int[N][M];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < M; j++) {
                 graph[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
         int[] result = BFS(N, M, graph);
-        System.out.println(result[0] + "\n" + result[1]);
 
+        System.out.println(result[0] + "\n" + result[1]);
     }
 
     private static int[] BFS(int n, int m, int[][] graph) {
 
         int time = 0;
-        int size = 0;
+        int lastCheese = 0;
+
         int[] dy = new int[]{1, 0, -1, 0};
         int[] dx = new int[]{0, 1, 0, -1};
 
+
         while (true) {
-            boolean[][] visited = new boolean[n][m];
+
             Queue<Point> airQueue = new LinkedList<>();
+            boolean[][] visited = new boolean[n][m];
+
             airQueue.offer(new Point(0, 0));
             visited[0][0] = true;
 
             while (!airQueue.isEmpty()) {
-                Point current = airQueue.poll();
+                Point cur = airQueue.poll();
                 for (int i = 0; i < 4; i++) {
-                    int ny = current.y + dy[i];
-                    int nx = current.x + dx[i];
+                    int ny = cur.y + dy[i];
+                    int nx = cur.x + dx[i];
                     if (ny >= 0 && nx >= 0 && ny < n && nx < m && !visited[ny][nx] && graph[ny][nx] == 0) {
                         visited[ny][nx] = true;
                         airQueue.offer(new Point(ny, nx));
@@ -60,7 +65,7 @@ class Main {
                 }
             }
 
-            Queue<Point> queue = new LinkedList<>();
+            Queue<Point> cheeseQueue = new LinkedList<>();
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     if (graph[i][j] == 1) {
@@ -68,7 +73,7 @@ class Main {
                             int ny = i + dy[k];
                             int nx = j + dx[k];
                             if (ny >= 0 && nx >= 0 && ny < n && nx < m && visited[ny][nx]) {
-                                queue.offer(new Point(i, j));
+                                cheeseQueue.offer(new Point(i, j));
                                 break;
                             }
                         }
@@ -76,19 +81,18 @@ class Main {
                 }
             }
 
-            if (queue.isEmpty()) {
+            if (cheeseQueue.isEmpty()) {
                 break;
             }
-
-            size = queue.size();
-
-            while (!queue.isEmpty()) {
-                Point current = queue.poll();
-                graph[current.y][current.x] = 0;
+            lastCheese = cheeseQueue.size();
+            for (Point p : cheeseQueue) {
+                graph[p.y][p.x] = 0;
             }
 
             time++;
         }
-        return new int[]{time, size};
+
+
+        return new int[]{time, lastCheese};
     }
 }
