@@ -1,28 +1,70 @@
 class Solution {
     public String solution(String new_id) {
-        // 1단계, 2단계, 3단계
-        new_id = new_id.toLowerCase()
-            .replaceAll("[^a-z0-9-_.]","").replaceAll("\\.{2,}",".");
         
-        // 4단계
-        StringBuilder sb = new StringBuilder(new_id);
-        if(sb.charAt(0) =='.') sb.delete(0, 1);
-        int len = sb.length();
-        if(len != 0 && sb.charAt(len - 1) =='.') sb.delete(len -1 , len);
+        String result = new KAKAOID(new_id)
+            .replaceToLowerCase()
+            .filter()
+            .toSingleDot()
+            .noStartEndDot()
+            .noBlack()
+            .exceedLength()
+            .lengthLessThan2()
+            .getKAKAOID();
         
-        len = sb.length();
-        if(len == 0) sb.append('a'); // 5단계
-        else if(len > 15) {
-            sb.delete(15, len); // 6단계
-            if(sb.charAt(14) =='.') sb.delete(14, 15);
-        }
-        len = sb.length();
-        char e = sb.charAt(len - 1);
-        while(len < 3) {
-            sb.append(e);
-            len++;
+        return result;
+    }
+    
+    private class KAKAOID {
+        private String s;
+        
+        KAKAOID(String s) {
+            this.s = s;
         }
         
-        return sb.toString();
+        private KAKAOID replaceToLowerCase() {
+            s = s.toLowerCase();
+            return this;
+        }
+        
+        private KAKAOID filter() {
+            s = s.replaceAll("[^a-z0-9._-]", "");
+            return this;
+        }
+        
+        private KAKAOID toSingleDot() {
+            s = s.replaceAll("[.]{2,}",".");
+            return this;
+        }
+        
+        private KAKAOID noStartEndDot() {
+            s = s.replaceAll("^[.]|[.]$", "");
+            return this;
+        }
+        
+        private KAKAOID noBlack() {
+            s = s.isEmpty() ? "a" : s;
+            return this;
+        }
+        
+        private KAKAOID exceedLength() {
+            if(s.length() >= 16) {
+                s = s.substring(0, 15);
+            }
+            s = s.replaceAll("[.]$","");
+            return this;
+        }
+        
+        private KAKAOID lengthLessThan2() {
+            StringBuffer sb = new StringBuffer(s);
+            while(sb.length() < 3) {
+                sb.append(sb.charAt(sb.length()-1));
+            }
+            s = sb.toString();
+            return this;
+        }
+        
+        private String getKAKAOID() {
+            return s;
+        }
     }
 }
