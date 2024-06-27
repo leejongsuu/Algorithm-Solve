@@ -9,11 +9,13 @@ class Solution {
         }
         
         for(String call : callings) {
-	        int idx = indexMap.get(call);
-            players[idx] = players[idx - 1];
-            players[idx - 1] = call;
-            indexMap.put(players[idx - 1], idx - 1);
-            indexMap.put(players[idx], idx);
+            int index = indexMap.get(call);
+            
+            players[index] = players[index - 1];
+            players[index - 1] = call;
+            
+            indexMap.put(players[index], index);
+            indexMap.put(players[index - 1], index - 1);
         }
         
         return players;
