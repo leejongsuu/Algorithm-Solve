@@ -1,12 +1,21 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+
 class Solution {
+    
     public int[] solution(int[] arr, int divisor) {
-        int[] answer = Arrays.stream(arr).filter(i -> i%divisor==0).sorted().toArray();
         
-        if(answer.length == 0) {
-            return new int[]{-1};
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int num : arr) {
+            if(num % divisor == 0) {
+                list.add(num);
+            }
         }
         
-        return answer;
+        Collections.sort(list);
+        
+        return list.size() == 0 
+            ? new int[]{-1}
+            : list.stream().mapToInt(Integer::intValue).toArray();
     }
 }
