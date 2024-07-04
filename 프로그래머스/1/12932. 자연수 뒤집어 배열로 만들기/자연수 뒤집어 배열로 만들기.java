@@ -1,7 +1,15 @@
-import java.util.*;
-
 class Solution {
+    
     public int[] solution(long n) {
-        return new StringBuilder().append(n).reverse().chars().map(Character::getNumericValue).toArray();
+        
+        String numStr = String.valueOf(n);
+        int len = numStr.length();
+        
+        int[] answer = new int[len];
+        for(int i = 0; i < len; i++) {
+            answer[len - i - 1] = numStr.charAt(i) - '0';
+        }
+        
+        return answer;
     }
 }
