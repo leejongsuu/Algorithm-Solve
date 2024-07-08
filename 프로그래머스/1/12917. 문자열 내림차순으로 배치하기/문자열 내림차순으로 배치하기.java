@@ -6,6 +6,7 @@ class Solution {
         char[] ch = s.toCharArray();
         Arrays.sort(ch);
         
-        return new StringBuilder(String.valueOf(ch)).reverse().toString();
+        return new StringBuilder(new String(ch)).reverse().toString();
+        
     }
 }
