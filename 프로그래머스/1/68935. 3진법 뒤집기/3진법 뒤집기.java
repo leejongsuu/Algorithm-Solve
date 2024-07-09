@@ -1,13 +1,19 @@
 class Solution {
     public int solution(int n) {
         
-        String a = "";
-        while(n > 0) {
-            a += n % 3;
-            System.out.println(a);
+        StringBuffer sb = new StringBuffer();
+        while(n > 2) {
+            int remain = n % 3;
             n /= 3;
+            sb.insert(0, String.valueOf(remain));
+        }
+        String str = sb.insert(0, String.valueOf(n)).toString();
+        
+        int sum =0;
+        for(int i = 0; i < str.length(); i++) {
+            sum += (int) Math.pow(3, i) * (str.charAt(i) - '0');    
         }
         
-        return Integer.parseInt(a, 3);
+        return sum;
     }
 }
