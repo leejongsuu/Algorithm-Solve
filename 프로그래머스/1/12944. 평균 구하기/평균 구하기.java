@@ -1,7 +1,7 @@
-import java.util.*;
+import java.util.Arrays;
 
 class Solution {
     public double solution(int[] arr) {
-        return Arrays.stream(arr).average().getAsDouble();
+        return (double) Arrays.stream(arr).sum() / arr.length;
     }
 }
