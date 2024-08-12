@@ -1,16 +1,12 @@
-import java.util.*;
-
 class Solution {
     boolean solution(String s) {
         
-        int cnt = 0;
-        
-        
+        int p = 0;
+        int y = 0;
         for(char c : s.toLowerCase().toCharArray()) {
-            if(c == 'p') cnt++;
-            if(c == 'y') cnt--;
+            if(c == 'p') p++;
+            else if(c == 'y') y++;
         }
-
-        return cnt == 0 ? true : false;
+        return p == y;
     }
 }
