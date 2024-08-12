@@ -1,15 +1,15 @@
 class Solution {
-    
     public int[] solution(long n) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(n).reverse();
         
-        String numStr = String.valueOf(n);
-        int len = numStr.length();
+        int size = sb.length();
         
-        int[] answer = new int[len];
-        for(int i = 0; i < len; i++) {
-            answer[len - i - 1] = numStr.charAt(i) - '0';
+        int[] result = new int[size];
+        for(int i = 0; i < size; i++) {
+            result[i] = sb.charAt(i) - '0';
         }
         
-        return answer;
+        return result;
     }
 }
