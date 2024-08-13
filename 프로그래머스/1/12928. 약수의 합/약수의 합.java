@@ -1,11 +1,21 @@
 class Solution {
     public int solution(int n) {
-        int answer = 0;
         
-        for(int i=1; i<=n; i++) {
-            // 약수 찾기
-            if(n % i == 0) answer += i;
+        int sum = 0;
+        
+        // int size = (int) Math.sqrt(n);
+        // for(int i = 1; i <= size; i++) {
+        //     if(n % i == 0) {
+        //         sum += i;
+        //         sum += n / i;
+        //     }
+        // }
+        for(int i = 1; i <= n; i++) {
+            if(n % i == 0) {
+                sum += i;
+            }
         }
-        return answer;
+        
+        return sum;
     }
 }
