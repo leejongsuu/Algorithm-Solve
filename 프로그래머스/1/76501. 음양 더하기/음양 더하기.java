@@ -1,11 +1,12 @@
 class Solution {
     public int solution(int[] absolutes, boolean[] signs) {
-        int answer = 0;
+        int result = 0;
         
-        for(int i=0; i < absolutes.length; i++) {
-            answer += absolutes[i] * (signs[i] ? 1 : -1);
+        for(int i = 0; i < absolutes.length; i++) {
+            int sign = signs[i] == true ? 1 : -1;
+            result += absolutes[i] * sign;
         }
         
-        return answer;
+        return result;
     }
 }
