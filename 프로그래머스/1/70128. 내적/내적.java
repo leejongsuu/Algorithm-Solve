@@ -2,7 +2,9 @@ class Solution {
     public int solution(int[] a, int[] b) {
         
         int sum = 0;
-        for(int i=0; i < a.length; i++) {
+        
+        int len = a.length;
+        for(int i = 0; i < len; i++) {
             sum += a[i] * b[i];
         }
         
