@@ -1,8 +1,7 @@
-import java.util.*;
+import java.util.Arrays;
 
 class Solution {
     public int solution(int[] numbers) {
-        int answer = 9 * (10) / 2;
-        return answer - Arrays.stream(numbers).sum();
+        return 45 - Arrays.stream(numbers).sum();
     }
 }
