@@ -1,13 +1,12 @@
 class Solution {
     public boolean solution(String s) {
         
-        int len = s.length();
-        if(!(len == 4 || len == 6)) return false;
-        
-        for(char c : s.toCharArray()) {
-            if(Character.isAlphabetic(c)) return false;
+        if(!(s.length() ==4  || s.length() == 6)) return false;
+        try {
+            int a = Integer.valueOf(s);
+            return true;
+        } catch(Exception e) {
+            return false;
         }
-        
-        return true;
     }
 }
