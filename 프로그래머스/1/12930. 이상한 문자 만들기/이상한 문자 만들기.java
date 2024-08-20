@@ -1,24 +1,28 @@
 class Solution {
     public String solution(String s) {
-
-        String answer = "";
         
-        s = s.toLowerCase();
-        int dis = 'a' - 'A';
-        for(int i = 0, j = 0; i < s.length(); i++, j++) {
-            if(s.charAt(i) == ' ') {
-                j = -1;
-                answer += ' ';
-                continue;
+        char[] ch = s.toCharArray();
+        
+        int len = s.length();
+        
+        for(int i = 0, j = 0; i < len; i++) {
+            
+            if(ch[i] == ' ') {
+                j = 0;
+                continue;  
+            } 
+            
+            int num = (int) ch[i]; 
+            if(j % 2 == 0 && num >= (int) 'a' && num <= (int) 'z') {
+                num = (num - 'a') + 'A';
+            } else if(j % 2 == 1 && num >= (int) 'A' && num <= (int) 'Z') {
+                num = (num - 'A') + 'a';
             }
             
-            if(j % 2 == 0) {
-                answer += (char) (s.charAt(i) - dis);
-            } else {
-                answer += s.charAt(i);
-            }
+            ch[i] = (char) num;
+            j++;
         }
         
-        return answer;
+        return String.valueOf(ch);
     }
 }
