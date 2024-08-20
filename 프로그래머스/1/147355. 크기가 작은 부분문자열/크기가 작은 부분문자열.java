@@ -1,11 +1,15 @@
 class Solution {
     public int solution(String t, String p) {
-    
-        int answer = 0;
-        for(int i = 0, j = p.length(); i <= t.length() - p.length(); i++, j++) {
-            if(!(t.substring(i,j).compareTo(p) > 0)) answer++;
+        
+        int count = 0;
+        
+        for(int lt = 0, rt = p.length(); rt <= t.length(); lt++, rt++) {
+            String numStr = t.substring(lt, rt);
+            if(numStr.compareTo(p) <= 0) {
+                count++;
+            }
         }
         
-        return answer;
+        return count;
     }
 }
