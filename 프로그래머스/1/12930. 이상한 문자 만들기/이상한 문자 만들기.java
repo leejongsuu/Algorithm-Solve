@@ -1,26 +1,18 @@
 class Solution {
     public String solution(String s) {
         
-        char[] ch = s.toCharArray();
+        char[] ch = s.toLowerCase().toCharArray();
         
-        int len = s.length();
+        int dis = 'a' - 'A';
         
-        for(int i = 0, j = 0; i < len; i++) {
-            
+        for(int i = 0, j = 0; i < s.length(); i++, j++) {
             if(ch[i] == ' ') {
-                j = 0;
-                continue;  
-            } 
-            
-            int num = (int) ch[i]; 
-            if(j % 2 == 0 && num >= (int) 'a' && num <= (int) 'z') {
-                num = (num - 'a') + 'A';
-            } else if(j % 2 == 1 && num >= (int) 'A' && num <= (int) 'Z') {
-                num = (num - 'A') + 'a';
+                j = -1;
+                continue;
             }
-            
-            ch[i] = (char) num;
-            j++;
+            if(j % 2 == 0) {
+                ch[i] -= dis;
+            }
         }
         
         return String.valueOf(ch);
