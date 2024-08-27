@@ -2,20 +2,23 @@ import java.util.Arrays;
 
 class Solution {
     public int[] solution(String s) {
+        
+        int len = s.length();
+        int[] result = new int[len];
+        
         int[] alphabet = new int[26];
         Arrays.fill(alphabet, -1);
         
-        int[] answer = new int[s.length()];
         for(int i = 0; i < s.length(); i++) {
-            int pos = s.charAt(i) - 'a';
-            
-            if(alphabet[pos] == -1) {
-                answer[i] = -1;
+            int index = s.charAt(i) - 'a';
+            if(alphabet[index] == -1) {
+                result[i] = -1;
             } else {
-                answer[i] = i - alphabet[pos];
+                result[i] = i - alphabet[index];    
             }
-            alphabet[pos] = i;
+            alphabet[index] = i;
         }
-        return answer;
+        
+        return result;
     }
 }
