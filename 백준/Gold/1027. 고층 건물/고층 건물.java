@@ -12,7 +12,7 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
 
         int[] buildings = new int[n];
-        int[] possibleSee = new int[n];
+        int[] canSee = new int[n];
 
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < n; i++) {
@@ -20,18 +20,19 @@ public class Main {
         }
 
         int max = 0;
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < n; i++) {
             double max_inc = -Double.MAX_VALUE;
             for (int j = i + 1; j < n; j++) {
                 double inc = getInc(i, buildings[i], j, buildings[j]);
                 if (inc > max_inc) {
+                    canSee[i]++;
+                    canSee[j]++;
                     max_inc = inc;
-                    possibleSee[i]++;
-                    possibleSee[j]++;
-                    max = Math.max(max, Math.max(possibleSee[i], possibleSee[j]));
                 }
             }
+            max = Math.max(max, canSee[i]);
         }
+
         System.out.println(max);
     }
 
