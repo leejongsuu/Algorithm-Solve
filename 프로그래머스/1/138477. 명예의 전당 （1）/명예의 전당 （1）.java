@@ -2,15 +2,26 @@ import java.util.PriorityQueue;
 
 class Solution {
     public int[] solution(int k, int[] score) {
-
-        PriorityQueue<Integer> PQ = new PriorityQueue<>();
-        int[] answer = new int[score.length];
-        for(int i = 0; i < score.length; i++) {
-            PQ.offer(score[i]);
-            if(PQ.size() > k) PQ.poll();
-            answer[i] = PQ.peek();
+        
+        int len = score.length;
+        int[] result = new int[len];
+        
+        PriorityQueue<Integer> hallQueue = new PriorityQueue<>();
+        
+        for(int i = 0; i < len; i++ ) {
+            if(i < k) {
+                hallQueue.offer(score[i]);
+            } else {
+                int min = hallQueue.poll();
+                if(score[i] > min) {
+                    hallQueue.offer(score[i]);
+                } else {
+                    hallQueue.offer(min);
+                }
+            }
+            result[i] = hallQueue.peek();
         }
         
-        return answer;
+        return result;
     }
 }
