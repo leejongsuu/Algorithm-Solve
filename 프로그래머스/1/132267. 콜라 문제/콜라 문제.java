@@ -1,10 +1,14 @@
 class Solution {
     public int solution(int a, int b, int n) {
-       int sum = 0;
+        
+        int result = 0;
+        
         while(n >= a) {
-            sum += n/a * b;
-            n = n/a * b + n%a;
-       }
-        return sum;
+            int quotient = n / a;
+            result += b * quotient;
+            n = (n % a) + (b * quotient);
+        }
+        
+        return result;
     }
 }
