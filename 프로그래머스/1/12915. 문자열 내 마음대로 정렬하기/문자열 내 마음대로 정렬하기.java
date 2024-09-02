@@ -7,10 +7,10 @@ class Solution {
         Comparator<String> comp = new Comparator<>() {
             @Override
             public int compare(String o1, String o2) {
-                if(o1.charAt(n) == o2.charAt(n)) {
-                    return o1.compareTo(o2);
-                }
-                return o1.charAt(n) - o2.charAt(n);
+                char a = o1.charAt(n);
+                char b = o2.charAt(n);
+                if(a == b) return o1.compareTo(o2);
+                else return a - b;
             }
         };
         
