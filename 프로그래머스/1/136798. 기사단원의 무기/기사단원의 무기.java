@@ -1,25 +1,34 @@
 class Solution {
     public int solution(int number, int limit, int power) {
-        int result = 0;
         
-        for(int i = 1; i<= number; i++) {
-            result += getGcd(i, limit, power);   
+        int result = 0;
+        for(int i = 1; i <= number; i++) {
+            int count = getDivisor(i);
+            if(count > limit) {
+                result += power;
+            } else {
+                result += count;
+            }
         }
         return result;
     }
     
-    private int getGcd(int n, int limit, int power) {
-        int cnt = 0;
-        int len = (int) Math.sqrt(n);
+    private int getDivisor(int num) {
+        
+        int count = 0;
+        int len = (int) Math.sqrt(num);
+        
         for(int i = 1; i <= len; i++) {
-            if(n % i == 0) {
-                cnt++;
+            if(num % i == 0) {
+                count++;
             }
         }
         
-        cnt *= 2;
-        if(n == (int) Math.pow(len, 2)) cnt --;
+        count *= 2;
+        if(len * len == num) {
+            count -= 1;
+        }
         
-        return cnt > limit ? power : cnt;
+        return count;
     }
 }
