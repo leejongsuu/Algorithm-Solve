@@ -1,14 +1,13 @@
-import java.util.HashSet;
+import java.util.HashMap;
 
 class Solution {
     public int solution(int[] nums) {
-        // 해시맵을 사용하여 폰켓몬 종류 세기
-        HashSet<Integer> ponketmon = new HashSet<>();
-        for (int i : nums) {
-            ponketmon.add(i);
+        
+        HashMap<Integer, Boolean> numberMap = new HashMap<>();
+        for(int num : nums) {
+            numberMap.putIfAbsent(num, true);
         }
-
-        // 폰켓몬 종류 수와 선택할 수 있는 최대 마리 수(N/2) 중 작은 값 반환
-        return Math.min(ponketmon.size(), nums.length / 2);
+        
+        return Math.min(nums.length / 2, numberMap.size());
     }
 }
