@@ -1,30 +1,35 @@
 import java.util.HashSet;
-import java.util.regex.Pattern;
 
 class Solution {
     public int solution(String[] babbling) {
-        int answer = 0;
         
-        HashSet<String> hashSet = new HashSet<>();
-        hashSet.add("aya");
-        hashSet.add("ye");
-        hashSet.add("woo");
-        hashSet.add("ma");
+        String[] babbles = {"aya", "ye", "woo", "ma"};
         
-        Pattern pattern = Pattern.compile("^(aya|ye|woo|ma)+$");
-        for(String ba : babbling) {
-            if(pattern.matcher(ba).matches()) {
-                boolean flag = true;
-                for(String s : hashSet) {
-                    if(ba.contains(s+s)) {
-                        flag = false;
-                        break;
-                    }
+        HashSet<String> babbleSet = new HashSet<>();
+        for(String babble : babbles) {
+            babbleSet.add(babble);
+        }
+        
+        int result = 0;
+        
+        for(String babble : babbling) {
+            String before = "";
+            int length = 0;
+            for(int lt =0, rt = 2; rt <= babble.length(); rt++) {
+                String subStr = babble.substring(lt, rt);
+                if(subStr.equals(before)) break;
+                
+                if(babbleSet.contains(subStr)) {
+                    before = subStr;
+                    length += subStr.length();
+                    lt = rt;
                 }
-                if(flag) answer++;
+            }
+            if(length == babble.length()) {
+                result++;
             }
         }
         
-        return answer;
+        return result;
     }
 }
