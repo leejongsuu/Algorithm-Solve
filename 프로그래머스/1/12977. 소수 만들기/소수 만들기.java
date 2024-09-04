@@ -1,37 +1,31 @@
 class Solution {
     
-    static int answer = 0;
+    static int result = 0;
     
     public int solution(int[] nums) {
-        int len = nums.length;
-        DFS(0, 0, 0, len, nums);
-        return answer;
+        DFS(0, 0, 0, nums);
+        return result;
     }
     
-    private void DFS(int L, int sum, int start, int len, int[] nums) {
-        
+    private void DFS(int L, int start, int sum, int[] nums) {
         if(L == 3) {
             if(isPrime(sum)) {
-                answer++;
+                result++;
             }
             return;
         }
         
-        for(int i = start; i < len; i++) {
-            DFS(L+1, sum + nums[i], i+1, len, nums);
+        for(int i = start; i < nums.length; i++) {
+            DFS(L+1, i+1, sum + nums[i], nums);
         }
     }
     
-    private boolean isPrime(int n) {
-        
-        if(n == 1 || n % 2 == 0) return false;
-        
-        for(int i = 3; i < n; i += 2) {
-            if(n % i == 0) {
+    private boolean isPrime(int num) {
+        for(int i = 2; i < num; i++) {
+            if(num % i == 0) {
                 return false;
             }
         }
-        
         return true;
     }
 }
