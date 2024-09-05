@@ -1,31 +1,19 @@
 class Solution {
     public int solution(int n) {
         
-        int count = 0;
+        int result = 0;
         
+        boolean[] isNotPrime = new boolean[n+1];
         for(int i = 2; i <= n; i++) {
-            if(isPrime(i)) {
-                count++;
+            if(!isNotPrime[i]) {
+                result++;
+                for(int j = 2; i * j <= n; j++) {
+                    isNotPrime[i * j] = true;
+                }
             }
         }
         
-        return count;
-    }
-    
-    private boolean isPrime(int num) {
+        return result;
         
-        if(num == 2) {
-            return true;
-        }
-        else if(num % 2 == 0) {
-            return false;
-        } else {
-            int sqrt = (int) Math.sqrt(num);
-            for(int i = 3; i <= sqrt; i+=2) {
-                if(num % i ==0) return false;
-            }
-        }
-        
-        return true;
     }
 }
