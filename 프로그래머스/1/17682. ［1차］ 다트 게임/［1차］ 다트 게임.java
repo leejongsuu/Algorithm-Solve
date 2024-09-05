@@ -1,50 +1,41 @@
-import java.util.Arrays;
+import java.util.Stack;
 
 class Solution {
     public int solution(String dartResult) {
-        int i, index;
-        int len = dartResult.length();
+
+        Stack<Integer> stack = new Stack<>();
         
-        i = index = 0;
-        
-        int[] scores = new int[3];
-        
-        while(i < len) {
-            int score = 0;
-            if(Character.isDigit(dartResult.charAt(i+1))) {
-                score = 10;
-                i+=2;
-            } else {
-                score = dartResult.charAt(i) - '0';
-                i++;
+        for(int i = 0; i < dartResult.length(); i++) {
+            char ch = dartResult.charAt(i);
+            if(Character.isDigit(ch)) {
+                if(ch == '1' && dartResult.charAt(i+1) == '0') {
+                    stack.push(10);
+                    i++;
+                } else {
+                    stack.push(ch - '0');    
+                }
+                continue;
             }
-            
-            char bonus = dartResult.charAt(i);
-            if(bonus == 'S') {
-                scores[index] = score;
-            } else if(bonus == 'D') {
-                scores[index] = score * score;
-            } else if(bonus == 'T') {
-                scores[index] = score * score * score;
-            }
-            i++;
-            
-            if(i < len) {
-                char option = dartResult.charAt(i);
-                if(option == '*') {
-                    scores[index] *=2;
-                    if(index > 0) {
-                        scores[index-1] *=2;
+            switch(ch) {
+                case 'D' -> stack.push((int) Math.pow(stack.pop(), 2));
+                case 'T' -> stack.push((int) Math.pow(stack.pop(), 3));
+                case '#' -> stack.push(-1 * stack.pop());
+                case '*' -> {
+                    int second = stack.pop();
+                    if(!stack.isEmpty()) {
+                        int first = stack.pop();
+                        stack.push(first * 2);
                     }
-                    i++;
-                } else if(option == '#') {
-                    scores[index] *= -1;
-                    i++;
+                    stack.push(second * 2);
                 }
             }
-            index++;
         }
         
-        return Arrays.stream(scores).sum();
+        int result = 0;
+        for(int value : stack) {
+            result+= value;
+        }
+        
+        return result;
     }
 }
