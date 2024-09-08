@@ -1,26 +1,32 @@
 class Solution {
     public int solution(String s) {
+        
         int result = 0;
-        int i = 0;
-        int len = s.length();
-        while(i < len) {
-            char c = s.charAt(i++);
-            int lt = 1;
-            int rt = 0;
+        
+        int lCount = 0;
+        int rCount = 0;
+        for(int lt = 0, rt =0; rt < s.length(); rt++) {
             
-            while(rt != lt) {
-                if(i == len) break;
-                if(s.charAt(i) == c) {
-                    lt++;
-                } else {
-                    rt++;
-                }
-                i++;
+            if(lt == rt) {
+                lCount++;
+                continue;
             }
+            
+            if(s.charAt(lt) == s.charAt(rt)) {
+                lCount++;
+            } else {
+                rCount++;
+            }
+            
+            if(lCount == rCount) {
+                result++;
+                lt = rt + 1;
+                lCount = rCount = 0;
+            }
+        }
+        
+        if(lCount > 0) {
             result++;
-            s = s.substring(i);
-            len = s.length();
-            i = 0;
         }
         
         return result;
