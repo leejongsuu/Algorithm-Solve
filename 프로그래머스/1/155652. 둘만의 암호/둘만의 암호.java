@@ -1,25 +1,29 @@
+import java.util.HashSet;
+
 class Solution {
     public String solution(String s, String skip, int index) {
         
-        boolean[] visited = new boolean[26];
-        for(int i = 0; i < skip.length(); i++) {
-            visited[skip.charAt(i) - 'a'] = true;
+        int len = s.length();
+        char[] result = new char[len];
+        
+        HashSet<Character> skipSet = new HashSet<>();
+        for(char c : skip.toCharArray()) {
+            skipSet.add(c);
         }
         
-        char[] result = s.toCharArray();
-        for(int i = 0; i < result.length; i++) {
-            
-            int j = result[i] - 'a';
+        for(int i = 0; i < len; i++) {
+            char c = s.charAt(i);
             int cnt = 0;
             while(cnt < index) {
-                if(visited[++j % 26]) continue;
-                cnt++;
+                c = (char) ((int) c + 1);
+                if(c > 'z') c = 'a';
+                
+                if(skipSet.contains(c)) continue;
+                else cnt++;
             }
-            j %= 26;
-            result[i] = (char) (j + 'a');
+            result[i] = c;
         }
         
-        return new String(result);
-    
+        return String.valueOf(result);
     }
 }
