@@ -1,36 +1,43 @@
-import java.util.Arrays;
+import java.util.HashMap;
 
 class Solution {
+
     public int[] solution(String[] keymap, String[] targets) {
         
-        final int INF = 101;
-        int[] alphabet = new int[26];
-        Arrays.fill(alphabet, INF);
-        
-        for(String key : keymap) {
-            int len = key.length();
-            for(int i = 0; i < len; i++) {
-                int index = key.charAt(i) - 'A';
-                alphabet[index] = Math.min(alphabet[index], i + 1);
+        HashMap<Character, Integer> keyCountMap = new HashMap<>();
+        for(int i = 0; i < keymap.length; i++) {
+            for(int j = 0; j < keymap[i].length(); j++) {
+                char key = keymap[i].charAt(j);
+                if(!keyCountMap.containsKey(key)) {
+                    keyCountMap.put(key, j + 1);
+                } else {
+                    keyCountMap.put(key, Math.min(j + 1, keyCountMap.get(key)));    
+                }
             }
         }
         
         int len = targets.length;
         int[] result = new int[len];
         for(int i = 0; i < len; i++) {
-            int target_len = targets[i].length();
-            int sum = 0;
-            for(int j = 0; j < target_len; j++) {
-                int index = targets[i].charAt(j) - 'A';
-                if(alphabet[index] == INF) {
-                    sum = -1;
-                    break;
-                }
-                sum += alphabet[index];
-            }
-            result[i] = sum;
+            result[i] = getClickCount(keyCountMap, targets[i]);
         }
         
         return result;
     }
+    
+    private int getClickCount(HashMap<Character, Integer> keyCountMap, String target) {
+        
+        int count = 0;
+        
+        for(char key : target.toCharArray()) {
+            if(!keyCountMap.containsKey(key)) {
+                return -1;
+            }
+            
+            count += keyCountMap.get(key);
+        }
+        
+        return count;
+    }
+    
 }
