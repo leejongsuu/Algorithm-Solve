@@ -1,29 +1,23 @@
-import java.util.HashSet;
-
 class Solution {
     public String solution(String s, String skip, int index) {
+        boolean[] alphabet = new boolean[26];
+        for(char c : skip.toCharArray()) {
+            alphabet[c - 'a'] = true;
+        }
         
         int len = s.length();
         char[] result = new char[len];
-        
-        HashSet<Character> skipSet = new HashSet<>();
-        for(char c : skip.toCharArray()) {
-            skipSet.add(c);
-        }
-        
         for(int i = 0; i < len; i++) {
-            char c = s.charAt(i);
+            char word = s.charAt(i);
+            int j = word - 'a';
             int cnt = 0;
             while(cnt < index) {
-                c = (char) ((int) c + 1);
-                if(c > 'z') c = 'a';
-                
-                if(skipSet.contains(c)) continue;
-                else cnt++;
+                if(!alphabet[(++j) % 26]) {
+                    cnt++;
+                }
             }
-            result[i] = c;
+            result[i] = (char) ((j % 26) + 'a');
         }
-        
         return String.valueOf(result);
     }
 }
