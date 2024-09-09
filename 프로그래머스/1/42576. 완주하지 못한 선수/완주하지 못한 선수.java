@@ -2,22 +2,21 @@ import java.util.HashMap;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        
-        HashMap<String, Integer> map = new HashMap<>();
-        for(String key : participant) {
-            map.put(key, map.getOrDefault(key, 0) + 1);
+        HashMap<String, Integer> personNameMap = new HashMap<>();
+        for(String name : participant) {
+            personNameMap.put(name, personNameMap.getOrDefault(name, 0) + 1);
         }
         
-        for(String key : completion) {
-            map.put(key, map.get(key) - 1);
+        for(String name : completion) {
+            personNameMap.put(name, personNameMap.get(name) - 1);
         }
         
-        for(String key : map.keySet()) {
-            if(map.get(key) > 0) {
-                return key;
+        for(String name : personNameMap.keySet()) {
+            if(personNameMap.get(name) > 0) {
+                return name;
             }
         }
         
-        return "";
+        return "없음";
     }
 }
