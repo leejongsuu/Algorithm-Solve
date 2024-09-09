@@ -1,25 +1,29 @@
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
         
-        int[] result = new int[n+2];
-        for(int i : lost) result[i]--;
-        for(int i : reserve) result[i]++;
+        int result = n;
+        int[] clothes = new int[n+2];
         
-        int answer = 0;
-        for(int i = 1; i <= n; i++) {
-            if(result[i] < 0) {
-                if(result[i-1] > 0) {
-                    result[i-1]--;
-                    result[i]++;
-                } else if(result[i+1] > 0) {
-                    result[i+1]--;
-                    result[i]++;
-                }
-            }
-            
-            if(result[i] >= 0) answer++;
+        for(int number : lost) {
+            clothes[number]--;
         }
         
-        return answer;
+        for(int number : reserve) {
+            clothes[number]++;
+        }
+        
+        for(int i = 1; i <= n; i++) {
+            if(clothes[i] < 0) {
+                if(clothes[i-1] > 0) {
+                    clothes[i-1]--;
+                } else if(clothes[i+1] > 0) {
+                    clothes[i+1]--;
+                } else {
+                    result--;
+                }
+            }
+        }
+        
+        return result;
     }
 }
