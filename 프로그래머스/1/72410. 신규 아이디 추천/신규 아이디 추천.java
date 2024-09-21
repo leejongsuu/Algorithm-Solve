@@ -1,66 +1,69 @@
 class Solution {
     public String solution(String new_id) {
-        String answer = new KAKAOID(new_id)
-            .replaceToLowerCase()
-            .filter()
-            .singleDot()
-            .removeFirstEndDot()
-            .emptyThenAdd()
-            .lengthThan16()
-            .lengthLess2()
-            .getKAKAOID();
-            
-        return answer;
+
+        String s = new KAKAOID(new_id)
+                .replaceToLowerCase()
+                .filter()
+                .toSingleDot()
+                .noStartEndDot()
+                .noBlank()
+                .noGreaterThan16()
+                .noLessThan2()
+                .getResult();
+
+        return s;
     }
-    
-    private class KAKAOID {
+
+    private static class KAKAOID {
         private String s;
-        
+
         KAKAOID(String s) {
             this.s = s;
         }
-        
-        public KAKAOID replaceToLowerCase() {
+
+        private KAKAOID replaceToLowerCase() {
             s = s.toLowerCase();
             return this;
         }
-        
-        public KAKAOID filter() {
-            s = s.replaceAll("[^a-z0-9-._]", "");
+
+        private KAKAOID filter() {
+            s = s.replaceAll("[^a-z0-9._-]", "");
             return this;
         }
-        
-        public KAKAOID singleDot() {
+
+        private KAKAOID toSingleDot() {
             s = s.replaceAll("[.]{2,}", ".");
             return this;
         }
-        
-        public KAKAOID removeFirstEndDot() {
+
+        private KAKAOID noStartEndDot() {
             s = s.replaceAll("^[.]|[.]$", "");
             return this;
         }
-        
-        public KAKAOID emptyThenAdd() {
-            if(s.isEmpty()) s = "a";
+
+        private KAKAOID noBlank() {
+            s = s.isEmpty() ? "a" : s;
             return this;
         }
-        
-        public KAKAOID lengthThan16() {
-            if(s.length() >= 16) s = s.substring(0, 15);
+
+        private KAKAOID noGreaterThan16() {
+            if (s.length() >= 16) {
+                s = s.substring(0, 15);
+            }
             s = s.replaceAll("[.]$", "");
             return this;
         }
-        
-        public KAKAOID lengthLess2() {
-            StringBuilder sb = new StringBuilder(s);
-            while(sb.length() <= 2) {
-                sb.append(sb.charAt(sb.length()-1));
+
+        private KAKAOID noLessThan2() {
+            StringBuilder sBuilder = new StringBuilder(s);
+            while (sBuilder.length() <= 2) {
+                sBuilder.append(sBuilder.charAt(sBuilder.length() - 1));
             }
-            s = sb.toString();
+            s = sBuilder.toString();
             return this;
         }
-        
-        public String getKAKAOID() {
+
+        private String getResult() {
             return s;
         }
     }
