@@ -1,34 +1,35 @@
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 class Solution {
     public int[] solution(String today, String[] terms, String[] privacies) {
         
-        HashMap<String, Integer> termMap = new HashMap<>();
-        ArrayList<Integer> result = new ArrayList<>();
-        int date = calculateDate(today);
+        ArrayList<Integer> list = new ArrayList<>();
         
+        HashMap<Character, Integer> termsMap = new HashMap<>();
         for(String term : terms) {
             String[] splited = term.split(" ");
-            termMap.put(splited[0], Integer.parseInt(splited[1]) * 28);
+            termsMap.put(splited[0].charAt(0), Integer.valueOf(splited[1]) * 28);
         }
+        
+        int INF = calculateDate(today);
         
         for(int i = 0; i < privacies.length; i++) {
             String[] splited = privacies[i].split(" ");
-            if(date >= calculateDate(splited[0]) + termMap.get(splited[1])) {
-                result.add(i + 1);
+            
+            if(INF >= calculateDate(splited[0]) + termsMap.get(splited[1].charAt(0))) {
+                list.add(i + 1);
             }
         }
-        
-        return result.stream().mapToInt(Integer::intValue).toArray();
+        return list.stream().mapToInt(Integer::intValue).toArray();
     }
     
     private int calculateDate(String str) {
-        String[] splited = str.split("[.]");
+        String[] date = str.split("[.]");
         
-        int year = Integer.parseInt(splited[0]);
-        int month = Integer.parseInt(splited[1]);
-        int day = Integer.parseInt(splited[2]);
+        int year = Integer.parseInt(date[0]);
+        int month = Integer.parseInt(date[1]);
+        int day = Integer.parseInt(date[2]);
         
         return (year * 28 * 12) + (month * 28) + day;
     }
