@@ -1,9 +1,8 @@
-import java.util.Map;
 import java.util.HashMap;
 
 class Solution {
     
-    static class Point {
+    class Point {
         int y, x;
         
         public Point(int y, int x) {
@@ -16,69 +15,47 @@ class Solution {
             this.x = x;
         }
     }
+    static int n, m;
     
     public int[] solution(String[] park, String[] routes) {
         
-        Map<String, Point> dirMap = new HashMap<>();
-        init(dirMap);
+        n = park.length;
+        m = park[0].length();
         
-        int n = park.length;
-        int m = park[0].length();
+        HashMap<Character, Point> dirMap = new HashMap<>();
+        dirMap.put('N', new Point(-1, 0));
+        dirMap.put('S', new Point(1, 0));
+        dirMap.put('W', new Point(0, -1));
+        dirMap.put('E', new Point(0, 1));
         
-        Point current = getStartPoint(n, m, park);
+        Point point = getStartPoint(park);
         
         for(String route : routes) {
-            String[] dir = route.split(" ");
+            String[] splited = route.split(" ");
             
-            Point next = dirMap.get(dir[0]);
-            int ny = current.y + next.y * Integer.parseInt(dir[1]);
-            int nx = current.x + next.x * Integer.parseInt(dir[1]);
+            Point dirPoint = dirMap.get(splited[0].charAt(0));
+            int cnt = Integer.parseInt(splited[1]);
             
-            if(isIn(ny, nx, n, m)) {
+            int ny = point.y + (dirPoint.y * cnt);
+            int nx = point.x + (dirPoint.x * cnt);
+            
+            if(isIn(ny, nx)) {
                 boolean flag = true;
-                switch (dir[0]) {
-                        case "N" -> 
-                            flag = isBlocked(park, ny, current.y, current.x, nx);
-                        case "S" -> 
-                            flag = isBlocked(park, current.y, ny, nx, current.x);
-                        case "E" -> 
-                            flag = isBlocked(park, current.y, ny, current.x, nx);
-                        case "W" -> 
-                            flag = isBlocked(park, current.y, ny, nx, current.x);
+                switch(splited[0].charAt(0)) {
+                    case 'N' -> flag = isNotBlocked(ny, point.y , nx, point.x, park);
+                    case 'S' -> flag = isNotBlocked(point.y, ny, nx, point.x, park);
+                    case 'W' -> flag = isNotBlocked(ny, point.y , nx, point.x, park);
+                    case 'E' -> flag = isNotBlocked(ny, point.y , point.x, nx, park);   
                 }
-                if(!flag) {
-                    current.setPoint(ny, nx);
+                if(flag) {
+                    point.setPoint(ny, nx);
                 }
             }
         }
-        
-        return new int[]{current.y, current.x};
+        return new int[]{point.y, point.x};
     }
     
-    private boolean isBlocked(String[] park, int y1, int y2, int x1, int x2) {
-        for(int i = y1; i <= y2; i++) {
-            for(int j = x1; j <= x2; j++) {
-                if(park[i].charAt(j) == 'X') {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
-    
-    private boolean isIn(int y, int x, int n, int m) {
-        return y >= 0 && x >= 0 && y < n && x < m;
-    }
-    
-    private void init(Map<String, Point> dirMap) {
-        dirMap.put("N", new Point(-1, 0));
-        dirMap.put("S", new Point(1, 0));
-        dirMap.put("E", new Point(0, 1));
-        dirMap.put("W", new Point(0, -1));
-    }
-    
-    private Point getStartPoint(int n, int m, String[] park) {
+    private Point getStartPoint(String[] park) {
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < m; j++) {
                 if(park[i].charAt(j) == 'S') {
@@ -88,5 +65,23 @@ class Solution {
         }
         return new Point(-1, -1);
     }
+    
+    private boolean isIn(int y, int x) {
+        return y >= 0 && x >= 0 && y < n && x < m;
+    }
+    
+    private boolean isNotBlocked(int y1, int y2, int x1, int x2, String[] park) {
+        
+        boolean flag = true;
+        for(int i = y1; i <= y2; i++) {
+            for(int j = x1; j <= x2; j++) {
+                if(park[i].charAt(j) == 'X') {
+                    return false;
+                }
+            }
+        }
+        return flag;
+    }
+    
     
 }
