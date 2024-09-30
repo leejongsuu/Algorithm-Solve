@@ -1,34 +1,42 @@
 import java.util.HashMap;
+
 class Solution {
     public int solution(String[] friends, String[] gifts) {
         
-        HashMap<String, Integer> indexMap = new HashMap<>();
         int size = friends.length;
+        int[][] giftArr = new int[size][size];
+        int[] giftIndex = new int[size]; // 선물 지수
+        
+        HashMap<String, Integer> indexMap = new HashMap<>();
         for(int i = 0; i < size; i++) {
             indexMap.put(friends[i], i);
         }
         
-        int[] index = new int[size];
-        int[][] record = new int[size][size];
         for(String gift : gifts) {
             String[] splited = gift.split(" ");
-            int to = indexMap.get(splited[0]);
-            int from = indexMap.get(splited[1]);
+            int from = indexMap.get(splited[0]);
+            int to = indexMap.get(splited[1]);
             
-            index[to]++;
-            index[from]--;
-            record[to][from]++;
+            giftArr[from][to]++;
+            giftIndex[from]++;
+            giftIndex[to]--;
         }
         
         int max = 0;
-        for(int i = 0; i < record.length; i++) {
-            int count = 0;
-            for(int j = 0; j < record[i].length; j++) {
+        for(int i = 0; i < size; i++) {
+            int gift = 0;
+            
+            for(int j = 0; j < size; j++) {
                 if(i == j) continue;
-                if(record[i][j] > record[j][i]) count++;
-                else if(record[i][j] == record[j][i] && index[i] > index[j]) count++;
+                if(giftArr[i][j] > giftArr[j][i]) {
+                    gift++;
+                } else if(giftArr[i][j] == giftArr[j][i]) {
+                    if(giftIndex[i] > giftIndex[j]) {
+                        gift++;
+                    }
+                }
             }
-            max = Math.max(max, count);
+            max = Math.max(max, gift);
         }
         
         return max;
