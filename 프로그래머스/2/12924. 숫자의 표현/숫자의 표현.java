@@ -1,21 +1,17 @@
 class Solution {
     public int solution(int n) {
+        return getOdd(n);
+    }
+    
+    private int getOdd(int n) {
+        int count = 0;
         
-        int result = 0;
-        int sum = 0;
-        
-        for(int lt = 1, rt = 1; rt <=n; rt++) {
-            sum += rt;
-            while(sum > n) {
-                sum -= lt;
-                lt++;
-            }
-            
-            if(sum == n) {
-                result++;
+        for(int i = 1; i <= n; i+=2) {
+            if(n % i == 0) {
+                count++;
             }
         }
         
-        return result;
+        return count;
     }
 }
