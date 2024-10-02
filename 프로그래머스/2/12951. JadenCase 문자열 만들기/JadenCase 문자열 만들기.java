@@ -1,22 +1,22 @@
 class Solution {
     public String solution(String s) {
-        StringBuilder sb = new StringBuilder();
-        boolean isStartOfWord = true;
+        char[] ch = s.toCharArray();
+        boolean isStartOfWord  = true;
         
-        for(char c : s.toCharArray()) {
-            if(c == ' ') {
+        for(int i = 0; i < ch.length; i++) {
+            if(ch[i] == ' ') {
                 isStartOfWord = true;
-                sb.append(c);
+                continue;
             } else {
                 if(isStartOfWord) {
-                    sb.append(Character.toUpperCase(c));
+                    ch[i] = Character.toUpperCase(ch[i]);
                 } else {
-                    sb.append(Character.toLowerCase(c));
+                    ch[i] = Character.toLowerCase(ch[i]);
                 }
                 isStartOfWord = false;
             }
         }
         
-        return sb.toString();
+        return String.valueOf(ch);
     }
 }
