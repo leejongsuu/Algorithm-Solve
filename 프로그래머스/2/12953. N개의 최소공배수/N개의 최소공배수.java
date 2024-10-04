@@ -1,23 +1,25 @@
 class Solution {
     public int solution(int[] arr) {
-        
-        int inc = arr[0];
-        
-        for(int i= 1; i < arr.length; i++) {
-            int gcd = getGcd(inc, arr[i]);
-            inc = (inc * arr[i]) / gcd;
+    
+        int inc = 1;
+        for(int num : arr) {
+            int gcd = getGcd(inc, num);
+            inc = (num * inc) / gcd;
         }
         
         return inc;
     }
     
     private int getGcd(int a, int b) {
-        int temp = b;
+        
+        int temp = 0;
+        
         while(b > 0) {
             temp = b;
             b = a % b;
             a = temp;
         }
+        
         return a;
     }
 }
