@@ -1,21 +1,21 @@
-import java.util.Arrays;
+import java.util.*;
 
 class Solution {
     public int solution(int[] citations) {
         
-        int len = citations.length;
-        
         Arrays.sort(citations);
         
+        int len = citations.length;
         int lo = 0;
         int hi = citations[len - 1];
         
         while(lo < hi) {
             int mid = (lo + hi) / 2;
-            
-            int cnt = 0;
-            for(int i : citations) {
-                if(i>=mid) cnt++;
+            int cnt = len;
+            for(int c : citations) {
+                if(c < mid) {
+                    cnt--;
+                }
             }
             
             if(cnt >= mid) {
@@ -25,6 +25,6 @@ class Solution {
             }
         }
         
-        return lo > 0 ? lo - 1 : 0;
+        return lo == 0 ? 0 : lo - 1;
     }
 }
