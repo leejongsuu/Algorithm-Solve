@@ -3,14 +3,14 @@ import java.util.*;
 class Solution {
     public int solution(int[] elements) {
         
-        int size = elements.length;
-        
         Set<Integer> elementSet = new HashSet<>();
-        int[] dp = new int[size];
         
-        for(int len = 1; len <= size; len++) {
-            for(int i = 0; i < size; i++) {
-                dp[i] += elements[(len + i -1) % size];
+        int max_len = elements.length;
+        int[] dp = new int[max_len];
+        
+        for(int len = 1; len <= max_len; len++) {
+            for(int i = 0; i < max_len; i++) {
+                dp[i] += elements[(i + len - 1) % max_len];
                 elementSet.add(dp[i]);
             }
         }
