@@ -2,29 +2,38 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
+    
+        int len = progresses.length;
+        int[] days = new int[len];
+    
+        Map<Integer, Integer> map = new HashMap<>();
         
-        Queue<Integer> Q = new LinkedList<>(); // 각 작업의 배포일을 저장할 큐 생성
-        ArrayList<Integer> list = new ArrayList<>(); // 각 배포마다 배포되는 작업의 수를 저장할 리스트 생성
-        
-        // 각 작업의 진도와 속도를 이용하여 각 작업이 몇 일 후에 배포될 수 있는지를 계산하고 큐에 저장
-        for(int i=0; i<speeds.length; i++) {
-            double remain = 100 - progresses[i]; // 남은 진도 계산
-            double fNeedDay = remain / speeds[i]; // 필요한 일 수 계산 (실수 형태)
-            
-            int date = (int) Math.ceil(fNeedDay); // 필요한 일 수를 올림하여 정수로 변환하여 배포일 계산
-            
-            // 이전 작업의 배포일보다 현재 작업의 배포일이 크면
-            // 이전 작업까지의 작업 수를 리스트에 추가하고, 큐를 비움
-            if(!Q.isEmpty() && Q.peek() < date) {
-                list.add(Q.size());
-                Q.clear();
+        for(int i = 0; i < len; i++) {
+            int remain = 100 - progresses[i];
+            int day = remain / speeds[i];
+            if(remain % speeds[i] != 0) {
+                day++;
             }
-            
-            // 현재 작업의 배포일을 큐에 추가
-            Q.offer(date);
+            days[i] = day;
         }
-        list.add(Q.size()); // 마지막 작업까지의 작업 수를 리스트에 추가
         
-        return list.stream().mapToInt(Integer::intValue).toArray(); // 결과 반환
+        int max = 0;
+        int key = 0;
+        for(int day : days) {
+            if(day > max) {
+                map.put(++key, 1);
+                max = day;
+            } else {
+                map.put(key, map.get(key) + 1);
+            }
+        }
+        
+        int[] result = new int[map.size()];
+        int index = 0;
+        for(int value : map.values()) {
+            result[index++] = value;
+        }
+        
+        return result;
     }
 }
