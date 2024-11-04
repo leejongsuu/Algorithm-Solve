@@ -1,48 +1,38 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
-
-class Note {
-    int id, pt;
-
-    public Note(int id, int pt) {
-        this.id = id;
-        this.pt = pt;
-    }
-}
+import java.util.StringTokenizer;
 
 public class Main {
 
-    public static int solution(int n, int m, String[] priority) {
+    static class Docs {
+        int index;
+        int priority;
 
-        Queue<Note> Q = new LinkedList<>();
-
-        for (int i = 0; i < n; i++) {
-            Q.offer(new Note(i, Integer.parseInt(priority[i])));
+        public Docs(int index, int priority) {
+            this.index = index;
+            this.priority = priority;
         }
+    }
 
-        int cnt = 1;
-        while (!Q.isEmpty()) {
-            Note temp = Q.poll();
-            boolean check = true;
+    public static int solution(int n, int m, int[] arr, Queue<Docs> queue) {
 
-            for (Note nQ : Q) {
-                if (nQ.pt > temp.pt) {
-                    Q.offer(temp);
-                    check = false;
-                    break;
+        Arrays.sort(arr);
+
+        int i = 1;
+        while (!queue.isEmpty()) {
+            Docs current = queue.poll();
+            if (current.priority == arr[n - i]) {
+                if (current.index == m) {
+                    return i;
                 }
+                i++;
+                continue;
             }
-
-            if (check) {
-                if (temp.id == m) {
-                    return cnt;
-                } else {
-                    cnt++;
-                }
-            }
+            queue.offer(current);
         }
 
         return -1;
@@ -54,15 +44,24 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
-        String[] input;
-        String[] priority;
-
         for (int i = 0; i < T; i++) {
-            input = br.readLine().split(" ");
-            priority = br.readLine().split(" ");
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            int n = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
 
-            sb.append(solution(Integer.parseInt(input[0]),
-                    Integer.parseInt(input[1]), priority)).append('\n');
+            int[] arr = new int[n];
+
+            Queue<Docs> queue = new LinkedList<>();
+            st = new StringTokenizer(br.readLine(), " ");
+
+            for (int j = 0; j < n; j++) {
+                int pri = Integer.parseInt(st.nextToken());
+                arr[j] = pri;
+                queue.offer(new Docs(j, pri));
+            }
+
+            int result = solution(n, m, arr, queue);
+            sb.append(result).append('\n');
         }
 
         System.out.println(sb);
