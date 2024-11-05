@@ -3,25 +3,25 @@ import java.util.*;
 class Solution {
     public int[] solution(String s) {
         
-        Set<Integer> tuple = new HashSet<>();
-        
         String[] strArr = s.replaceAll("[{}]", " ").trim().split(" , ");
-        Arrays.sort(strArr, (o1, o2) -> o1.length() - o2.length());
         
+        Set<Integer> set = new HashSet<>();
         int size = strArr.length;
         int[] result = new int[size];
         
+        Arrays.sort(strArr, (o1, o2) -> o1.length() - o2.length());
+        
         for(int i = 0; i < size; i++) {
             String[] elements = strArr[i].split(",");
-            for(int j = 0; j < elements.length; j++) {
-                int element = Integer.parseInt(elements[j]);
-                if(tuple.add(element)) {
-                    result[i] = element;
+            for(String element : elements) {
+                int iNum = Integer.parseInt(element);
+                if(set.add(iNum)) {
+                    result[i] = iNum;
                     break;
                 }
             }
         }
-        
+            
         return result;
     }
 }
