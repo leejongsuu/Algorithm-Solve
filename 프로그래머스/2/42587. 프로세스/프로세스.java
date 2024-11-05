@@ -1,46 +1,37 @@
 import java.util.*;
 
 class Solution {
-    
     class Process {
-        int pr, index;
+        int index;
+        int priority;
         
-        public Process(int pr, int index) {
-            this.pr = pr;
+        public Process(int index, int priority) {
             this.index = index;
+            this.priority = priority;
         }
     }
-    
     public int solution(int[] priorities, int location) {
-        int answer = 0;
         
-        Queue<Process> Q = new LinkedList<>();
-        for(int i=0; i < priorities.length; i++) {
-            Q.offer(new Process(priorities[i], i));
+        Queue<Process> queue = new LinkedList<>();
+        int len = priorities.length;
+        for(int i = 0; i < len; i++) {
+            queue.offer(new Process(i, priorities[i]));
         }
         
         Arrays.sort(priorities);
-        // priorities 배열을 내림차순으로 뒤집습니다.
-        for (int i = 0; i < priorities.length / 2; i++) {
-            int temp = priorities[i];
-            priorities[i] = priorities[priorities.length - 1 - i];
-            priorities[priorities.length - i - 1] = temp;
-        }
-        int ix = 0;
         
-        while (!Q.isEmpty()) {
-            Process now = Q.poll();
-            if(now.pr == priorities[ix]) {
-                ix++;
-                if(location == now.index) {
-                    answer = ix;
-                    break;
+        for(int i = 1; !queue.isEmpty();) {
+            Process current = queue.poll();
+            if(current.priority == priorities[len - i]) {
+                if(current.index == location) {
+                    return i;
                 }
-            } else {
-                Q.offer(now);
+                i++;
+                continue;
             }
+            queue.offer(current);
         }
         
-        return answer;
+        return -1;
     }
 }
