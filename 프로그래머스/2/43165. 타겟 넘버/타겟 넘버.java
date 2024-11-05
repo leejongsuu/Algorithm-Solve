@@ -1,14 +1,26 @@
 class Solution {
+    
+    int len;
+    int result;
+    
     public int solution(int[] numbers, int target) {
-        return DFS(0, 0, numbers, target);
+        len = numbers.length;
+        result = 0;
+        
+        DFS(0, 0, numbers, target);
+        
+        return result;
     }
     
-    public int DFS(int L, int sum, int[] numbers, int target) {
-        if(L == numbers.length) {
-            if(sum == target) return 1;
-            else return 0;
-        } else {
-            return DFS(L+1, sum + numbers[L], numbers, target) + DFS(L+1, sum - numbers[L], numbers, target);
-        }
+    private void DFS(int L, int sum, int[] numbers, int target) {
+        if(len == L) {
+            if(sum == target) {
+                result++;
+            }
+            return;
+        }        
+        
+        DFS(L + 1, sum + numbers[L], numbers, target);
+        DFS(L + 1, sum - numbers[L], numbers, target);
     }
 }
