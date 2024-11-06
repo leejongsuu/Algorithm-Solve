@@ -5,21 +5,19 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int min;
-    static int[][][] dp;
+    static int min = Integer.MAX_VALUE;
     static int[][] damage = {{9, 3, 1}, {9, 1, 3}, {3, 9, 1}, {3, 1, 9}, {1, 9, 3}, {1, 3, 9}};
+    static int[][][] dp = new int[61][61][61];
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        min = Integer.MAX_VALUE;
-        dp = new int[61][61][61];
-
+        int[] scv = new int[3];
+        
         int n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-        int[] scv = new int[3];
         for (int i = 0; i < n; i++) {
             scv[i] = Integer.parseInt(st.nextToken());
         }
@@ -37,14 +35,12 @@ public class Main {
         int s2 = scv[1];
         int s3 = scv[2];
 
-        if (dp[s1][s2][s3] != 0 && dp[s1][s2][s3] <= cnt) {
-            return;
-        }
+        if (dp[s1][s2][s3] != 0 && dp[s1][s2][s3] <= cnt) return;
 
         dp[s1][s2][s3] = cnt;
 
         if (s1 == 0 && s2 == 0 && s3 == 0) {
-            min = Math.min(min, cnt);
+            min = cnt;
             return;
         }
 
