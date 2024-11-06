@@ -4,7 +4,6 @@ class Solution {
     public int solution(String str1, String str2) {
         
         final int INF = 65536;
-        
         int sum = 0;
         int interSection = 0;
         
@@ -12,15 +11,16 @@ class Solution {
         Map<String, Integer> map2 = solution(str2);
         
         for(String key : map1.keySet()) {
-            int value = map1.get(key);
+            int value1 = map1.get(key);
             int i = 0;
-            int s = value;
+            int s = value1;
             if(map2.containsKey(key)) {
                 int value2 = map2.get(key);
-                i = Math.min(value, value2);
-                s = Math.max(value, value2);
+                i = Math.min(value1, value2);
+                s = Math.max(value1, value2);
                 map2.remove(key);
             }
+            
             interSection += i;
             sum += s;
         }
@@ -33,16 +33,17 @@ class Solution {
             interSection = 1;
             sum = 1;
         }
+        
         double similarity = (double) interSection / sum;
         return (int) (similarity * INF);
     }
     
     private Map<String, Integer> solution(String str) {
         
+        Map<String, Integer> map = new HashMap<>();
+        
         str = str.toLowerCase();
         int len = str.length();
-        
-        Map<String, Integer> map = new HashMap<>();
         
         for(int i = 0; i < len - 1; i++) {
             String temp = str.substring(i, i+2);
