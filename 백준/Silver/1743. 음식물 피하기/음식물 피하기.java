@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int n, m, cnt;
+    static int n, m, size;
     static int[] dy = new int[]{1, 0, -1, 0};
     static int[] dx = new int[]{0, 1, 0, -1};
     static int result = Integer.MIN_VALUE;
@@ -17,11 +17,11 @@ public class Main {
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
         boolean[][] progs = new boolean[n][m];
 
-        for (int i = 0; i < K; i++) {
+        for (int i = 0; i < k; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             int y = Integer.parseInt(st.nextToken());
             int x = Integer.parseInt(st.nextToken());
@@ -31,9 +31,9 @@ public class Main {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (progs[i][j]) {
-                    cnt = 1;
-                    DFS(0, i, j, progs);
-                    result = Math.max(result, cnt);
+                    size = 1;
+                    DFS(i, j, progs);
+                    result = Math.max(result, size);
                 }
             }
         }
@@ -41,15 +41,15 @@ public class Main {
         System.out.println(result);
     }
 
-    private static void DFS(int size, int y, int x, boolean[][] progs) {
+    private static void DFS(int y, int x, boolean[][] progs) {
         progs[y][x] = false;
 
         for (int i = 0; i < 4; i++) {
             int ny = y + dy[i];
             int nx = x + dx[i];
             if (isIn(ny, nx) && progs[ny][nx]) {
-                cnt++;
-                DFS(size + 1, ny, nx, progs);
+                size++;
+                DFS(ny, nx, progs);
             }
         }
     }
