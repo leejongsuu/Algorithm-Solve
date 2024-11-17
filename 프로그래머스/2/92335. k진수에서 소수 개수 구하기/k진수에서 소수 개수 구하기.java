@@ -1,12 +1,11 @@
 class Solution {
     public int solution(int n, int k) {
-
-        int result = 0;
         String str = toChange(n, k);
+        String[] strArr = str.split("0+");
         
-        String[] splited = str.split("0+");
-        for(int i = 0; i < splited.length; i++) {
-            if(isPrime(Long.parseLong(splited[i]))) {
+        int result = 0;
+        for(String temp : strArr) {
+            if(isPrime(Long.parseLong(temp))) {
                 result++;
             }
         }
@@ -21,15 +20,14 @@ class Solution {
             n /= k;
         }
         sb.insert(0, n % k);
+        
         return sb.toString();
     }
     
     private boolean isPrime(long num) {
         if(num == 1) return false;
-        else {
-            for(int i = 3; i <= Math.sqrt(num); i+=2) {
-                if(num % i == 0) return false;
-            }
+        for(int i = 3; i <= Math.sqrt(num); i+=2) {
+            if(num % i == 0) return false;
         }
         return true;
     }
