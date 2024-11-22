@@ -4,10 +4,11 @@ class Solution {
     
     public String[] solution(String[] record) {
         
+        final String ENTER = "%s님이 들어왔습니다.";
+        final String LEAVE = "%s님이 나갔습니다.";
+        
         Map<String, String> userMap = new HashMap<>();
         Queue<String> queue = new LinkedList<>();
-        
-        StringBuilder sb = new StringBuilder();
         
         for(String str : record) {
             String[] strArr = str.split(" ");
@@ -32,9 +33,9 @@ class Solution {
             String command = strArr[0];
             String uid = strArr[1];
             if(command.equals("Enter")) {
-                result[i] = userMap.get(uid) +"님이 들어왔습니다.";
+                result[i] = String.format(ENTER, userMap.get(uid));
             } else {
-                result[i] = userMap.get(uid) +"님이 나갔습니다.";
+                result[i] = String.format(LEAVE, userMap.get(uid));
             }
         }
         
