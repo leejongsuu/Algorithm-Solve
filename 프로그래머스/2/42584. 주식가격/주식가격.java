@@ -7,21 +7,13 @@ class Solution {
         int N = prices.length;
         int[] result = new int[N];
         
-        Queue<Integer> queue = new LinkedList<>();
-        for(int price : prices) {
-            queue.offer(price);
-        }
-        
-        for(int i = 0; i < N; i++) {
-            int price = queue.poll();
-            int time = 0;
+        for(int i = 0; i < N - 1; i++) {
             for(int j = i + 1; j < N; j++) {
-                time++;
-                if(price > prices[j]) {
+                result[i]++;
+                if(prices[j] < prices[i]) {
                     break;
                 }
             }
-            result[i] = time;
         }
         
         return result;
