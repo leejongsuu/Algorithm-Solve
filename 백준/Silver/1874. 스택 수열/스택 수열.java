@@ -5,41 +5,41 @@ import java.util.Stack;
 
 public class Main {
 
-    public static String solution(int n, int max, int[] arr) {
-
-        StringBuilder sb = new StringBuilder();
-        Stack<Integer> stack = new Stack<>();
-
-        int lt = 0;
-        for (int rt = 1; rt <= max; rt++) {
-            stack.push(rt);
-            sb.append('+').append('\n');
-            while (lt < n && !stack.isEmpty() && arr[lt] == stack.peek()) {
-                stack.pop();
-                lt++;
-                sb.append('-').append('\n');
-            }
-        }
-        if (!stack.isEmpty()) return "NO";
-        else return sb.toString();
-    }
-
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
+        int N = Integer.parseInt(br.readLine());
 
-        int max = 0;
+        int[] sequence = new int[N];
+        int[] numbers = new int[N];
+        for (int i = 0; i < N; i++) {
+            sequence[i] = Integer.parseInt(br.readLine());
+            numbers[i] = i + 1;
+        }
 
-        for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
-            if (max < arr[i]) {
-                max = arr[i];
+        StringBuilder sb = new StringBuilder();
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0, j = 0; i < N; ) {
+            while (j < N && numbers[j] <= sequence[i]) {
+                stack.push(numbers[j]);
+                sb.append('+').append('\n');
+                j++;
+            }
+            while (!stack.isEmpty() && stack.peek() == sequence[i]) {
+                stack.pop();
+                sb.append('-').append('\n');
+                i++;
+            }
+            if (!stack.isEmpty() && stack.peek() > sequence[i]) {
+                System.out.println("NO");
+                return;
             }
         }
 
-        System.out.println(solution(n, max, arr));
+        sb.deleteCharAt(sb.length() - 1);
+        System.out.println(sb);
+
     }
 }
