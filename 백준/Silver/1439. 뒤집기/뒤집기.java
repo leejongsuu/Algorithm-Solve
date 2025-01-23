@@ -4,32 +4,31 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
 
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String S = br.readLine();
-        int len = S.length();
+        String input = br.readLine();
 
-        int countToAllZero = 0;
-        int countToAllOne = 0;
+        int zeroToOneCount = 0;
+        int oneToZeroCount = 0;
 
-        if (S.charAt(0) == '1') {
-            countToAllZero++;
+        if (input.charAt(0) == '0') {
+            zeroToOneCount++;
         } else {
-            countToAllOne++;
+            oneToZeroCount++;
         }
-        
-        for (int i = 0; i < len - 1; i++) {
-            if (S.charAt(i) != S.charAt(i + 1)) {
-                if (S.charAt(i + 1) == '1') {
-                    countToAllZero++;
+
+        for (int i = 0; i < input.length() - 1; i++) {
+            if (input.charAt(i) != input.charAt(i + 1)) {
+                if (input.charAt(i + 1) == '1') {
+                    oneToZeroCount++;
                 } else {
-                    countToAllOne++;
+                    zeroToOneCount++;
                 }
             }
         }
 
-        System.out.println(Math.min(countToAllZero, countToAllOne));
+        System.out.println(Math.min(oneToZeroCount, zeroToOneCount));
     }
 }
