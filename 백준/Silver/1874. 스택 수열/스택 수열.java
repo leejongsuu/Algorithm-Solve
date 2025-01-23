@@ -10,32 +10,31 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-
         int[] sequence = new int[N];
-        int[] numbers = new int[N];
+        int max = 0;
+
         for (int i = 0; i < N; i++) {
             sequence[i] = Integer.parseInt(br.readLine());
-            numbers[i] = i + 1;
+            max = Math.max(max, sequence[i]);
         }
 
         StringBuilder sb = new StringBuilder();
         Stack<Integer> stack = new Stack<>();
 
-        for (int i = 0, j = 0; i < N; ) {
-            while (j < N && numbers[j] <= sequence[i]) {
-                stack.push(numbers[j]);
-                sb.append('+').append('\n');
-                j++;
-            }
-            while (!stack.isEmpty() && stack.peek() == sequence[i]) {
+        int lt = 0;
+        for (int rt = 1; rt <= N; rt++) {
+            stack.push(rt);
+            sb.append('+').append('\n');
+            while (lt < N && !stack.isEmpty() && stack.peek() == sequence[lt]) {
                 stack.pop();
                 sb.append('-').append('\n');
-                i++;
+                lt++;
             }
-            if (!stack.isEmpty() && stack.peek() > sequence[i]) {
-                System.out.println("NO");
-                return;
-            }
+        }
+
+        if (!stack.isEmpty()) {
+            System.out.println("NO");
+            return;
         }
 
         sb.deleteCharAt(sb.length() - 1);
