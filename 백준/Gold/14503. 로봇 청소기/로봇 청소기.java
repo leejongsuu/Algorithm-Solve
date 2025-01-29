@@ -5,26 +5,22 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int N, M, clean = 0;
-    static int[] dy = {-1, 0, 1, 0};
-    static int[] dx = {0, 1, 0, -1};
-    static int[][] room;
-
+    static int N, M;
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        room = new int[N][M];
-
         st = new StringTokenizer(br.readLine(), " ");
         int r = Integer.parseInt(st.nextToken());
         int c = Integer.parseInt(st.nextToken());
         int d = Integer.parseInt(st.nextToken());
 
+        int[][] room = new int[N][M];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < M; j++) {
@@ -32,38 +28,56 @@ public class Main {
             }
         }
 
-        DFS(r, c, d);
+        int result = solution(r, c, d, room);
 
-        System.out.println(clean);
+        System.out.println(result);
     }
 
-    private static void DFS(int y, int x, int d) {
+    private static int solution(int r, int c, int d, int[][] room) {
 
-        if (room[y][x] == 0) {
-            room[y][x] = 2;
-            clean++;
-        }
+        int clean = 0;
 
-        for (int i = 0; i < 4; i++) {
-            d = (d + 3) % 4;
-            int ny = y + dy[d];
-            int nx = x + dx[d];
-            if (isIn(ny, nx) && room[ny][nx] == 0) {
-                DFS(ny, nx, d);
-                return;
+        int[] dy = {-1, 0, 1, 0};
+        int[] dx = {0, 1, 0, -1};
+
+        while (true) {
+            if (room[r][c] == 0) {
+                clean++;
+                room[r][c] = 2;
+            }
+
+            boolean isNotClean = true;
+
+            for (int i = 0; i < 4; i++) {
+                d = (d + 3) % 4;
+                int nr = r + dy[d];
+                int nc = c + dx[d];
+                if (isIn(nr, nc) && room[nr][nc] == 0) {
+                    r = nr;
+                    c = nc;
+                    isNotClean = false;
+                    break;
+                }
+            }
+
+            if (isNotClean) {
+                int temp_d = (d + 2) % 4;
+                int nr = r + dy[temp_d];
+                int nc = c + dx[temp_d];
+
+                if (isIn(nr, nc) && room[nr][nc] != 1) {
+                    r = nr;
+                    c = nc;
+                } else {
+                    break;
+                }
             }
         }
 
-        int back_dir = (d + 2) % 4;
-        int ny = y + dy[back_dir];
-        int nx = x + dx[back_dir];
-        if (isIn(ny, nx) && room[ny][nx] != 1) {
-            DFS(ny, nx, d);
-        }
-
+        return clean;
     }
 
-    private static boolean isIn(int y, int x) {
-        return y >= 0 && x >= 0 && y < N && x < M;
+    private static boolean isIn(int r, int c) {
+        return r >= 0 && c >= 0 && r < N && c < M;
     }
 }
