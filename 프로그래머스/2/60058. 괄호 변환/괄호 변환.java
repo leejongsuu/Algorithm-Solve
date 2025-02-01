@@ -1,44 +1,38 @@
-import java.util.*;
+import java.util.Stack;
 
 class Solution {
-    
     public String solution(String p) {
-        
-        if(getIsUprightString(p)) {
+        if(isUpright(p)) {
             return p;
         }
-        
-        return separateString(p);
+        return separate(p);
     }
     
-    private String separateString(String str) {
-        
-        if(str.equals("")) {
+    public String separate(String str) {
+        if(str.isEmpty()) {
             return "";
         }
+        int len = str.length();
         
         int left = 0;
         int right = 0;
-        int len = str.length();
         for(int i = 0; i < len; i++) {
             if(str.charAt(i) == '(') left++;
             else right++;
             
             if(left == right) {
                 String u = str.substring(0, i + 1);
-                String v = str.substring(i + 1, len);
-                
-                if(getIsUprightString(u)) {
-                    return u + separateString(v);
+                String v = str.substring(i + 1);
+                if(isUpright(u)) {
+                    return u + separate(v);
                 } else {
-                    u = u.substring(1, u.length() -1);
-                    char[] ch = u.toCharArray();
-                    for(int j = 0; j < ch.length; j++) {
-                        if(ch[j] == '(') ch[j] = ')';
-                        else if(ch[j] == ')') ch[j] = '(';
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("(").append(separate(v)).append(")");
+                    for(int j = 1; j < u.length() - 1; j++) {
+                        sb.append(u.charAt(j) == '(' ? ')' : '(');
                     }
-                    u = String.valueOf(ch);
-                    return "(" + separateString(v) + ")" + u;
+                
+                    return sb.toString();
                 }
             }
         }
@@ -46,22 +40,20 @@ class Solution {
         return "";
     }
     
-    private boolean getIsUprightString(String str) {
-        
+    public boolean isUpright(String str) {
         Stack<Character> stack = new Stack<>();
-        for(int i = 0; i < str.length(); i++) {
-            if(str.charAt(i) == '(') {
-                stack.push('(');
+        
+        for(char ch : str.toCharArray()) {
+            if(ch == '(') {
+                stack.push(ch);
             } else {
-                if(!stack.isEmpty()) {
-                    stack.pop();
-                } else {
+                if(stack.isEmpty()) {
                     return false;
                 }
+                stack.pop();
             }
         }
-        if(!stack.isEmpty()) return false;
         
-        return true;
+        return stack.isEmpty();
     }
 }
