@@ -44,17 +44,22 @@ public class Main {
     static int N, K;
     static int[] dy = {0, 0, -1, 1};
     static int[] dx = {1, -1, 0, 0};
+    static int[][] chess;
+    static Horse[] horses;
+    static ArrayList<Horse>[][] horseList;
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
-        int[][] chess = new int[N][N];
-        ArrayList<Horse>[][] horseList = new ArrayList[N][N];
+        chess = new int[N][N];
+        horses = new Horse[K + 1];
+        horseList = new ArrayList[N][N];
+
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < N; j++) {
@@ -62,8 +67,6 @@ public class Main {
                 horseList[i][j] = new ArrayList<>();
             }
         }
-
-        Horse[] horses = new Horse[K + 1];  // 말 번호별 관리
 
         for (int i = 1; i <= K; i++) {
             st = new StringTokenizer(br.readLine(), " ");
@@ -75,55 +78,66 @@ public class Main {
             horseList[y][x].add(horses[i]);
         }
 
+        int result = solution();
+
+        System.out.println(result);
+    }
+
+    public static int solution() {
         int turn = 0;
+        final int INF = 1001;
 
-        while (turn <= 1000) {
+        while (turn < INF) {
             turn++;
+            for (int i = 1; i <= K; i++) {
+                Horse current = horses[i];
 
-            for (int i = 1; i <= K; i++) {  // 모든 말을 순서대로 이동
-                Horse currentHorse = horses[i];
-                int cy = currentHorse.y;
-                int cx = currentHorse.x;
-                int cd = currentHorse.d;
+                int cy = current.y;
+                int cx = current.x;
+                int cd = current.d;
 
                 int ny = cy + dy[cd];
                 int nx = cx + dx[cd];
 
-                if (!isIn(ny, nx) || chess[ny][nx] == 2) {  // 파란색 또는 범위 밖
-                    currentHorse.setD(changeDir(cd));
-                    ny = cy + dy[currentHorse.d];
-                    nx = cx + dx[currentHorse.d];
+                if (!isIn(ny, nx) || chess[ny][nx] == 2) {
+                    current.setD(changeDir(cd));
 
-                    if (!isIn(ny, nx) || chess[ny][nx] == 2) {  // 또 파란색이면 이동하지 않음
+                    ny = cy + dy[current.d];
+                    nx = cx + dx[current.d];
+
+                    if (!isIn(ny, nx) || chess[ny][nx] == 2) {
                         continue;
                     }
                 }
 
-                int index = horseList[cy][cx].indexOf(currentHorse);
+                int index = horseList[cy][cx].indexOf(current);
                 List<Horse> movingHorse = new ArrayList<>(horseList[cy][cx].subList(index, horseList[cy][cx].size()));
                 horseList[cy][cx].subList(index, horseList[cy][cx].size()).clear();
 
-                if (chess[ny][nx] == 1) {  // 빨간색이면 순서 반전
+                if (chess[ny][nx] == 1) {
                     Collections.reverse(movingHorse);
                 }
 
                 for (Horse horse : movingHorse) {
-                    horse.moveHorse(ny, nx);
                     horseList[ny][nx].add(horse);
+                    horse.moveHorse(ny, nx);
                 }
 
-                if (horseList[ny][nx].size() >= 4) {  // 종료 조건
-                    System.out.println(turn);
-                    return;
+                if (horseList[ny][nx].size() >= 4) {
+                    return turn;
                 }
             }
         }
 
-        System.out.println(-1);
+        return -1;
     }
 
-    private static int changeDir(int num) {
-        switch (num) {
+    public static boolean isIn(int y, int x) {
+        return y >= 0 && x >= 0 && y < N && x < N;
+    }
+
+    public static int changeDir(int n) {
+        switch (n) {
             case 0:
                 return 1;
             case 1:
@@ -135,9 +149,5 @@ public class Main {
             default:
                 return -1;
         }
-    }
-
-    private static boolean isIn(int y, int x) {
-        return y >= 0 && x >= 0 && y < N && x < N;
     }
 }
