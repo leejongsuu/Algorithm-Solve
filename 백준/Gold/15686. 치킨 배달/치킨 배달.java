@@ -14,10 +14,10 @@ public class Main {
         }
     }
 
-    static int N, M, answer = Integer.MAX_VALUE;
+    static int N, M, chickenSize, answer = Integer.MAX_VALUE;
     static int[] combination;
-    static ArrayList<Point> home = new ArrayList<>();
-    static ArrayList<Point> chicken = new ArrayList<>();
+    static ArrayList<Point> homeList = new ArrayList<>();
+    static ArrayList<Point> chickenList = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,17 +25,21 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        combination = new int[M];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < N; j++) {
                 int num = Integer.parseInt(st.nextToken());
-                if (num == 1) home.add(new Point(i, j));
-                else if (num == 2) chicken.add(new Point(i, j));
+                if (num == 1) homeList.add(new Point(i, j));
+                else if (num == 2) chickenList.add(new Point(i, j));
             }
         }
+
+        combination = new int[M];
+        chickenSize = chickenList.size();
+
         DFS(0, 0);
+
         System.out.println(answer);
     }
 
@@ -45,7 +49,7 @@ public class Main {
             return;
         }
 
-        for(int i = start; i < chicken.size(); i++) {
+        for (int i = start; i < chickenSize; i++) {
             combination[L] = i;
             DFS(L + 1, i + 1);
         }
@@ -54,10 +58,10 @@ public class Main {
     private static int calculate_distance(int[] combination) {
 
         int sum_distance = 0;
-        for (Point h : home) {
+        for (Point h : homeList) {
             int min_distance = Integer.MAX_VALUE;
             for (int i : combination) {
-                Point c = chicken.get(i);
+                Point c = chickenList.get(i);
                 min_distance = Math.min(min_distance, Math.abs(h.y - c.y) + Math.abs(h.x - c.x));
             }
             sum_distance += min_distance;
