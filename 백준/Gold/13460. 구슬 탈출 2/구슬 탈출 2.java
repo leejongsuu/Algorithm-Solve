@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -8,25 +7,24 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int N, M;
-    static int[] dy = {1, 0, -1, 0};
-    static int[] dx = {0, 1, 0, -1};
+    static int[] dr = {1, 0, -1, 0};
+    static int[] dc = {0, 1, 0, -1};
     static char[][] board;
 
-    public static void main(String[] args) throws IOException {
-
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
+
         board = new char[N][M];
 
-        int[] bead = new int[4]; // [0] : redRow, [1] : redCol, [2] : blueRow, [3] : blueCol
+        int[] bead = new int[4];
 
         for (int i = 0; i < N; i++) {
             String input = br.readLine();
-            for (int j = 0; j < input.length(); j++) {
+            for (int j = 0; j < M; j++) {
                 board[i][j] = input.charAt(j);
                 if (board[i][j] == 'R') {
                     bead[0] = i;
@@ -41,11 +39,9 @@ public class Main {
 
         int result = BFS(bead);
         System.out.println(result);
-
     }
 
     private static int BFS(int[] bead) {
-
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(bead);
 
@@ -64,15 +60,15 @@ public class Main {
                 int blueCol = current[3];
 
                 for (int j = 0; j < 4; j++) {
-                    int[] movedRed = moveUntilWallOrHole(redRow, redCol, j);
-                    int nextRedRow = movedRed[0];
-                    int nextRedCol = movedRed[1];
-                    int redMoveCount = movedRed[2];
+                    int[] nextRed = untilMoveWallOrHole(redRow, redCol, j);
+                    int nextRedRow = nextRed[0];
+                    int nextRedCol = nextRed[1];
+                    int redMoveCount = nextRed[2];
 
-                    int[] moveBlue = moveUntilWallOrHole(blueRow, blueCol, j);
-                    int nextBlueRow = moveBlue[0];
-                    int nextBlueCol = moveBlue[1];
-                    int blueMoveCount = moveBlue[2];
+                    int[] nextBlue = untilMoveWallOrHole(blueRow, blueCol, j);
+                    int nextBlueRow = nextBlue[0];
+                    int nextBlueCol = nextBlue[1];
+                    int blueMoveCount = nextBlue[2];
 
                     if (board[nextBlueRow][nextBlueCol] == 'O') {
                         continue;
@@ -82,13 +78,13 @@ public class Main {
                         return cnt;
                     }
 
-                    if (nextRedRow == nextBlueRow && nextRedCol == nextBlueCol) {
+                    if (nextRedRow == nextBlueRow && nextBlueCol == nextRedCol) {
                         if (redMoveCount > blueMoveCount) {
-                            nextRedRow -= dy[j];
-                            nextRedCol -= dx[j];
+                            nextRedRow -= dr[j];
+                            nextRedCol -= dc[j];
                         } else {
-                            nextBlueRow -= dy[j];
-                            nextBlueCol -= dx[j];
+                            nextBlueRow -= dr[j];
+                            nextBlueCol -= dc[j];
                         }
                     }
 
@@ -103,15 +99,13 @@ public class Main {
         return -1;
     }
 
-    private static int[] moveUntilWallOrHole(int y, int x, int d) {
-        int moveCount = 0; // Red와 Blue가 누가 먼저 앞으로 쌓이는지 알기 위한 변수
-
-        while (board[y + dy[d]][x + dx[d]] != '#' && board[y][x] != 'O') {
-            y += dy[d];
-            x += dx[d];
+    private static int[] untilMoveWallOrHole(int r, int c, int d) {
+        int moveCount = 0;
+        while (board[r + dr[d]][c + dc[d]] != '#' && board[r][c] != 'O') {
+            r += dr[d];
+            c += dc[d];
             moveCount++;
         }
-
-        return new int[]{y, x, moveCount};
+        return new int[]{r, c, moveCount};
     }
 }
