@@ -27,3 +27,33 @@ public class Main {
         System.out.println(T.solution(str));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String str = br.readLine() + "#";
+
+        StringBuilder sb = new StringBuilder();
+        int count = 1;
+        for (int i = 0; i < str.length() - 1; i++) {
+            if (str.charAt(i) == str.charAt(i + 1)) {
+                count++;
+            } else {
+                if (count == 1) {
+                    sb.append(str.charAt(i));
+                } else {
+                    sb.append(str.charAt(i)).append(count);
+                    count = 1;
+                }
+            }
+        }
+
+        System.out.println(sb);
+
+    }
+}
