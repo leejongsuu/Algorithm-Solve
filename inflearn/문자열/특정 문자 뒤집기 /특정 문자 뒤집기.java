@@ -31,3 +31,29 @@ public class Main {
             System.out.print(c);
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        char[] ch = br.readLine().toCharArray();
+        int lt = 0;
+        int rt = ch.length - 1;
+
+        while (lt < rt) {
+            while (!Character.isAlphabetic(ch[lt])) lt++;
+            while (!Character.isAlphabetic(ch[rt])) rt--;
+            char temp = ch[lt];
+            ch[lt] = ch[rt];
+            ch[rt] = temp;
+            lt++;
+            rt--;
+        }
+
+        System.out.println(ch);
+    }
+}
