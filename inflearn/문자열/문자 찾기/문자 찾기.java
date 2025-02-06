@@ -6,20 +6,23 @@ c
 
 //예시 출력 2
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        Scanner sc = new Scanner(System.in);
-        String str = sc.next().toLowerCase();
-        char c = sc.next().toLowerCase().charAt(0);
+        String str = br.readLine().toLowerCase();
+        char target = Character.toLowerCase(br.readLine().charAt(0));
 
-        int cnt =0;
-        for (char ch : str.toCharArray())
-            if(ch==c) cnt++;
+        int answer = 0;
+        for (char ch : str.toCharArray()) {
+            if (ch == target) answer++;
+        }
 
-        System.out.println(cnt);
+        System.out.println(answer);
     }
 }
+
