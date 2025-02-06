@@ -40,3 +40,20 @@ public class Main {
         System.out.println(T.solution(str));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String str = br.readLine().toLowerCase().replaceAll("[^a-z]", "");
+        if (str.contentEquals(new StringBuilder(str).reverse())) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+    }
+}
