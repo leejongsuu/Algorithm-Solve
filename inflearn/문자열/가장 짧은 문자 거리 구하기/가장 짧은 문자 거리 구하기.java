@@ -40,3 +40,53 @@ public class Main {
         }
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String[] parts = br.readLine().split(" ");
+        String s = parts[0];
+        char t = parts[1].charAt(0);
+
+        int[] distance = getDistance(s, t);
+        StringBuilder sb = new StringBuilder();
+        for (int d : distance) {
+            sb.append(d).append(' ');
+        }
+
+        System.out.println(sb);
+
+    }
+
+    public static int[] getDistance(String s, char t) {
+        int len = s.length();
+        int[] distance = new int[len];
+
+        int d = 101;
+        for (int i = 0; i < len; i++) {
+            if (s.charAt(i) == t) {
+                d = 0;
+            } else {
+                d++;
+            }
+            distance[i] = d;
+        }
+
+        d = 101;
+        for (int i = len - 1; i >= 0; i--) {
+            if (s.charAt(i) == t) {
+                d = 0;
+            } else {
+                d++;
+            }
+            distance[i] = Math.min(d, distance[i]);
+        }
+
+        return distance;
+    }
+}
