@@ -17,3 +17,24 @@ public class Main {
         }
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        char[] ch = br.readLine().toCharArray();
+        for (int i = 0; i < ch.length; i++) {
+            if (Character.isLowerCase(ch[i])) {
+                ch[i] = Character.toUpperCase(ch[i]);
+            } else {
+                ch[i] = Character.toLowerCase(ch[i]);
+            }
+        }
+
+        System.out.println(ch);
+    }
+}
