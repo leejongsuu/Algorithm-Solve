@@ -44,12 +44,9 @@ public class Main {
             if (str.charAt(i) == str.charAt(i + 1)) {
                 count++;
             } else {
-                if (count == 1) {
-                    sb.append(str.charAt(i));
-                } else {
-                    sb.append(str.charAt(i)).append(count);
-                    count = 1;
-                }
+                sb.append(str.charAt(i));
+                if (count > 1) sb.append(count);
+                count = 1;
             }
         }
 
