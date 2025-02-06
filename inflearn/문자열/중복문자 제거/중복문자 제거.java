@@ -21,3 +21,27 @@ public class Main {
         System.out.println(T.solution(str));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String str = br.readLine();
+        StringBuilder sb = new StringBuilder();
+
+        boolean[] alphabet = new boolean[26];
+        for (char c : str.toCharArray()) {
+            if (!alphabet[c - 'a']) {
+                alphabet[c - 'a'] = true;
+                sb.append(c);
+            }
+        }
+
+        System.out.println(sb);
+    }
+}
+
