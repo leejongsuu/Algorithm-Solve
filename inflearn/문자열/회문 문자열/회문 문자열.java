@@ -24,3 +24,21 @@ public class Main {
         System.out.println(T.solution(str));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String str = br.readLine().toLowerCase();
+
+        if (str.contentEquals(new StringBuffer(str).reverse())) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+    }
+}
