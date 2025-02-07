@@ -80,3 +80,41 @@ public class Main {
         for(int x : T.solution(a,b)) System.out.print(x + " ");
     }
 }
+
+--
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] arr1 = new int[N];
+        for (int i = 0; i < N; i++) arr1[i] = Integer.parseInt(st.nextToken());
+
+        int M = Integer.parseInt(br.readLine());
+        st = new StringTokenizer(br.readLine());
+        int[] arr2 = new int[M];
+        for (int i = 0; i < M; i++) arr2[i] = Integer.parseInt(st.nextToken());
+
+        StringBuilder sb = new StringBuilder();
+
+        int lt = 0;
+        int rt = 0;
+        while (lt < N && rt < M) {
+            sb.append(arr1[lt] <= arr2[rt] ? arr1[lt++] : arr2[rt++]).append(' ');
+        }
+        while (lt < N) {
+            sb.append(arr1[lt++]).append(' ');
+        }
+        while (rt < M) {
+            sb.append(arr2[rt++]).append(' ');
+        }
+
+        System.out.println(sb);
+    }
+}
