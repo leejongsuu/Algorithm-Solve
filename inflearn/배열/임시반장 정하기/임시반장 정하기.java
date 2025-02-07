@@ -79,3 +79,48 @@ public class Main {
         System.out.println(T.solution(n, arr));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        int[] students = new int[N];
+        int[][] arr = new int[N][5];
+
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 0; j < 5; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        int answer = 0;
+        int max = 0;
+
+        for (int row = 0; row < N ; row++) {
+            for (int nRow = row + 1; nRow < N; nRow++) {
+                for (int col = 0; col < 5; col++) {
+                    if (arr[row][col] == arr[nRow][col]) {
+                        students[row]++;
+                        students[nRow]++;
+                        break;
+                    }
+                }
+            }
+            if (students[row] > max) {
+                max = students[row];
+                answer = row + 1;
+            }
+        }
+
+        System.out.println(answer);
+
+    }
+}
+
