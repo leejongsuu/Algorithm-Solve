@@ -30,3 +30,29 @@ public class Main {
         }
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        br.readLine();
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        StringBuilder sb = new StringBuilder();
+        int before = 0;
+        while (st.hasMoreTokens()) {
+            int num = Integer.parseInt(st.nextToken());
+            if (num > before) {
+                sb.append(num).append(' ');
+            }
+            before = num;
+        }
+
+        System.out.println(sb);
+    }
+}
