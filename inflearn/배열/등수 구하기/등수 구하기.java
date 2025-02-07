@@ -32,3 +32,33 @@ public class Main {
         for(int x : T.solution(n,arr)) System.out.print(x + " ");
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        int[] scores = new int[N];
+        for (int i = 0; i < N; i++) {
+            scores[i] = Integer.parseInt(st.nextToken());
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int score : scores) {
+            int rank = 1;
+            for (int temp : scores) {
+                if (temp > score) rank++;
+            }
+            sb.append(rank).append(' ');
+        }
+
+        System.out.println(sb);
+    }
+}
