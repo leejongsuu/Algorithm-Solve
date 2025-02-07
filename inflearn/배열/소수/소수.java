@@ -27,3 +27,28 @@ public class Main {
         System.out.println(T.solution(n));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        boolean[] flag = new boolean[N + 1];
+
+        int answer = 0;
+        for (int i = 2; i <= N; i++) {
+            if (!flag[i]) {
+                answer++;
+                for (int j = 2; i * j <= N; j++) {
+                    flag[i * j] = true;
+                }
+            }
+        }
+
+        System.out.println(answer);
+    }
+}
