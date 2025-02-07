@@ -35,3 +35,44 @@ public class Main {
         }
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        int[][] person = new int[2][N];
+
+        for (int i = 0; i < 2; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 0; j < N; j++) {
+                person[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            sb.append(solution(person[0][i], person[1][i])).append('\n');
+        }
+
+        System.out.println(sb);
+    }
+
+    public static char solution(int a, int b) {
+        int c = a - b;
+        return switch (c) {
+            case -2 -> 'A';
+            case -1 -> 'B';
+            case 0 -> 'D';
+            case 1 -> 'A';
+            case 2 -> 'B';
+            default -> '0';
+        };
+    }
+}
+
