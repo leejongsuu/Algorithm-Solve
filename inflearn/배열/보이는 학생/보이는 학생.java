@@ -30,3 +30,29 @@ public class Main {
         System.out.println(T.solution(n, arr));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        br.readLine();
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        int answer = 0;
+        int max = 0;
+        while (st.hasMoreTokens()) {
+            int num = Integer.parseInt(st.nextToken());
+            if (num > max) {
+                answer++;
+                max = num;
+            }
+        }
+
+        System.out.println(answer);
+    }
+}
