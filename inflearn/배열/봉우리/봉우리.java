@@ -44,3 +44,46 @@ public class Main {
         System.out.println(T.solution(n, arr));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        int[][] arr = new int[N + 2][N + 2];
+        for (int i = 1; i <= N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 1; j <= N; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        int[] dr = {1, 0, -1, 0};
+        int[] dc = {0, 1, 0, -1};
+
+        int answer = 0;
+
+        for (int r = 1; r <= N; r++) {
+            for (int c = 1; c <= N; c++) {
+                boolean flag = true;
+                for (int i = 0; i < 4; i++) {
+                    int nr = r + dr[i];
+                    int nc = c + dc[i];
+                    if (arr[r][c] <= arr[nr][nc]) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) answer++;
+            }
+        }
+
+        System.out.println(answer);
+    }
+}
+
