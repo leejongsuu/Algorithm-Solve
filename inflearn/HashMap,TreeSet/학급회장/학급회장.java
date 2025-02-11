@@ -40,3 +40,32 @@ public class Main {
         System.out.println(T.solution(n, str));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        String str = br.readLine();
+
+        char result = solution(N, str);
+        System.out.println(result);
+    }
+
+    public static char solution(int n, String str) {
+        int[] candidates = new int[5];
+        int max = 0, index = 0;
+        for (char c : str.toCharArray()) {
+            candidates[c - 'A']++;
+            if (candidates[c - 'A'] > max) {
+                max = candidates[c - 'A'];
+                index = c - 'A';
+            }
+        }
+        return (char) (index + 'A');
+    }
+}
