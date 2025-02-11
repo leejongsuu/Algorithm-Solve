@@ -39,3 +39,38 @@ public class Main {
         System.out.println(T.solution(a, b));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String str1 = br.readLine();
+        String str2 = br.readLine();
+
+        boolean result = solution(str1, str2);
+        System.out.println(result ? "YES" : "NO");
+    }
+
+    public static boolean solution(String str1, String str2) {
+        Map<Character, Integer> map1 = insertValueMap(str1);
+        Map<Character, Integer> map2 = insertValueMap(str2);
+
+        return map1.equals(map2);
+    }
+
+    public static Map<Character, Integer> insertValueMap(String str) {
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (char c : str.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        return map;
+    }
+}
