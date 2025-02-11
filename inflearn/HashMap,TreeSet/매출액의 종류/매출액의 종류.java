@@ -44,3 +44,49 @@ public class Main {
         for(int x : T.solution(n, m, arr)) System.out.print(x+" ");
     }
 }
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[N];
+        st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        Map<Integer, Integer> map = new HashMap<>();
+        int rt = 0;
+        for (; rt < K; rt++) {
+            map.put(arr[rt], map.getOrDefault(arr[rt], 0) + 1);
+        }
+        sb.append(map.size()).append(' ');
+
+        for (int lt = 0; rt < N; lt++, rt++) {
+            map.put(arr[rt], map.getOrDefault(arr[rt], 0) + 1);
+            int value = map.get(arr[lt]);
+            if (value > 1) {
+                map.put(arr[lt], --value);
+            } else {
+                map.remove(arr[lt]);
+            }
+            sb.append(map.size()).append(' ');
+        }
+
+        System.out.println(sb);
+    }
+}
