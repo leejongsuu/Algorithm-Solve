@@ -35,3 +35,49 @@ public class Main {
         System.out.println(T.solution(a, b));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String S = br.readLine();
+        String T = br.readLine();
+
+        int answer = 0;
+        Map<Character, Integer> tMap = new HashMap<>();
+        Map<Character, Integer> sMap = new HashMap<>();
+
+        int len = T.length();
+        for (int i = 0; i < len; i++) {
+            tMap.put(T.charAt(i), tMap.getOrDefault(T.charAt(i), 0) + 1);
+        }
+
+        int rt = 0;
+        for (; rt < len - 1; rt++) {
+            sMap.put(S.charAt(rt), sMap.getOrDefault(S.charAt(rt), 0) + 1);
+        }
+
+        for (int lt = 0; rt < S.length(); rt++, lt++) {
+            sMap.put(S.charAt(rt), sMap.getOrDefault(S.charAt(rt), 0) + 1);
+
+            if (sMap.equals(tMap)) {
+                answer++;
+            }
+
+            int value = sMap.get(S.charAt(lt));
+            if (value > 1) {
+                sMap.put(S.charAt(lt), --value);
+            } else {
+                sMap.remove(S.charAt(lt));
+            }
+        }
+
+        System.out.println(answer);
+    }
+}
