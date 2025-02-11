@@ -39,3 +39,40 @@ public class Main {
         System.out.println(T.solution(n, m, arr));
     }
 }
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[N];
+        st = new StringTokenizer(br.readLine(), " ");
+
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int answer, sum, rt;
+        answer = sum = rt = 0;
+
+        for (; rt < K; rt++) {
+            answer = sum += arr[rt];
+        }
+
+        for (int lt = 0; rt < N; lt++, rt++) {
+            sum = sum + arr[rt] - arr[lt];
+            answer = Math.max(answer, sum);
+        }
+
+        System.out.println(answer);
+    }
+}
