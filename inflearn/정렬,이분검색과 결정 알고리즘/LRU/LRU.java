@@ -77,3 +77,40 @@ public class Main {
 
     }
 }
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int S = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+        List<Integer> list = new ArrayList<>();
+
+        while (st.hasMoreTokens()) {
+            int num = Integer.parseInt(st.nextToken());
+            if (list.contains(num)) {
+                list.remove((Integer) num);
+            } else if (list.size() >= S) {
+                list.remove(S - 1);
+            }
+            list.add(0, num);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i : list) {
+            sb.append(i).append(' ');
+        }
+        System.out.println(sb);
+    }
+}
