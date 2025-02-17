@@ -34,3 +34,35 @@ public class Main {
         System.out.println(T.solution(str));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int answer = 0;
+
+        String str = br.readLine();
+        Stack<Character> stack = new Stack<>();
+
+        char before = ' ';
+        for (char c : str.toCharArray()) {
+            if (c == '(') stack.push(c);
+            else {
+                stack.pop();
+                if (before == '(') {
+                    answer += stack.size();
+                } else {
+                    answer++;
+                }
+            }
+            before = c;
+        }
+
+        System.out.println(answer);
+    }
+}
