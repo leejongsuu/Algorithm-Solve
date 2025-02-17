@@ -63,3 +63,61 @@ public class Main {
         System.out.println(T.solution(m, Q));
     }
 }
+
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static class Patient {
+        int order;
+        int risk;
+
+        public Patient(int order, int risk) {
+            this.order = order;
+            this.risk = risk;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+
+        Queue<Patient> queue = new LinkedList<>();
+        for (int i = 0; i < N; i++) {
+            queue.offer(new Patient(i, Integer.parseInt(st.nextToken())));
+        }
+
+        for (int i = 1; !queue.isEmpty(); ) {
+            Patient current = queue.poll();
+
+            boolean flag = false;
+            for (Patient pa : queue) {
+                if (current.risk < pa.risk) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                queue.offer(current);
+            } else {
+                if (current.order == M) {
+                    System.out.println(i);
+                    break;
+                }
+                i++;
+            }
+        }
+    }
+}
