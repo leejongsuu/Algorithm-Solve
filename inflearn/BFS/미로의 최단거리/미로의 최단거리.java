@@ -70,3 +70,75 @@ public class Main {
 
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static class Point {
+        int r, c;
+
+        public Point(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+    static final int N = 7;
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int[][] arr = new int[N][N];
+
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        System.out.println(BFS(arr));
+    }
+
+    private static int BFS(int[][] arr) {
+
+        int[] dr = {1, 0, -1, 0};
+        int[] dc = {0, 1, 0, -1};
+
+
+        Queue<Point> queue = new LinkedList<>();
+        queue.offer(new Point(0, 0));
+
+        int level = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Point current = queue.poll();
+                if (current.r == N - 1 && current.c == N - 1) return level;
+
+                for (int j = 0; j < 4; j++) {
+                    int nr = current.r + dr[j];
+                    int nc = current.c + dc[j];
+
+                    if (isIn(nr, nc) && arr[nr][nc] == 0) {
+                        arr[current.r][current.c] = 1;
+                        queue.offer(new Point(nr, nc));
+                    }
+                }
+            }
+
+            level++;
+        }
+
+        return -1;
+    }
+
+    private static boolean isIn(int r, int c) {
+        return r >= 0 && c >= 0 && r < N && c < N;
+    }
+}
