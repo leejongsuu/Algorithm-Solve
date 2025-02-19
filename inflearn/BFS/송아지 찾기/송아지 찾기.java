@@ -45,3 +45,52 @@ public class Main {
         System.out.println(T.BFS(s, e));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int S = Integer.parseInt(st.nextToken());
+        int E = Integer.parseInt(st.nextToken());
+
+        System.out.println(BFS(S, E));
+    }
+
+    public static int BFS(int s, int e) {
+        final int INF = 10001;
+        boolean[] visited = new boolean[INF];
+        visited[s] = true;
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(s);
+
+        int cnt = 1;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int current = queue.poll();
+
+                int[] nexts = {current + 1, current + 5, current - 1};
+                for (int next : nexts) {
+                    if (next > 0 && next < INF && !visited[next]) {
+                        if (next == e) return cnt;
+
+                        visited[next] = true;
+                        queue.offer(next);
+                    }
+                }
+            }
+            cnt++;
+        }
+
+        return cnt;
+    }
+}
