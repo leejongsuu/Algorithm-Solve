@@ -85,3 +85,73 @@ public class Main {
         else System.out.println(T.BFS());
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static class Point {
+        int r, c;
+
+        public Point(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+    static int N, M, empty = 0;
+    static Queue<Point> queue;
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+
+        queue = new LinkedList<>();
+
+        int[][] tomatos = new int[N][M];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                tomatos[i][j] = Integer.parseInt(st.nextToken());
+                if (tomatos[i][j] == 1) queue.offer(new Point(i, j));
+                else if (tomatos[i][j] == 0) empty++;
+            }
+        }
+
+        System.out.println(BFS(tomatos));
+    }
+
+    private static int BFS(int[][] tomatos) {
+
+        int[] dr = {1, 0, -1, 0};
+        int[] dc = {0, 1, 0, -1};
+
+        int day = -1;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Point current = queue.poll();
+                for (int j = 0; j < 4; j++) {
+                    int nr = current.r + dr[j];
+                    int nc = current.c + dc[j];
+                    if (nr >= 0 && nc >= 0 && nr < N && nc < M && tomatos[nr][nc] == 0) {
+                        tomatos[nr][nc] = 1;
+                        empty--;
+                        queue.offer(new Point(nr, nc));
+                    }
+                }
+            }
+            day++;
+        }
+
+        return empty == 0 ? day : -1;
+    }
+}
