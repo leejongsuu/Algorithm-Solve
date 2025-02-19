@@ -51,3 +51,54 @@ public class Main {
         System.out.println(answer);
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static final int N = 7;
+    static int answer = 0;
+    static int[][] arr;
+    static int[] dr = {1, 0, -1, 0};
+    static int[] dc = {0, 1, 0, -1};
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        arr = new int[N][N];
+
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        DFS(0, 0);
+        System.out.println(answer);
+    }
+
+    private static void DFS(int r, int c) {
+        if (r == N - 1 && c == N - 1) {
+            answer++;
+            return;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+
+            if (isIn(nr, nc) && arr[nr][nc] == 0) {
+                arr[r][c] = 1;
+                DFS(nr, nc);
+                arr[r][c] = 0;
+            }
+        }
+    }
+
+    private static boolean isIn(int r, int c) {
+        return r >= 0 && c >= 0 && r < N && c < N;
+    }
+}
