@@ -40,3 +40,47 @@ public class Main {
         System.out.println(answer);
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int N;
+    static boolean flag = false;
+    static int[] arr;
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int total = Arrays.stream(arr).sum();
+
+        DFS(0, 0, total);
+
+        System.out.println(flag ? "YES" : "NO");
+    }
+
+    private static void DFS(int depth, int sum, int total) {
+        if (flag || sum > (total - sum)) return;
+
+        if (depth == N) {
+            if (sum == (total - sum)) {
+                flag = true;
+            }
+            return;
+        }
+
+        DFS(depth + 1, sum + arr[depth], total);
+        DFS(depth + 1, sum, total);
+    }
+}
