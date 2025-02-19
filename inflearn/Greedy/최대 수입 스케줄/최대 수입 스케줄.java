@@ -69,3 +69,54 @@ public class Main {
         System.out.println(T.solution(n, max, list));
     }
 }
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+
+    static class Schedule implements Comparable<Schedule> {
+        int money, day;
+
+        public Schedule(int money, int day) {
+            this.money = money;
+            this.day = day;
+        }
+
+        @Override
+        public int compareTo(Schedule o) {
+            return o.day - this.day;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        List<Schedule> list = new ArrayList<>();
+
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            list.add(new Schedule(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+        }
+
+        Collections.sort(list);
+        int maxDay = list.get(0).day;
+
+        int result = 0;
+
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder());
+        int j = 0;
+        for (int i = maxDay; i > 0; i--) {
+            for (; j < N; j++) {
+                if (list.get(j).day < i) break;
+                priorityQueue.offer(list.get(j).money);
+            }
+            if (!priorityQueue.isEmpty()) result += priorityQueue.poll();
+        }
+
+        System.out.println(result);
+    }
+}
