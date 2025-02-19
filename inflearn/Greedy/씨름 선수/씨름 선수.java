@@ -64,3 +64,48 @@ public class Main {
         System.out.println(T.solution(list));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+
+    static class Athlete implements Comparable<Athlete> {
+        int height, weight;
+
+        public Athlete(int height, int weight) {
+            this.height = height;
+            this.weight = weight;
+        }
+
+        @Override
+        public int compareTo(Athlete o) {
+            if (o.height == this.height) return o.weight - this.weight;
+            else return o.height - this.height;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        ArrayList<Athlete> list = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            list.add(new Athlete(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+        }
+
+        Collections.sort(list);
+
+        int result = 0, maxWeight = 0;
+        for (Athlete a : list) {
+            if (a.weight > maxWeight) {
+                maxWeight = a.weight;
+                result++;
+            }
+        }
+
+        System.out.println(result);
+    }
+}
