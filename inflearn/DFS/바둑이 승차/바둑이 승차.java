@@ -40,3 +40,40 @@ public class Main {
         System.out.println(max);
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static int C, N, max = Integer.MIN_VALUE;
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        C = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
+        }
+
+        DFS(0, 0, arr);
+        System.out.println(max);
+    }
+
+    public static void DFS(int L, int sum, int[] arr) {
+        if (sum > C) return;
+
+        if (L == N) {
+            max = Math.max(max, sum);
+            return;
+        }
+
+        DFS(L + 1, sum + arr[L], arr);
+        DFS(L + 1, sum, arr);
+    }
+}
