@@ -54,3 +54,59 @@ public class Main {
         System.out.println(T.solution(m, arr));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int result = binarySearch(arr, M);
+        System.out.println(result);
+    }
+
+    public static int binarySearch(int[] arr, int capacity) {
+        int lt = 0;
+        int rt = Arrays.stream(arr).sum();
+
+        while (lt < rt) {
+            int mid = (lt + rt) / 2;
+            if (count(arr, mid) > capacity) {
+                lt = mid + 1;
+            } else {
+                rt = mid;
+            }
+        }
+        
+        return lt;
+    }
+
+    public static int count(int[] arr, int capacity) {
+        int cnt = 1, sum = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (sum + arr[i] > capacity) {
+                cnt++;
+                sum = 0;
+            }
+            sum += arr[i];
+        }
+
+        return cnt;
+    }
+}
