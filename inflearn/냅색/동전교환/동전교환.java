@@ -43,3 +43,37 @@ public class Main {
         System.out.println(T.solution());
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        int[] coins = new int[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            coins[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int M = Integer.parseInt(br.readLine());
+
+        int[] changes = new int[M + 1];
+        Arrays.fill(changes, Integer.MAX_VALUE);
+        changes[0] = 0;
+
+        for (int i = 0; i < N; i++) {
+            for (int j = coins[i]; j <= M; j++) {
+                changes[j] = Math.min(changes[j], changes[j - coins[i]] + 1);
+            }
+        }
+
+        System.out.println(changes[M]);
+    }
+}
