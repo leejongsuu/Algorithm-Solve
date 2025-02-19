@@ -73,3 +73,50 @@ public class Main {
         System.out.println(T.solution(list));
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static class Meeting implements Comparable<Meeting> {
+        int start, end;
+
+        public Meeting(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        public int compareTo(Meeting o) {
+            if (o.start == this.start) return this.end - o.end;
+            else return o.start - this.start;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        ArrayList<Meeting> list = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            list.add(new Meeting(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+        }
+
+        Collections.sort(list);
+
+        int count = 0, min = Integer.MAX_VALUE;
+        for (Meeting meeting : list) {
+            if (meeting.end <= min) {
+                min = meeting.start;
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+}
