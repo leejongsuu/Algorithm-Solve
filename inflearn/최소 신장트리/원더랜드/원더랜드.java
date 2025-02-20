@@ -223,3 +223,77 @@ public class Main {
         System.out.println(answer);
     }
 }
+
+// 크루스칼
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static class Node implements Comparable<Node> {
+        int v1, v2, cost;
+
+        public Node(int v1, int v2, int cost) {
+            this.v1 = v1;
+            this.v2 = v2;
+            this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.cost - o.cost;
+        }
+    }
+
+    static int[] unf;
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int V = Integer.parseInt(st.nextToken());
+        int E = Integer.parseInt(st.nextToken());
+
+        unf = new int[V + 1];
+        for (int i = 1; i <= V; i++) unf[i] = i;
+
+        List<Node> graph = new ArrayList<>();
+
+        for (int i = 0; i < E; i++) {
+            st = new StringTokenizer(br.readLine());
+            int v1 = Integer.parseInt(st.nextToken());
+            int v2 = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
+            graph.add(new Node(v1, v2, cost));
+        }
+
+        int answer = 0;
+        Collections.sort(graph);
+
+        for (Node node : graph) {
+            int fv1 = Find(node.v1);
+            int fv2 = Find(node.v2);
+            if (fv1 != fv2) {
+                answer += node.cost;
+                Union(node.v1, node.v2);
+            }
+        }
+
+        System.out.println(answer);
+    }
+
+    private static int Find(int v) {
+        if (v == unf[v]) return v;
+        else return unf[v] = Find(unf[v]);
+    }
+
+    private static void Union(int a, int b) {
+        int fa = Find(a);
+        int fb = Find(b);
+        if (fa != fb) unf[fa] = fb;
+    }
+}
