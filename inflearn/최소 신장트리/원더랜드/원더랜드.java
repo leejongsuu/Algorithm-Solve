@@ -158,3 +158,68 @@ public class Main {
         System.out.println(T.dijk(1));
     }
 }
+
+// 프림
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    static class Node implements Comparable<Node> {
+        int vex, cost;
+
+        public Node(int vex, int cost) {
+            this.vex = vex;
+            this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.cost - o.cost;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int V = Integer.parseInt(st.nextToken());
+        int E = Integer.parseInt(st.nextToken());
+
+        List<List<Node>> graph = new ArrayList<>();
+        for (int i = 0; i <= V; i++) graph.add(new ArrayList<>());
+
+        for (int i = 0; i < E; i++) {
+            st = new StringTokenizer(br.readLine());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+            graph.get(s).add(new Node(e, w));
+            graph.get(e).add(new Node(s, w));
+        }
+
+        boolean[] ch = new boolean[V + 1];
+
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
+        priorityQueue.offer(new Node(1, 0));
+
+        int answer = 0;
+        while (!priorityQueue.isEmpty()) {
+            Node current = priorityQueue.poll();
+            int ev = current.vex;
+            if (!ch[ev]) {
+                ch[ev] = true;
+                answer += current.cost;
+                for (Node node : graph.get(ev)) {
+                    if (!ch[node.vex]) priorityQueue.offer(node);
+                }
+            }
+        }
+
+        System.out.println(answer);
+    }
+}
