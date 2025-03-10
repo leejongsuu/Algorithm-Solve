@@ -39,3 +39,47 @@ class Main {
 		System.out.println(T.solution(n,m,arr));
 	}
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int result = solution(n, k, arr);
+        System.out.println(result);
+    }
+
+    public static int solution(int n, int k, int[] arr) {
+
+        int result = Integer.MIN_VALUE;
+
+        for (int lt = 0, rt = 0; rt < n; rt++) {
+            if (arr[rt] == 0) {
+                k--;
+                while (k < 0) {
+                    if (arr[lt] == 0) {
+                        k++;
+                    }
+                    lt++;
+                }
+            }
+            result = Math.max(result, rt - lt + 1);
+        }
+
+        return result;
+    }
+}
