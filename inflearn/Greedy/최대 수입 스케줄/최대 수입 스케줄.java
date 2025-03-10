@@ -120,3 +120,61 @@ public class Main {
         System.out.println(result);
     }
 }
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+
+    static class Schedule implements Comparable<Schedule> {
+        int fee;
+        int day;
+
+        public Schedule(int fee, int day) {
+            this.fee = fee;
+            this.day = day;
+        }
+
+        @Override
+        public int compareTo(Schedule o) {
+            return o.day - this.day;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+
+        List<Schedule> scheduleList = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int M = Integer.parseInt(st.nextToken());
+            int D = Integer.parseInt(st.nextToken());
+            scheduleList.add(new Schedule(M, D));
+        }
+
+        Collections.sort(scheduleList);
+
+        int result = getResult(scheduleList, N);
+
+        System.out.println(result);
+    }
+
+    private static int getResult(List<Schedule> scheduleList, int N) {
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder());
+
+        int result = 0;
+        int maxDay = scheduleList.get(0).day;
+        for (int d = maxDay, i = 0; d > 0; d--) {
+            for (; i < N; i++) {
+                Schedule schedule = scheduleList.get(i);
+                if (schedule.day < d) break;
+                priorityQueue.offer(schedule.fee);
+            }
+            if (!priorityQueue.isEmpty()) result += priorityQueue.poll();
+        }
+        return result;
+    }
+}
