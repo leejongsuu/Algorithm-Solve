@@ -1,28 +1,32 @@
 class Solution {
     public int solution(String s) {
-        int result = Integer.MAX_VALUE;
+        
         int len = s.length();
+        int result = s.length();
         
-        if(len == 1) return 1; // 예외 처리
-        
-        for(int i = 1; i <= (len / 2); i++) {
-            StringBuilder sb = new StringBuilder();
+        for(int i = 1; i <= len / 2; i++) {
+            StringBuffer sb = new StringBuffer();
+            String before = s.substring(0, i);
             int count = 1;
-            String current = s.substring(0, i);
             
-            for(int j = i; j <= len; j+=i) {
-                int tempLength = Math.min(j + i, len);
-                String next = s.substring(j, tempLength);
-                
-                if(current.equals(next)) {
+            for(int j = i; j < len; j += i) {
+                String current = s.substring(j, Math.min(j + i, len));
+                if(current.equals(before)) {
                     count++;
                 } else {
-                    sb.append(count > 1 ? count + current : current);
-                    current = next;
-                    count = 1;
+                    if(count > 1) {
+                        sb.append(count);
+                        count = 1;
+                    }
+                    sb.append(before);
+                    before = current;
                 }
             }
-            sb.append(count > 1 ? count + current : current);
+            if(count > 1) {
+                sb.append(count);
+                count = 1;
+            }
+            sb.append(before);
             result = Math.min(result, sb.length());
         }
         
