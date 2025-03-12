@@ -1,59 +1,57 @@
 import java.util.Stack;
 
 class Solution {
+    
     public String solution(String p) {
-        if(isUpright(p)) {
-            return p;
-        }
-        return separate(p);
+        return makeParentheses(p);
     }
     
-    public String separate(String str) {
-        if(str.isEmpty()) {
-            return "";
-        }
-        int len = str.length();
+    public String makeParentheses(String str) {
+        int lParentheses = 0;
+        int rParentheses = 0;
+        int length = str.length();
         
-        int left = 0;
-        int right = 0;
-        for(int i = 0; i < len; i++) {
-            if(str.charAt(i) == '(') left++;
-            else right++;
+        for(int i = 0; i < str.length(); i++) {
+            if(str.charAt(i) == '(') lParentheses++;
+            else if(str.charAt(i) == ')') rParentheses++;
             
-            if(left == right) {
+            if(lParentheses == rParentheses) {
                 String u = str.substring(0, i + 1);
-                String v = str.substring(i + 1);
-                if(isUpright(u)) {
-                    return u + separate(v);
-                } else {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("(").append(separate(v)).append(")");
-                    for(int j = 1; j < u.length() - 1; j++) {
-                        sb.append(u.charAt(j) == '(' ? ')' : '(');
-                    }
+                String v = str.substring(i + 1, length);
                 
-                    return sb.toString();
+                if(isAlrightParentheses(u)) {
+                    return u + makeParentheses(v);
                 }
+                
+                StringBuffer sb = new StringBuffer();
+                sb.append('(').append(makeParentheses(v)).append(')');
+                sb.append(reverseParentheses(u.substring(1, u.length() - 1)));
+                
+                return sb.toString();
             }
         }
-        
         return "";
     }
     
-    public boolean isUpright(String str) {
+    public boolean isAlrightParentheses(String str) {
         Stack<Character> stack = new Stack<>();
-        
-        for(char ch : str.toCharArray()) {
-            if(ch == '(') {
-                stack.push(ch);
-            } else {
-                if(stack.isEmpty()) {
-                    return false;
-                }
+        for(char c: str.toCharArray()) {
+            if(c == '(') stack.push(c);
+            else {
+                if(stack.isEmpty()) return false;
                 stack.pop();
             }
         }
         
         return stack.isEmpty();
+    }
+    
+    public String reverseParentheses(String str) {
+        char[] ch = str.toCharArray();
+        for(int i = 0; i < str.length(); i++) {
+            if(ch[i] == '(') ch[i] = ')';
+            else ch[i] = '(';
+        }
+        return String.valueOf(ch);
     }
 }
