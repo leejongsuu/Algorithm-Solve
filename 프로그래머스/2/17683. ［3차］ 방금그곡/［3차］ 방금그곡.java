@@ -1,49 +1,58 @@
+import java.util.*;
+
 class Solution {
+    
     public String solution(String m, String[] musicinfos) {
         
         String answer = "(None)";
-        
-        m = convertPitch(m);
         int max = Integer.MIN_VALUE;
         
+        m = convertMelody(m);
+        
         for(String musicinfo : musicinfos) {
-            String infos[] = musicinfo.split(",");
-            String startTime = infos[0];
-            String endTime = infos[1];
-            String title = infos[2];
-            String melody = convertPitch(infos[3]);
+            String[] parts = musicinfo.split(",");
+            String startTime = parts[0];
+            String endTime = parts[1];
+            String title = parts[2];
+            String music = parts[3];
             
-            int len = melody.length();
-            int time = calculateTime(startTime, endTime);
-            StringBuilder sb = new StringBuilder();
-            
-            for(int t = 0; t < time; t++) {
-                sb.append(melody.charAt(t % len));
+            StringBuffer sb = new StringBuffer();
+            int timeLength = calculateTimeLength(parts[0], parts[1]);
+            music = convertMelody(music);
+            int len = music.length();
+            for(int i = 0; i < timeLength; i++) {
+                sb.append(music.charAt(i % len));
             }
             
-            String entireMelody = sb.toString();
-            
-            if(entireMelody.contains(m) && time > max) {
-                answer = title;
-                max = time;
+            String str = sb.toString();
+            if(str.contains(m) && timeLength > max) {
+                    max = timeLength;
+                    answer = title;
             }
         }
         
         return answer;
     }
     
-    private String convertPitch(String melody) {
-        return melody.replace("C#", "Q")
-                     .replace("D#", "W")
-                     .replace("F#", "U")
-                     .replace("G#", "R")
-                     .replace("A#", "T")
-                     .replace("B#", "Y");
+    private String convertMelody(String melody) {
+        return melody
+            .replace("C#", "Q")
+            .replace("D#", "W")
+            .replace("F#", "R")
+            .replace("G#", "T")
+            .replace("A#", "Y")
+            .replace("B#", "U");
     }
     
-    private int calculateTime(String startTime, String endTime) {
-        int start = 60 * Integer.parseInt(startTime.substring(0,2)) + Integer.parseInt(startTime.substring(3));
-        int end = 60 * Integer.parseInt(endTime.substring(0,2)) + Integer.parseInt(endTime.substring(3));
-        return end - start;
+    private int calculateTimeLength(String start, String end) {
+        int endTime = 0;
+        endTime += 60 * Integer.parseInt(end.substring(0, 2));
+        endTime += Integer.parseInt(end.substring(3));
+        
+        int startTime = 0;
+        startTime += 60 * Integer.parseInt(start.substring(0, 2));
+        startTime += Integer.parseInt(start.substring(3));
+        
+        return endTime - startTime;
     }
 }
