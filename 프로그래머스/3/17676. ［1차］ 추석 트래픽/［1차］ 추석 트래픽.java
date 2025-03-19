@@ -3,60 +3,62 @@ import java.util.*;
 class Solution {
     
     class Log {
-        int startTime;
-        int endTime;
+        int start;
+        int end;
         
-        public Log(int startTime, int endTime) {
-            this.startTime = startTime;
-            this.endTime = endTime;
+        public Log(int start, int end) {
+            this.start = start;
+            this.end = end;
         }
     }
     
     public int solution(String[] lines) {
-        
-        int answer = 0;
+        int result = 0;
         
         List<Log> logList = new ArrayList<>();
         
         for(String line : lines) {
             String[] parts = line.split(" ");
-            int[] timeParts = getTime(parts[1], parts[2]);
-            int startTime = timeParts[0];
-            int endTime = timeParts[1];
-            logList.add(new Log(startTime, endTime));
+            String time = parts[1];
+            String seconds = parts[2];
+            Log log = calculateLogTime(time, seconds);
+            logList.add(log);
         }
         
         for(Log log : logList) {
-            int endTime = log.endTime;
-            answer = Math.max(answer, getLogCount(endTime, logList));
+            result = Math.max(result, countPerLog(log.end, logList));
         }
         
-        return answer;
+        return result;
     }
     
-    public int getLogCount(int startTime, List<Log> logList) {
-        int count = 0;
-        int endTime = startTime + 1000;
+    public Log calculateLogTime(String time, String seconds) {
+        final int thousand = 1000;
         
+        seconds = seconds.replaceAll("s", "");
+        int iSeconds = (int) (Double.parseDouble(seconds) * thousand);
+        
+        int start = 0;
+        int end = 0;
+        
+        String[] parts = time.split(":");
+        end += Integer.parseInt(parts[0]) * 60 * 60 * thousand;
+        end += Integer.parseInt(parts[1]) * 60 * thousand;
+        end += (int) (Double.parseDouble(parts[2]) * thousand);
+        
+        start = end - iSeconds + 1;
+        
+        return new Log(start, end);
+    }
+    
+    public int countPerLog(int start, List<Log> logList) {
+        int count = 0;
+        int end = start + 1000;
         for(Log log : logList) {
-            if(log.startTime < endTime && log.endTime >= startTime) {
+            if(log.start < end && start <= log.end) {
                 count++;
             }
         }
-        
         return count;
-    }
-    
-    public int[] getTime(String time, String sDuration) {
-        final int thousand = 1000;
-        int duration = (int) (thousand * Double.parseDouble(sDuration.replace("s", "")));
-        String[] timeParts = time.split(":");
-        
-        int endTime = thousand * 3600 * Integer.parseInt(timeParts[0]);
-        endTime += thousand * 60 * Integer.parseInt(timeParts[1]);
-        endTime += (int) (thousand * Double.parseDouble(timeParts[2]));
-        int startTime = endTime - duration + 1;
-        
-        return new int[]{startTime, endTime};
     }
 }
