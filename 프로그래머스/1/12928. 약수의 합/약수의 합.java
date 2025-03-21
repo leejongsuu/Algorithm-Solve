@@ -1,18 +1,14 @@
 class Solution {
     public int solution(int n) {
-        int size = (int) Math.sqrt(n);
-        int sum = 0;
-        for(int i = 1; i <= size; i++) {
+        int answer = 0;
+        for(int i = 1; i <= Math.sqrt(n); i++) {
             if(n % i == 0) {
-                sum += i;
-                sum += n / i;
+                answer += i;
+                if(n / i !=  i) {
+                    answer += n / i;
+                }
             }
         }
-        
-        if(size * size == n) {
-            sum -= size;
-        }
-        
-        return sum;
+        return answer;
     }
 }
