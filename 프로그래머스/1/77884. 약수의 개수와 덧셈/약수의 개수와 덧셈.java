@@ -1,31 +1,21 @@
 class Solution {
     public int solution(int left, int right) {
-        int sum = 0;
-        
+        int result = 0;
         for(int i = left; i <= right; i++) {
             int count = getDivisorCount(i);
-            if(count % 2 == 0) sum += i;
-            else sum -= i;
+            result += count % 2 == 0 ? i : i * -1;
         }
-        
-        return sum;
+        return result;
     }
     
     public int getDivisorCount(int num) {
-        
         int count = 0;
-        int sqrt = (int) Math.sqrt(num);
-        
-        for(int i = 1; i <= sqrt; i++) {
+        for(int i = 1; i <= Math.sqrt(num); i++) {
             if(num % i == 0) {
-                count += 2;
-            } 
+                count++;
+                if(num / i != i) count++;
+            }
         }
-        
-        if(sqrt * sqrt == num) {
-            count--;
-        }
-        
         return count;
     }
 }
