@@ -1,16 +1,14 @@
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 class Solution {
+    
     public String[] solution(String[] strings, int n) {
         
         Comparator<String> comp = new Comparator<>() {
             @Override
             public int compare(String o1, String o2) {
-                char a = o1.charAt(n);
-                char b = o2.charAt(n);
-                if(a == b) return o1.compareTo(o2);
-                else return a - b;
+               if(o1.charAt(n) == o2.charAt(n)) return o1.compareTo(o2);
+                else return o1.charAt(n) - o2.charAt(n);     
             }
         };
         
