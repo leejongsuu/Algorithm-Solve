@@ -1,23 +1,26 @@
 class Solution {
     public String solution(String s, String skip, int index) {
-        boolean[] alphabet = new boolean[26];
+        
+        boolean[] flag = new boolean[26];
         for(char c : skip.toCharArray()) {
-            alphabet[c - 'a'] = true;
+            flag[c - 'a'] = true;
         }
         
-        int len = s.length();
-        char[] result = new char[len];
-        for(int i = 0; i < len; i++) {
-            char word = s.charAt(i);
-            int j = word - 'a';
-            int cnt = 0;
-            while(cnt < index) {
-                if(!alphabet[(++j) % 26]) {
-                    cnt++;
+        char[] ch = s.toCharArray();
+        for(int i = 0; i < ch.length; i++) {
+            int asc = ch[i] - 'a';
+            for(int j = 0; j < index; j++) {
+                while(true) {
+                    asc++;
+                    if(asc >  25) asc = 0;
+                    if(!flag[asc]) {
+                        break;
+                    }    
                 }
             }
-            result[i] = (char) ((j % 26) + 'a');
+            ch[i] = (char) (asc + (int) 'a');
         }
-        return String.valueOf(result);
+        //a b c d e f g h i j k l m n o p q r s t u v w x y z
+        return String.valueOf(ch);
     }
 }
