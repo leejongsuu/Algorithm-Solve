@@ -1,40 +1,42 @@
-import java.util.Stack;
+import java.util.*;
 
 class Solution {
-     public int solution(String dartResult) {
-        Stack<Integer> scoreStack = new Stack<>();
-         
-         for(int i = 0; i < dartResult.length(); i++) {
-             char c = dartResult.charAt(i);
-             if(Character.isDigit(c)) {
-                 if(Character.isDigit(dartResult.charAt(i+1))) {
-                     scoreStack.push(10);
-                     i++;
-                 } else {
-                     scoreStack.push(c -'0');
-                 }
-                 continue;
-             }
-             
-             switch(c) {
-                 case 'D' -> scoreStack.push((int) Math.pow(scoreStack.pop(), 2));
-                 case 'T' -> scoreStack.push((int) Math.pow(scoreStack.pop(), 3));
-                 case '#' -> scoreStack.push(-1 * scoreStack.pop());
-                 case '*' -> {
-                     int first = scoreStack.pop();
-                     if(!scoreStack.isEmpty()) {
-                         int second = scoreStack.pop();
-                         scoreStack.push(2 * second);
-                     }
-                     scoreStack.push(2 * first);
-                 }
-             }
-         }
-         int result = 0;
-         for(int score : scoreStack) {
-             result += score;
-         }
+    public int solution(String dartResult) {
 
-         return result;
+        int answer = 0;
+        int len = dartResult.length();
+        int i = 0, before = 0;
+        while(i < len) {
+            
+            int score = dartResult.charAt(i) - '0';
+            i++;
+            if(Character.isDigit(dartResult.charAt(i))) {
+                score = 10;
+                i++;
+            }
+            
+            char bonus = dartResult.charAt(i);
+            switch(bonus) {
+                    case 'S' -> score = (int) Math.pow(score, 1);
+                    case 'D' -> score = (int) Math.pow(score, 2);
+                    case 'T' -> score = (int) Math.pow(score, 3);
+            }
+            i++;
+            
+            if(i < len && !Character.isDigit(dartResult.charAt(i))) {
+                char option = dartResult.charAt(i);
+                if(option == '*') {
+                    answer += before;
+                    score *= 2;
+                } else {
+                    score *= -1;
+                }
+                i++;
+            }
+            before = score;
+            answer += score;
+        }
+        
+        return answer;
     }
 }
