@@ -1,56 +1,57 @@
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 class Solution {
     
     class Stage implements Comparable<Stage> {
-        int number;
+        int num;
         double failureRate;
         
-        public Stage(int number, double failureRate) {
-            this.number = number;
+        public Stage(int num, double failureRate) {
+            this.num = num;
             this.failureRate = failureRate;
-        }
-        
-        public int getNumber() {
-            return this.number;
         }
         
         @Override
         public int compareTo(Stage o) {
-            int flag = Double.compare(o.failureRate, this.failureRate);
-            if(flag == 0) {
-                return this.number - o.number;
-            } else {
-                return flag;
-            }
+            int comp = Double.compare(o.failureRate, this.failureRate);
+            if(comp == 0) return this.num - o.num;
+            else return comp;
         }
-        
     }
     
     public int[] solution(int N, int[] stages) {
         
+        List<Stage> stageList = new ArrayList<>();
+        
         Arrays.sort(stages);
         
-        ArrayList<Stage> resultList = new ArrayList<>();
-        
         int len = stages.length;
-        int totalPerson = len;
+        int challenger = len;
         
         for(int i = 1, j = 0; i <= N; i++) {
-            int cnt = 0;
-            while(j < len && i == stages[j]) {
-                cnt++;
+            int notClear = 0;
+            while(j < len  && i == stages[j]) {
+                notClear++;
                 j++;
             }
-            double rate = totalPerson == 0 ? 0 : (double) cnt / totalPerson;
-            resultList.add(new Stage(i, rate));
-            totalPerson -= cnt;
+            
+            if(challenger <= 0) {
+                stageList.add(new Stage(i, 0));
+                continue;
+            }
+            
+            double failureRate = (double) notClear / challenger;
+            stageList.add(new Stage(i, failureRate));
+            challenger -= notClear;
         }
         
-        Collections.sort(resultList);
+        Collections.sort(stageList);
         
-        return resultList.stream().mapToInt(Stage::getNumber).toArray();
+        int[] result = new int[N];
+        for(int i = 0; i < N; i++) {
+            result[i] = stageList.get(i).num;
+        }
+        
+        return result;
     }
 }
