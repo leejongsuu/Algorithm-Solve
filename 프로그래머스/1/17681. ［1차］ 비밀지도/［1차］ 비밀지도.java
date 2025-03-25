@@ -3,13 +3,12 @@ class Solution {
         
         String[] result = new String[n];
         for(int i = 0; i < n; i++) {
-            String binary = String.format("%16s", Integer.toBinaryString(arr1[i] | arr2[i]));
-            result [i] = binary
-                    .substring(16 - n)
-                    .replaceAll("1", "#")
-                    .replaceAll("0", " ");
+            String sBinary = Integer.toBinaryString(arr1[i] | arr2[i]);
+            sBinary = sBinary.replaceAll("1", "#").replaceAll("0", " ");
+            while(sBinary.length() < n) sBinary = " " + sBinary;
+            
+            result[i] = sBinary;
         }
-        
         return result;
     }
 }
