@@ -1,6 +1,5 @@
 class Solution {
-    
-    public class ID {
+    class ID {
         String id;
         
         public ID(String id) {
@@ -8,7 +7,7 @@ class Solution {
         }
         
         public String getId() {
-            return this.id;
+            return id;
         }
         
         public ID toLowerCase() {
@@ -16,52 +15,51 @@ class Solution {
             return this;
         }
         
-        public ID toFiltering() {
+        public ID filtering() {
             id = id.replaceAll("[^a-z0-9-_.]", "");
             return this;
         }
         
-        public ID replaceOneDot() {
-            id = id.replaceAll("[.]{2,}",".");
+        public ID removeDotMoreThan2() {
+            id = id.replaceAll("[.]{2,}", ".");
             return this;
         }
         
-        public ID removeFirstOrEndDot() {
-            id = id.replaceAll("^[.]|[.]$","");
-            return this;
-        }
-        
-        public ID noBlank() {
-            if(id.isEmpty()) {
-                id += "a";
-            }
-            return this;
-        }
-        
-        public ID noGreaterThan16() {
-            if(id.length() >= 16) {
-                id = id.substring(0, 15);
-            }
-            id = id.replaceAll("[.]$", "");
+        public ID removeFirstAndLastDot() {
+            id = id.replaceAll("^[.]|[.]$", "");
             return this;
         }
         
         public ID addWords() {
+            id = id.isEmpty() ? "a" : id;
+            return this;
+        }
+        
+        public ID lengthMoreThan16() {
+            if(id.length() >= 16) {
+                id = id.substring(0, 15).replaceAll("[.]$", "");;
+            }
+            return this;
+        }
+        
+        public ID lengthLessThan2() {
+            char c = id.charAt(id.length() - 1);
             while(id.length() <= 2) {
-                id += String.valueOf(id.charAt(id.length() - 1));
+                id += String.valueOf(c);
             }
             return this;
         }
     }
+    
     public String solution(String new_id) {
         return new ID(new_id)
             .toLowerCase()
-            .toFiltering()
-            .replaceOneDot()
-            .removeFirstOrEndDot()
-            .noBlank()
-            .noGreaterThan16()
+            .filtering()
+            .removeDotMoreThan2()
+            .removeFirstAndLastDot()
             .addWords()
+            .lengthMoreThan16()
+            .lengthLessThan2()
             .getId();
     }
 }
