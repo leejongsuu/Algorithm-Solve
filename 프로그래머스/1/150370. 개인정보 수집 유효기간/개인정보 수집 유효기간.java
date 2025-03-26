@@ -1,38 +1,41 @@
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 
 class Solution {
+    final int days = 28;
+    
     public int[] solution(String today, String[] terms, String[] privacies) {
         
-        int INF = getDays(today);
-        
-        HashMap<Character, Integer> map = new HashMap<>();
+        Map<String, Integer> termMap = new HashMap<>();
         for(String term : terms) {
-            String[] splited = term.split(" ");
-            map.put(splited[0].charAt(0), Integer.parseInt(splited[1]) * 28);
+            String[] parts = term.split(" ");
+            termMap.put(parts[0], days * Integer.parseInt(parts[1]));
         }
         
-        ArrayList<Integer> list = new ArrayList<>();
+        int iToday = getIntPrivacy(today);
+        List<Integer> resultList = new ArrayList<>();
         
         for(int i = 0; i < privacies.length; i++) {
-            String[] splited = privacies[i].split(" ");
-            
-            int sum = getDays(splited[0]) + map.get(splited[1].charAt(0));
-            if(INF >= sum) {
-                list.add(i + 1);
+            String[] parts = privacies[i].split(" ");
+            int privacy = getIntPrivacy(parts[0]);
+            privacy += termMap.get(parts[1]);
+            if(iToday >= privacy) {
+                resultList.add(i + 1);
             }
         }
-        return list.stream().mapToInt(Integer::intValue).toArray();
         
+        
+        return resultList.stream().mapToInt(Integer::intValue).toArray();
     }
     
-    private int getDays(String date) {
-        String[] splited = date.split("[.]");
+    public int getIntPrivacy(String privacy) {
+        int day = 0;
         
-        int year = Integer.parseInt(splited[0]) - 1;
-        int month = Integer.parseInt(splited[1]) - 1;
-        int day = Integer.parseInt(splited[2]);
+        String[] part = privacy.split("[.]");
         
-        return (year * 12 * 28) + (month * 28) + day;
+        day += 12 * days * Integer.parseInt(part[0]);
+        day += days * Integer.parseInt(part[1]);
+        day += Integer.parseInt(part[2]);
+        
+        return day;
     }
 }
