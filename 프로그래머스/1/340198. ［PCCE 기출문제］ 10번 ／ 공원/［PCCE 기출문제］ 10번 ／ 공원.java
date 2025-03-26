@@ -1,19 +1,20 @@
-import java.util.Arrays;
+import java.util.*;
 
 class Solution {
     public int solution(int[] mats, String[][] park) {
-        
-        int row = park.length;
-        int col = park[0].length;
-        
+            
         Arrays.sort(mats);
+        int n = park.length;
+        int m = park[0].length;
         
-        for(int m = mats.length - 1; m >= 0; m--) {
-            int size = mats[m];
-            for(int i = 0; i <= row - size; i++) {
-                for(int j = 0; j <= col - size; j++) {
-                    if(canPlace(i, j, size, park)) {
-                        return size;
+        for(int i = mats.length - 1; i >= 0; i--) {
+            int size = mats[i];
+            for(int j = 0; j < n; j++) {
+                for(int k = 0; k < m; k++) {
+                    if(park[j][k].equals("-1")) {
+                        if(checkPossible(j, k, size, park)) {
+                            return size;
+                        }
                     }
                 }
             }
@@ -22,10 +23,16 @@ class Solution {
         return -1;
     }
     
-    private boolean canPlace(int y, int x, int size, String[][] park) {
+    public boolean checkPossible(int r, int c, int size, String[][] park) {
+        int n = park.length;
+        int m = park[0].length;
         
-        for(int i = y; i < y + size; i++) {
-            for(int j = x; j < x + size; j++) {
+        if(r + size >  n || c + size > m) {
+            return false;
+        } 
+        
+        for(int i = r; i < r + size; i++) {
+            for(int j = c; j < c + size; j++) {
                 if(!park[i][j].equals("-1")) {
                     return false;
                 }
