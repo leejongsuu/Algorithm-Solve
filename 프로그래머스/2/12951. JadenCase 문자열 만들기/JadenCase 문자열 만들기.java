@@ -1,19 +1,19 @@
 class Solution {
     public String solution(String s) {
-        char[] ch = s.toCharArray();
-        boolean isStartOfWord  = true;
+        char[] ch = s.toLowerCase().toCharArray();
         
+        boolean firstWord = true;
         for(int i = 0; i < ch.length; i++) {
             if(ch[i] == ' ') {
-                isStartOfWord = true;
+                firstWord = true;
                 continue;
-            } else {
-                if(isStartOfWord) {
+            }
+            
+            if(firstWord) {
+                if(Character.isAlphabetic(ch[i])) {
                     ch[i] = Character.toUpperCase(ch[i]);
-                } else {
-                    ch[i] = Character.toLowerCase(ch[i]);
                 }
-                isStartOfWord = false;
+                firstWord = false;
             }
         }
         
