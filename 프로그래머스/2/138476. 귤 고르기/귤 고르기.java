@@ -9,17 +9,16 @@ class Solution {
         }
         
         List<Integer> list = new ArrayList<>(tangerineMap.values());
-        list.sort((o1, o2) -> o2 - o1);
+        Collections.sort(list, Collections.reverseOrder());
         
-        int result = 0;
-        for(int l : list) {
-            k -= l;
+        int result = 0, sum = 0;
+        for(int i : list) {
+            sum += i;
             result++;
-            if(k <= 0) {
-                break;
+            if(sum >= k) {
+                return result;
             }
         }
-        
-        return result;
+        return -1;
     }
 }
