@@ -1,38 +1,47 @@
 import java.util.*;
 
 class Solution {
+    
+    Map<Character, Character> map = new HashMap<>();
+    
     public int solution(String s) {
-        
-        int result = 0;
-        
-        Map<Character, Character> map = new HashMap<>();
-        map.put('(', ')');
-        map.put('[', ']');
-        map.put('{', '}');
-        
         Queue<Character> queue = new LinkedList<>();
         for(char c : s.toCharArray()) {
             queue.offer(c);
         }
         
-        for(int i = 0; i < s.length(); i++) {
-            Stack<Character> stack = new Stack<>();
-            boolean flag = true;
-            for(char c : queue) {
-                if(map.containsKey(c)) {
-                    stack.push(c);
-                } else if(stack.isEmpty() || c != map.get(stack.pop())) {
-                    flag = false;
-                    break;
-                }
-            }
-            if(flag && stack.isEmpty()) {
-                result++;
-            }
-            
+        map.put('[', ']');
+        map.put('(', ')');
+        map.put('{', '}');
+        
+        int result = 0;
+        if(isAlright(queue)) result++;
+        
+        for(int i = 1; i < s.length(); i++) {
             queue.offer(queue.poll());
+            if(isAlright(queue)) result++;
         }
         
         return result;
+    }
+    
+    public boolean isAlright(Queue<Character> queue) {
+        Stack<Character> stack = new Stack<>();
+        
+        for(char c : queue) {
+            if(map.containsKey(c)) {
+                stack.push(c);
+            } else {
+                if(stack.isEmpty()) return false;
+                else {
+                    char top = stack.pop();
+                    if(map.get(top) != c) {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return stack.isEmpty();
     }
 }
