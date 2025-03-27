@@ -1,20 +1,16 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[] schedules, int[][] timelogs, int startday) {
-        boolean[] weekOfDays = {false, false, false, false, false, true, true};
-        
+
+        boolean[] weekends = {false, false, false, false, false, true, true};
         int result = schedules.length;
         
         for(int i = 0; i < schedules.length; i++) {
-            int schedule = getScheduleTime(schedules[i]);
-            int day = startday - 2;
-            
+            int schedule = parseTime(schedules[i], true);
             for(int j = 0; j < timelogs[i].length; j++) {
-                day++;
-                if(weekOfDays[day % 7]) continue;
-                
-                if(getTime(timelogs[i][j]) > schedule) {
+                int currentDay = (startday - 1 + j) % 7;
+                if(weekends[currentDay]) continue;
+                int time = parseTime(timelogs[i][j], false);
+                if(time > schedule) {
                     result--;
                     break;
                 }
@@ -24,21 +20,16 @@ class Solution {
         return result;
     }
     
-    public int getTime(int num) {
-        String time = String.format("%04d", num);
-        int hour = Integer.parseInt(time.substring(0,2)) * 100;
-        int minute = Integer.parseInt(time.substring(2));
-        return hour + minute;
-    }
-    
-    public int getScheduleTime(int num) {
-        String time = String.format("%04d", num);
-        int hour = Integer.parseInt(time.substring(0,2)) * 100;
-        int minute = Integer.parseInt(time.substring(2)) + 10;
-        if(minute >= 60) {
-            hour += 100;
-            minute -= 60;
-        }
-        return hour + minute;
+    public int parseTime(int time, boolean addTen) {
+        String s = String.format("%04d", time);
+        int hour = Integer.parseInt(s.substring(0, 2));
+        int minute = Integer.parseInt(s.substring(2));
+        
+        if(addTen) minute += 10;
+        
+        hour += minute / 60;
+        minute %= 60;
+        
+        return hour * 100 + minute;
     }
 }
