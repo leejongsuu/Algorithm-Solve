@@ -1,23 +1,18 @@
-import java.util.*;
+import java.util.Arrays;
 
 class Solution {
     public int solution(int[] citations) {
-        
-        Arrays.sort(citations);
-        
-        int len = citations.length;
         int lo = 0;
-        int hi = citations[len - 1];
+        int hi = Arrays.stream(citations).max().getAsInt();
         
         while(lo < hi) {
             int mid = (lo + hi) / 2;
-            int cnt = len;
-            for(int c : citations) {
-                if(c < mid) {
-                    cnt--;
+            int cnt = 0;
+            for(int citation : citations) {
+                if(citation >= mid) {
+                    cnt++;
                 }
             }
-            
             if(cnt >= mid) {
                 lo = mid + 1;
             } else {
