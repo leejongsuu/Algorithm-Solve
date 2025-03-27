@@ -3,35 +3,37 @@ import java.util.*;
 class Solution {
     public int solution(int cacheSize, String[] cities) {
         
-        final int HIT = 1;
-        final int MISS = 5;
-        
-        int totalTime = 0;
-        
-        if(cacheSize == 0) {
-            return MISS * cities.length;
+        for(int i = 0; i < cities.length; i++) {
+            cities[i] = cities[i].toLowerCase();
         }
         
-        Queue<String> cache = new LinkedList<>();
+        int result = 0;
+        List<String> cache = new ArrayList<>(cacheSize);
         
-        for(String city : cities) {
-            
-            city = city.toLowerCase();
-            
-            boolean hit = false;
-            for(String c : cache) {
-                if(c.equals(city)) {
-                    hit = true;
-                    cache.remove(c);
-                    break;
-                }
+        for(int i = 0; i < cacheSize; i++) {
+            if(cache.contains(cities[i])) {
+                result -= 4;
+                cache.remove(cities[i]);
             }
-            if(!hit && cache.size() >= cacheSize) {
-                cache.poll();
-            }
-            cache.offer(city);
-            totalTime += hit ? HIT : MISS;
+            
+            result += 5;
+            cache.add(cities[i]);
         }
-        return totalTime;
+        
+        for(int i = cacheSize; i < cities.length; i++) {
+            if(cache.contains(cities[i])) {
+                result -= 4;
+                cache.remove(cities[i]);
+            }
+            
+            result += 5;
+            cache.add(cities[i]);
+            
+            if(cache.size() > cacheSize) {
+                cache.remove(0);
+            }
+        }
+        
+        return result;
     }
 }
