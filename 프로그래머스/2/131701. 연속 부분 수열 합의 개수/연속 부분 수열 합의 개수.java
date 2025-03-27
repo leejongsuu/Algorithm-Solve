@@ -3,18 +3,19 @@ import java.util.*;
 class Solution {
     public int solution(int[] elements) {
         
-        Set<Integer> elementSet = new HashSet<>();
+        Set<Integer> set = new HashSet<>();
+        int len = elements.length;
         
-        int max_len = elements.length;
-        int[] dp = new int[max_len];
-        
-        for(int len = 1; len <= max_len; len++) {
-            for(int i = 0; i < max_len; i++) {
-                dp[i] += elements[(i + len - 1) % max_len];
-                elementSet.add(dp[i]);
+        for(int i = 1; i <= len; i++) {
+            for(int lt = 0; lt < len; lt++) {
+                int sum = 0;
+                for(int rt = lt; rt < lt + i; rt++) {
+                    sum += elements[rt % len];
+                }
+                set.add(sum);
             }
         }
         
-        return elementSet.size();
+        return set.size();
     }
 }
