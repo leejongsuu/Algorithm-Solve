@@ -4,15 +4,14 @@ class Solution {
     public int solution(int[] elements) {
         
         Set<Integer> set = new HashSet<>();
-        int len = elements.length;
         
+        int len = elements.length;
+    
+        int[] dp = new int[len];
         for(int i = 1; i <= len; i++) {
-            for(int lt = 0; lt < len; lt++) {
-                int sum = 0;
-                for(int rt = lt; rt < lt + i; rt++) {
-                    sum += elements[rt % len];
-                }
-                set.add(sum);
+            for(int j = 0; j < len; j++) {
+                dp[j] += elements[(i + j - 1) % len];
+                set.add(dp[j]);
             }
         }
         
