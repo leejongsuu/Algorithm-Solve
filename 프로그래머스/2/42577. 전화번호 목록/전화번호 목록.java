@@ -3,16 +3,16 @@ import java.util.*;
 class Solution {
     public boolean solution(String[] phone_book) {
         
-        Set<String> numberSet = new HashSet<>();
-        for(String phoneNumber : phone_book) {
-            numberSet.add(phoneNumber);
+        Set<String> phoneSet = new HashSet<>();
+        for(String phone : phone_book) {
+            phoneSet.add(phone);
         }
         
-        for(String phoneNumber : phone_book) {
-            int len = phoneNumber.length();
-            for(int i = 0; i < len; i++) {
-                String s = phoneNumber.substring(0, i);
-                if(numberSet.contains(s)) {
+        for(String phone : phone_book) {
+            int len = phone.length();
+            for(int i = 1; i < len; i++) {
+                String prefix = phone.substring(0, i);
+                if(phoneSet.contains(prefix)) {
                     return false;
                 }
             }
