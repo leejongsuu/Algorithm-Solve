@@ -11,13 +11,11 @@ class Solution {
         for(String phone : phone_book) {
             int len = phone.length();
             for(int i = 1; i < len; i++) {
-                String prefix = phone.substring(0, i);
-                if(phoneSet.contains(prefix)) {
+                if(phoneSet.contains(phone.substring(0, i))) {
                     return false;
                 }
             }
         }
-        
         return true;
     }
 }
