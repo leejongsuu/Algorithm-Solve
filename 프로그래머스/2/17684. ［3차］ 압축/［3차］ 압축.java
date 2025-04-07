@@ -5,7 +5,6 @@ class Solution {
         
         List<Integer> result = new ArrayList<>();
         
-        int index = 27; // 사전의 색인 번호 27부터 시작
         Map<String, Integer> map = new HashMap<>();
         
         // A부터 Z까지 사전에 초기화
@@ -13,8 +12,10 @@ class Solution {
             map.put(String.valueOf((char) ('A' + i)), i + 1);
         }
 
+        int index = 27; // 사전의 색인 번호 27부터 시작
         int len = msg.length();
         String before = "";
+        
         for (int i = 0; i < len;) {
             int j = i + 1;
             for (; j <= len; j++) {
