@@ -3,28 +3,29 @@ import java.util.*;
 class Solution {
     public int solution(int[] topping) {
         
-        int len = topping.length;
+        Map<Integer, Integer> person1Map = new HashMap<>();
+        Map<Integer, Integer> person2Map = new HashMap<>();
+        
+        person1Map.put(topping[0], 1);
+
+        for(int i = 1; i < topping.length; i++) {
+            person2Map.put(topping[i], person2Map.getOrDefault(topping[i], 0) + 1);
+        }
+        
         int result = 0;
+        if(person1Map.size() == person2Map.size()) result++;
         
-        Map<Integer, Integer> map1 = new HashMap<>();
-        Map<Integer, Integer> map2 = new HashMap<>();
-        
-        for(int t : topping) {
-            map1.put(t, map1.getOrDefault(t, 0) + 1);
+        for(int i = 1; i < topping.length; i++) {
+            person1Map.put(topping[i], person1Map.getOrDefault(topping[i], 0) + 1);
+            int value = person2Map.get(topping[i]);
+            if(value > 1) {
+                person2Map.put(topping[i], value - 1);
+            } else {
+                person2Map.remove(topping[i]);
+            }
+            if(person1Map.size() == person2Map.size()) result++;
         }
         
-        for(int i = 0; i < len - 1; i++) {
-            int t = topping[i];
-            map1.put(t, map1.getOrDefault(t, 0) -1);
-            if(map1.get(t) <= 0) {
-                map1.remove(t);
-            }
-            map2.put(t, map2.getOrDefault(t, 0) +1);
-            
-            if(map1.size() == map2.size()) {
-                result++;
-            }
-        }
         return result;
     }
 }
