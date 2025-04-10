@@ -1,44 +1,43 @@
 import java.util.*;
 
 class Solution {
-    
+    class User {
+        String id;
+        boolean isEnter;
+        
+        public User(String id, boolean isEnter) {
+            this.id = id;
+            this.isEnter = isEnter;
+        }
+    }
     public String[] solution(String[] record) {
-        
-        final String ENTER = "%s님이 들어왔습니다.";
-        final String LEAVE = "%s님이 나갔습니다.";
-        
+        Queue<User> queue = new LinkedList<>();
         Map<String, String> userMap = new HashMap<>();
-        Queue<String> queue = new LinkedList<>();
         
-        for(String str : record) {
-            String[] strArr = str.split(" ");
-            String command = strArr[0];
+        for(String info : record) {
+            String[] parts = info.split(" ");
+            String command = parts[0];
+            String id = parts[1];
             
-            if(!command.equals("Leave")) {
-                userMap.put(strArr[1], strArr[2]);
+            if(command.equals("Leave")) {
+                queue.offer(new User(id, false));
+                continue;
             }
             
-            if(!command.equals("Change")) {
-                queue.offer(str);
-            }
-        }
-        
-        int size = queue.size();
-        String[] result = new String[size];
-        
-        for(int i = 0; !queue.isEmpty(); i++) {
-            String str = queue.poll();
-            String[] strArr = str.split(" ");
-            
-            String command = strArr[0];
-            String uid = strArr[1];
+            String name = parts[2];
+            userMap.put(id, name);
             if(command.equals("Enter")) {
-                result[i] = String.format(ENTER, userMap.get(uid));
-            } else {
-                result[i] = String.format(LEAVE, userMap.get(uid));
+                queue.offer(new User(id, true));
             }
         }
-        
+            
+        String[] result = new String[queue.size()];
+        for(int i = 0; !queue.isEmpty(); i++) {
+            User user = queue.poll();
+            String end = user.isEnter ? "들어왔습니다." : "나갔습니다.";
+            result[i] = userMap.get(user.id) + "님이 " + end;
+        }
+            
         return result;
     }
 }
