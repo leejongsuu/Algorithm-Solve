@@ -1,20 +1,22 @@
+import java.util.*;
+
 class Solution {
     int solution(int[][] land) {
         
-        int size = land.length;
-        int[][] dp = new int[size][4];
+        int len = land.length;
+        int[][] dp = new int[len][4];
         
-        for(int col = 0; col < 4; col++) {
-            dp[0][col] = land[0][col];
+        for(int c = 0; c < 4; c++) {
+            dp[0][c] = land[0][c];
         }
         
-        for(int row = 1; row < size; row++) {
-            dp[row][0] = Math.max(dp[row-1][1], Math.max(dp[row-1][2], dp[row-1][3])) + land[row][0];
-            dp[row][1] = Math.max(dp[row-1][0], Math.max(dp[row-1][2], dp[row-1][3])) + land[row][1];
-            dp[row][2] = Math.max(dp[row-1][0], Math.max(dp[row-1][1], dp[row-1][3])) + land[row][2];
-            dp[row][3] = Math.max(dp[row-1][0], Math.max(dp[row-1][1], dp[row-1][2])) + land[row][3];
+        for(int r = 1; r < len; r++) {
+            dp[r][0] =  land[r][0] + Math.max(dp[r-1][1], Math.max(dp[r-1][2], dp[r-1][3]));
+            dp[r][1] =  land[r][1] + Math.max(dp[r-1][0], Math.max(dp[r-1][2], dp[r-1][3]));
+            dp[r][2] =  land[r][2] + Math.max(dp[r-1][0], Math.max(dp[r-1][1], dp[r-1][3]));
+            dp[r][3] =  land[r][3] + Math.max(dp[r-1][0], Math.max(dp[r-1][1], dp[r-1][2]));
         }
         
-        return Math.max(Math.max(dp[size-1][0], dp[size-1][1]), Math.max(dp[size-1][2], dp[size-1][3]));
+        return Arrays.stream(dp[len - 1]).max().getAsInt();
     }
 }
