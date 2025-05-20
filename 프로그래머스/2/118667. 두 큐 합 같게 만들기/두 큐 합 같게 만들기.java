@@ -1,36 +1,35 @@
 class Solution {
     public int solution(int[] queue1, int[] queue2) {
-        int n = queue1.length;
-        long sum1 = 0, sum2 = 0;
-        long[] arr = new long[n * 2];
-
-        for (int i = 0; i < n; i++) {
-            arr[i] = queue1[i];
-            arr[i + n] = queue2[i];
+        
+        int len = queue1.length;
+        int[] queue = new int[2 * len];
+        
+        long sum1 = 0;
+        long sum2 = 0;
+        for(int i = 0; i < queue1.length; i++) {
             sum1 += queue1[i];
             sum2 += queue2[i];
+            
+            queue[i] = queue1[i];
+            queue[i + len] = queue2[i];
         }
-
-        long target = sum1 + sum2;
-        if (target % 2 != 0) return -1;
-        target /= 2;
-
-        int left = 0, right = n;
-        long curSum = sum1;
-        int ops = 0;
-        int maxOps = n * 3;
-
-        while (left < arr.length && right < arr.length && ops <= maxOps) {
-            if (curSum == target) return ops;
-
-            if (curSum < target) {
-                curSum += arr[right++];
+        
+        long target = (sum1 + sum2) / 2;
+        long cur = sum1;
+        
+        int lt = 0, rt = len;
+        int level = 0;
+        while(lt < rt && rt < 2 * len && lt < 2 * len) {
+            if(cur == target) return level;
+            
+            if(cur < target) {
+                cur += queue[rt++];
             } else {
-                curSum -= arr[left++];
+                cur -= queue[lt++];
             }
-            ops++;
+            level++;
         }
-
+        
         return -1;
     }
 }
