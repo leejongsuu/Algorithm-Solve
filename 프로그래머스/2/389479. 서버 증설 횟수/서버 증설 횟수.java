@@ -4,25 +4,20 @@ class Solution {
     public int solution(int[] players, int m, int k) {
         
         int result = 0;
-        Queue<Integer> times = new LinkedList<>();
+        int active = 0;
         
-        for(int player : players) {
-            int size = times.size();
-            for(int i = 0; i < size; i++) {
-                int time = times.poll();
-                if(time - 1 > 0) {
-                    times.offer(time - 1);
-                }
+        int[] server = new int[24];
+        for(int i = 0; i < 24; i++) {
+            if(i >= k) {
+                active -= server[i - k];
             }
             
-            size = times.size();
-            
-            if(player >= (size + 1) * m) {
-                int cnt = player / m - size;
-                result += cnt;
-                for(int i = 0; i < cnt; i++) {
-                    times.offer(k);
-                }
+            int req = players[i] / m;
+            if(active < req) {
+                int add = req - active;
+                result += add;
+                active += add;
+                server[i] = add;
             }
         }
         
