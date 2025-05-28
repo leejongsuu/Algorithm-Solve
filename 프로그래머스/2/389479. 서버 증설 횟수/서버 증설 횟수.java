@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[] players, int m, int k) {
         
@@ -7,17 +5,17 @@ class Solution {
         int active = 0;
         
         int[] server = new int[24];
-        for(int i = 0; i < 24; i++) {
-            if(i >= k) {
-                active -= server[i - k];
+        for(int t = 0; t < 24; t++) {
+            if(t >= k) {
+                active -= server[t - k];
             }
             
-            int req = players[i] / m;
+            int req = players[t] / m;
             if(active < req) {
                 int add = req - active;
                 result += add;
                 active += add;
-                server[i] = add;
+                server[t] = add;
             }
         }
         
