@@ -4,13 +4,11 @@ class Solution {
     public int[] solution(int n, long k) {
         
         long[] fact = new long[n + 1];
+        List<Integer> numbers = new ArrayList<>();
+        
         fact[0] = 1;
         for(int i = 1; i <= n; i++) {
-            fact[i] = fact[i - 1] * i;
-        }
-        
-        List<Integer> numbers = new ArrayList<>();
-        for(int i = 1; i <= n; i++) {
+            fact[i] = i * fact[i - 1];
             numbers.add(i);
         }
         
@@ -30,6 +28,8 @@ class Solution {
         }
         
         return answer;
+        
+        
         
     }
 }
