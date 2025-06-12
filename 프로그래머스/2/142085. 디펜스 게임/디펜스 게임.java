@@ -1,17 +1,16 @@
 import java.util.*;
 
 class Solution {
-    
     public int solution(int n, int k, int[] enemy) {
-        
-        int answer = 0;
-        
+
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-        long soldierUsed = 0;
         
+        long soldierUsed = 0;
         for(int i = 0; i < enemy.length; i++) {
-            soldierUsed += enemy[i];
-            pq.offer(enemy[i]);
+            int e = enemy[i];
+            
+            soldierUsed += e;
+            pq.offer(e);
             
             if(soldierUsed > n) {
                 if(k > 0) {
