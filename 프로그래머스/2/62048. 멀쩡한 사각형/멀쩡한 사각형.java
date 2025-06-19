@@ -1,13 +1,13 @@
 class Solution {
-    public long solution(long w, long h) {
-        long g = gcd(w, h);
-        long unusable = w + h - g;
-        return w * h - unusable;
+    public long solution(int w, int h) {
+        int g = gcd(w, h);
+        int unusable = w + h - g;
+        return (long) w * h - unusable;
     }
     
-    long gcd(long a, long b) {
+    int gcd(int a, int b) {
         while(b != 0) {
-            long temp = a % b;
+            int temp = a % b;
             a = b;
             b = temp;
         }
