@@ -4,7 +4,7 @@ class Solution {
     public int solution(String[][] relation) {
         int n = relation.length;
         int m = relation[0].length;
-
+        
         List<Integer> candidates = new ArrayList<>();
         
         for(int subset = 1; subset < (1 << m); subset++) {
@@ -23,7 +23,7 @@ class Solution {
     
     boolean isMinimal(int subset, List<Integer> candidates) {
         for(int candidate : candidates) {
-            if((subset &  candidate) == candidate) {
+            if((subset & candidate) == candidate) {
                 return false;
             }
         }
@@ -36,8 +36,8 @@ class Solution {
         for(int i = 0; i < n; i++) {
             StringBuilder sb = new StringBuilder();
             for(int j = 0; j < m; j++) {
-                if((subset & (1 << j)) != 0) {
-                    sb.append(relation[i][j]);
+                if((subset & 1 << j) != 0) {
+                    sb.append(relation[i][j]).append('|');
                 }
             }
             String key = sb.toString();
