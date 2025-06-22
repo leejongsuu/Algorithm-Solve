@@ -1,5 +1,6 @@
 class Solution {
     int result = 0;
+    
     boolean[] colUsed;
     boolean[] diag1Used;
     boolean[] diag2Used;
@@ -10,11 +11,11 @@ class Solution {
         diag2Used = new boolean[2 * n - 1];
         
         dfs(0, n);
-        
         return result;
     }
     
     void dfs(int row, int n) {
+        
         if(row == n) {
             result++;
             return;
@@ -28,7 +29,7 @@ class Solution {
                 diag1Used[d1] = true;
                 diag2Used[d2] = true;
                 
-                dfs(row + 1, n);
+                dfs(row + 1, n );
                 
                 colUsed[col] = false;
                 diag1Used[d1] = false;
