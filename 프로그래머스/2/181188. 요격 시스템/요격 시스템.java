@@ -9,17 +9,18 @@ class Solution {
             return o1[1] - o2[1];
         });
         
-        int result = 0;
-        result++;
+        int answer = 0;
+        answer++;
         
         int end = targets[0][1];
-        for(int[] target : targets) {
-            if(target[0] >= end) {
-                result++;
-                end = target[1];
+        
+        for(int[] tar : targets) {
+            if(tar[0] >= end) {
+                answer++;
+                end = tar[1];
             }
         }
         
-        return result;
+        return answer;
     }
 }
