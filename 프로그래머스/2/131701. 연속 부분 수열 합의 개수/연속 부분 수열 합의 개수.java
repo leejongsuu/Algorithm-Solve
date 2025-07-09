@@ -3,18 +3,22 @@ import java.util.*;
 class Solution {
     public int solution(int[] elements) {
         
-        Set<Integer> set = new HashSet<>();
+        int result = 0;
         
-        int len = elements.length;
-    
-        int[] dp = new int[len];
-        for(int i = 1; i <= len; i++) {
-            for(int j = 0; j < len; j++) {
-                dp[j] += elements[(i + j - 1) % len];
-                set.add(dp[j]);
+        int n = elements.length;
+        int[] dp = new int[n];
+        
+        Set<Integer> numberSet = new HashSet<>();
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                dp[j] += elements[(i + j) % n];
+                if(numberSet.add(dp[j])) {
+                    result++;
+                }
             }
         }
         
-        return set.size();
+        return result;
     }
 }
