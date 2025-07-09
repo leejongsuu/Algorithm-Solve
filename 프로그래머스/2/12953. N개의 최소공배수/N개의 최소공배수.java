@@ -1,18 +1,21 @@
 class Solution {
     public int solution(int[] arr) {
         
-        int inc = 1;
-        for(int num : arr) {
-            inc = inc * num / getGcd(inc, num);
+        if(arr.length == 1) {
+            return arr[0];
         }
         
-        return inc;
+        int mul = (arr[0] * arr[1]) / getDivide(arr[0], arr[1]);
+        for(int i = 2; i < arr.length; i++) {
+            mul = (mul * arr[i]) / getDivide(mul, arr[i]);
+        }
+        
+        return mul;
     }
     
-    public int getGcd(int a, int b) {
-        int temp = 0;
-        while(b > 0) {
-            temp = b;
+    int getDivide(int a, int b) {
+        while(b != 0) {
+            int temp = b;
             b = a % b;
             a = temp;
         }
