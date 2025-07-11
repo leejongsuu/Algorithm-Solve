@@ -1,12 +1,8 @@
 import java.util.*;
 
 class Solution {
-    
     class Road {
-        private int r;
-        private int c;
-        private int t;
-        
+        int r, c, t;
         public Road(int r, int c, int t) {
             this.r = r;
             this.c = c;
@@ -22,18 +18,16 @@ class Solution {
         public boolean equals(Object obj) {
             if(obj == this) return true;
             else if(!(obj instanceof Road)) return false;
-            
-            Road other = (Road) obj;
-            return r == other.r && c == other.c && t == other.t;
-        } 
+            Road o = (Road) obj;
+            return r == o.r && c == o.c && t == o.t;
+        }
     }
-        
+    
     public int solution(int[][] points, int[][] routes) {
-
-        int result = 0;
+        int answer = 0;
         
         Map<Road, Integer> map = new HashMap<>();
-        
+    
         for(int[] route : routes) {
             int r = points[route[0] - 1][0];
             int c = points[route[0] - 1][1];
@@ -45,23 +39,27 @@ class Solution {
                 int nr = points[route[i] - 1][0];
                 int nc = points[route[i] - 1][1];
                 
-                while (r != nr) {
+                while(r != nr) {
                     t++;
-                    r += (nr > r ? 1 : -1);
-                    map.merge(new Road(r,c,t), 1, Integer::sum);
+                    r += (r > nr ? -1 : 1);
+                    map.merge(new Road(r, c, t), 1, Integer::sum);
                 }
-                while (c != nc) {
+                
+                while(c != nc) {
                     t++;
-                    c += (nc > c ? 1 : -1);
-                    map.merge(new Road(r,c,t), 1, Integer::sum);
+                    c += (c > nc ? -1 : 1);
+                    map.merge(new Road(r, c, t), 1, Integer::sum);
                 }
             }
         }
         
-        for(int count : map.values()) {
-            if(count > 1) result++;
+        for(int value : map.values()) {
+            if(value > 1) {
+                answer++;
+            }
         }
         
-        return result;
+        
+        return answer;
     }
 }
