@@ -1,49 +1,38 @@
-import java.util.*;
-
 class Solution {
-    
-    char[] ch = new char[16];
-    
+    char[] ch;
     public String solution(int n, int t, int m, int p) {
-        for(int i = 0; i < 10; i++) {
-            ch[i] = (char) (i + '0');
-        }
-        for(int i = 0; i < 6; i++) {
-            ch[i + 10] = (char) ('A' + i);
-        }
-        
-        Queue<Integer> queue = new LinkedList<>();
-        for(int i = 1; i <= m; i++) {
-            queue.offer(i);
-        }
+        ch = new char[16];
+        for(int i = 0; i < 10; i++) ch[i] = (char) (i + '0');
+        for(int i = 0; i < 6; i++) ch[i + 10] = (char) (i + 'A');
         
         StringBuilder sb = new StringBuilder();
+        int num = 0, sequence = 0;
         
-        for(int num = 0; t > 0; num++) {
-            String sNum = toScale(num, n);
-            for(int i = 0; i < sNum.length() && t > 0; i++) {
-                int current = queue.poll();
-                if(current == p) {
-                    t--;
-                    sb.append(sNum.charAt(i));
+        while(sb.length() < t) {
+            String scale = toScale(n, num);
+            for(char s : scale.toCharArray()) {
+                if(sequence % m == p - 1) {
+                    sb.append(s);
                 }
-                queue.offer(current);
+                if(sb.length() == t) {
+                    break;
+                }
+                sequence++;
             }
+            num++;
         }
         
         return sb.toString();
     }
     
-    public String toScale(int num, int n) {
+    public String toScale(int n, int num) {
         if(num == 0) return "0";
-        else {
-            StringBuilder sb = new StringBuilder();
-            while(num > 0) {
-                int value = num % n;
-                sb.insert(0, ch[value]);
-                num /= n;
-            }
-            return sb.toString();
+        
+        StringBuilder sb = new StringBuilder();
+        while(num > 0) {
+            sb.insert(0, ch[num % n]);
+            num /= n;
         }
+        return sb.toString();
     }
 }
