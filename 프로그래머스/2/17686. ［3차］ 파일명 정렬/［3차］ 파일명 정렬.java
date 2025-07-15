@@ -1,57 +1,59 @@
 import java.util.*;
 
 class Solution {
-    class Info implements Comparable<Info> {
-        String fileName;
+    
+    class FileName implements Comparable<FileName> {
+        String origin;
         String head;
         int number;
         
-        public Info(String fileName, String head, int number) {
-            this.fileName = fileName;
+        public FileName(String origin, String head, int number) {
+            this.origin = origin;
             this.head = head;
             this.number = number;
         }
         
         @Override
-        public int compareTo(Info o) {
-            String a = this.head.toLowerCase();
-            String b = o.head.toLowerCase();
+        public int compareTo(FileName o) {
+            String tUpper = this.head.toUpperCase();
+            String oUpper = o.head.toUpperCase();
             
-            if(a.equals(b)) return this.number - o.number;
-            else return a.compareTo(b);
+            int comp = tUpper.compareTo(oUpper);
+            if(comp == 0) {
+                return this.number - o.number;
+            }
+            return comp;
         }
     }
+    
     public String[] solution(String[] files) {
         
-        int len = files.length;
-        
-        String[] result = new String[len];
-        Info[] infos = new Info[len];
-        
-        for(int i = 0; i < len; i++) {
-            int lt = 0, rt = 0;
-            int fileLength = files[i].length();
-            while(rt < fileLength && !Character.isDigit(files[i].charAt(rt))) {
-                rt++;
+        List<FileName> list = new ArrayList<>();
+        for(String file : files) {
+            int i = 0;
+            int len = file.length();
+            while(i < len && !Character.isDigit(file.charAt(i))) {
+                i++;
             }
-            String head = files[i].substring(lt, rt);
-            lt = rt;
             
-            int number = 0;
-            while(rt < fileLength && Character.isDigit(files[i].charAt(rt))) {
-                rt++;
+            String head = file.substring(0, i);
+            int j = i;
+            while(i < len && Character.isDigit(file.charAt(i))) {
+                i++;
             }
-            number = Integer.parseInt(files[i].substring(lt, rt));
             
-            infos[i] = new Info(files[i], head, number);
+            int number = Integer.parseInt(file.substring(j, i));
+            
+            list.add(new FileName(file, head, number));
         }
         
-        Arrays.sort(infos);
+        Collections.sort(list);
         
-        for(int i = 0; i < len; i++) {
-            result[i] = infos[i].fileName;
+        int size = list.size();
+        String[] result = new String[size];
+        for(int i = 0; i < size; i++) {
+            result[i] = list.get(i).origin;
         }
-        
         
         return result;
     }
