@@ -3,24 +3,23 @@ class Solution {
         
         int len = numbers.length;
         
-        long[] answer = new long[len];
-        
+        long[] result = new long[len];
         for(int i = 0; i < len; i++) {
-            long number = numbers[i];
+            long x = numbers[i];
             
-            if(number % 2 == 0) {
-                answer[i] = number + 1;
+            if(x % 2 == 0) {
+                result[i] = x + 1;
                 continue;
-            }
+            } 
             
             long bit = 1;
-            while((bit & number) != 0) {
+            while((x & bit) != 0) {
                 bit <<= 1;
             }
-             
-            answer[i] = (number + bit) - (bit >> 1);
+            
+            result[i] = x + bit - (bit >> 1);
         }
         
-        return answer;
+        return result;
     }
 }
