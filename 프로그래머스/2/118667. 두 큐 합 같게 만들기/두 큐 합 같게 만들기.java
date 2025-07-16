@@ -1,35 +1,39 @@
+import java.util.*;
+
 class Solution {
     public int solution(int[] queue1, int[] queue2) {
         
-        int len = queue1.length;
-        int[] queue = new int[2 * len];
+        int len1 = queue1.length;
+        int len2 = queue2.length;
+        int len = len1 + len2;
         
         long sum1 = 0;
         long sum2 = 0;
-        for(int i = 0; i < queue1.length; i++) {
-            sum1 += queue1[i];
-            sum2 += queue2[i];
-            
+        
+        int[] queue = new int[len];
+        for(int i = 0; i < len1; i++) {
             queue[i] = queue1[i];
-            queue[i + len] = queue2[i];
+            sum1 += queue1[i];
+        }
+        for(int i = 0; i < len2; i++) {
+            queue[i + len1] = queue2[i];
+            sum2 += queue2[i];
         }
         
+        int count = 0;
+        long sum = sum2;
         long target = (sum1 + sum2) / 2;
-        long cur = sum1;
         
-        int lt = 0, rt = len;
-        int level = 0;
-        while(lt < rt && rt < 2 * len && lt < 2 * len) {
-            if(cur == target) return level;
+        for(int lt = 0, rt = len1; lt < len && rt < len; count++) {
+            if(sum == target) break;
             
-            if(cur < target) {
-                cur += queue[rt++];
+            if(sum < target) {
+                sum += queue[lt++];
             } else {
-                cur -= queue[lt++];
+                sum -= queue[rt++];
             }
-            level++;
         }
         
-        return -1;
+        return sum == target ? count : -1;
     }
 }
