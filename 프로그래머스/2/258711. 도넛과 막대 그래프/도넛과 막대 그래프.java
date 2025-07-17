@@ -4,54 +4,60 @@ class Solution {
     
     int vCnt, eCnt;
     boolean[] visited;
+    List<Integer>[] lists;
     
     public int[] solution(int[][] edges) {
-        int[] result = new int[4];
         
-        int n = 0;
+        int n = 1;
         for(int[] edge : edges) {
             n = Math.max(n, Math.max(edge[0], edge[1]));
         }
         
-        List<Integer>[] lists = new ArrayList[n + 1];
+        lists = new ArrayList[n + 1];
         for(int i = 0; i <= n; i++) {
             lists[i] = new ArrayList<>();
         }
         
+        visited = new boolean[n + 1];
         int[] indegree = new int[n + 1];
         int[] outdegree = new int[n + 1];
+        
         for(int[] edge : edges) {
-            int u = edge[0], v = edge[1];
+            int u = edge[0];
+            int v = edge[1];
             outdegree[u]++;
             indegree[v]++;
+            
             lists[u].add(v);
         }
         
+        int fgv = 0;
         for(int i = 1; i <= n; i++) {
-            if(indegree[i] == 0 && outdegree[i] > 1) {
-                result[0] = i;
+            if(indegree[i] == 0 && outdegree[i] >= 2) {
+                fgv = i;
                 break;
             }
         }
         
-        for(int i : lists[result[0]]) {
+        int donut = 0, stick = 0, eight = 0;
+        for(int i : lists[fgv]) {
             vCnt = 0;
             eCnt = 0;
-            visited = new boolean[n + 1];
             dfs(i, lists);
-            int dis = vCnt - eCnt;
-            if(dis == 0) result[1]++;
-            else if(dis == 1) result[2]++;
-            else if(dis == -1) result[3]++;
+            
+            int diff = vCnt - eCnt;
+            if(diff == 0) donut++;
+            else if(diff == 1) stick++;
+            else if(diff == -1) eight++;
         }
-    
-        return result;
+        
+        return new int[]{fgv, donut, stick, eight};
     }
     
     void dfs(int v, List<Integer>[] lists) {
+        visited[v] = true;
         vCnt++;
         eCnt += lists[v].size();
-        visited[v] = true;
         
         for(int next : lists[v]) {
             if(!visited[next]) {
