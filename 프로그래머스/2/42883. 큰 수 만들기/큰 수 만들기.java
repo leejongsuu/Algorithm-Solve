@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public String solution(String number, int k) {
         
@@ -10,8 +12,8 @@ class Solution {
             char c = number.charAt(i);
             
             while(top >= 0 && k > 0 && stack[top] < c) {
-                k--;
                 top--;
+                k--;
             }
             
             stack[++top] = c;
