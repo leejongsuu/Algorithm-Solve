@@ -3,7 +3,6 @@ class Solution {
         
         int size = n * (n + 1) / 2;
         int[] result = new int[size];
-        
         int[][] triangle = new int[n][n];
         
         int[] dr = {1, 0, -1};
@@ -15,6 +14,7 @@ class Solution {
             
             int nr = r + dr[d];
             int nc = c + dc[d];
+            
             if(nr < 0 || nc < 0 || nr >= n || nc >= n || triangle[nr][nc] != 0) {
                 d = (d + 1) % 3;
                 nr = r + dr[d];
@@ -28,7 +28,7 @@ class Solution {
         int idx = 0;
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
-                if(triangle[i][j] != 0) {
+                if(triangle[i][j] > 0) {
                     result[idx++] = triangle[i][j];
                 }
             }
