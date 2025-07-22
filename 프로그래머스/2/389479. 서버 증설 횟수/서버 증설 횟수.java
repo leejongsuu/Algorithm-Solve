@@ -1,6 +1,6 @@
 class Solution {
     public int solution(int[] players, int m, int k) {
-        int result = 0;
+        int answer = 0;
         int active = 0;
         
         int[] server = new int[24];
@@ -11,14 +11,14 @@ class Solution {
             }
             
             int req = players[i] / m;
-            if(active < req) {
+            if(req > active) {
                 int add = req - active;
-                result += add;
+                answer += add;
                 active += add;
                 server[i] = add;
             }
         }
         
-        return result;
+        return answer;
     }
 }
