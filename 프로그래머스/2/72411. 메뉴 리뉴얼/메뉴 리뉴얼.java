@@ -1,81 +1,69 @@
 import java.util.*;
 
 class Solution {
-    class Menu implements Comparable<Menu> {
-        String menu;
-        int count;
-        
-        public Menu(String menu, int count) {
-            this.menu = menu;
-            this.count = count;
-        }
-        
-        @Override
-        public int compareTo(Menu o) {
-            return o.count - this.count;
-        }
-    }
+    
+    int size;
+    Map<String, Integer> map;
+    
     public String[] solution(String[] orders, int[] course) {
         
-        // 1. course별 조합을 세는 맵
-        Map<Integer, Map<String, Integer>> countMap = new HashMap<>();
-        for(int cnt : course) {
-            countMap.put(cnt, new HashMap<>());
-        }
-        
-        // 2. 각 order에 대해, 모든 course 길이 조합 생성
-        for(String order : orders) {
-            char[] ch = order.toCharArray();
-            Arrays.sort(ch);
-            
-            for(int cnt : course) {
-                if(ch.length < cnt) continue;
-                makeCombination(0, 0, cnt, new char[cnt], ch, countMap.get(cnt));
-            }
+        for(int i = 0; i < orders.length; i++) {
+            char[] temp = orders[i].toCharArray();
+            Arrays.sort(temp);
+            orders[i] = String.valueOf(temp);
         }
         
         List<String> resultList = new ArrayList<>();
         
-        // 3. 길이 별로 빈도 높은 메뉴 선정
-        for(int cnt : course) {
-            Map<String, Integer> map = countMap.get(cnt);
-            if(map.isEmpty()) continue;
+        for(int c : course) {
+            size = c;
+            map = new HashMap<>();
             
-            List<Menu> menuList = new ArrayList<>();
-            for(String key : map.keySet()) {
-                int value = map.get(key);
-                if(map.get(key) > 1) {
-                    menuList.add(new Menu(key, value));
-                }
+            for(String order : orders) {
+                makeSetMenu(0, 0, order, new char[size]);
             }
             
-            if(menuList.isEmpty()) continue;
+            int max = 0;
+            for(int value : map.values()) {
+                max = Math.max(max, value);
+            }
             
-            Collections.sort(menuList);
-            int maxCount = menuList.get(0).count;
-            for(Menu menu : menuList) {
-                if(menu.count < maxCount) {
-                    break;
+            for(Map.Entry<String, Integer> e : map.entrySet()) {
+                String key = e.getKey();
+                int value = e.getValue();
+            }
+            
+            if(max > 1) {
+                for(Map.Entry<String, Integer> e : map.entrySet()) {
+                    int value = e.getValue();
+                    if(value == max) {
+                        resultList.add(e.getKey());
+                    }
                 }
-                resultList.add(menu.menu);
             }
         }
         
         Collections.sort(resultList);
+        int len = resultList.size();
         
-        return resultList.toArray(new String[0]);
+        String[] result = new String[len];
+        for(int i = 0; i < len; i++) {
+            result[i] = resultList.get(i);
+        }
+        
+        return result;
     }
     
-    void makeCombination(int L, int start, int cnt, char[] temp, char[] origin, Map<String, Integer> map) {
-        if(L == cnt) {
-            String key = String.valueOf(temp);
+    void makeSetMenu(int L, int start, String origin, char[] temp) {
+        if(L == size) {
+            String key = new String(temp);
             map.put(key, map.getOrDefault(key, 0) + 1);
             return;
         }
         
-        for(int i = start; i < origin.length; i++) {
-            temp[L] = origin[i];
-            makeCombination(L + 1, i + 1, cnt, temp, origin, map);
+        for(int i = start; i < origin.length(); i++) {
+            temp[L] = origin.charAt(i);
+            makeSetMenu(L + 1, i + 1, origin, temp);
         }
     }
 }
