@@ -5,20 +5,17 @@ class Solution {
 
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         
-        long soldierUsed = 0;
         for(int i = 0; i < enemy.length; i++) {
-            int e = enemy[i];
+            pq.offer(enemy[i]);
+            n -= enemy[i];
+
+            while(n < 0 && k > 0 && !pq.isEmpty()) {
+                k--;
+                n += pq.poll();
+            }
             
-            soldierUsed += e;
-            pq.offer(e);
-            
-            if(soldierUsed > n) {
-                if(k > 0) {
-                    soldierUsed -= pq.poll();
-                    k--;
-                } else {
-                    return i;
-                }
+            if(n < 0) {
+                return i;
             }
         }
         
