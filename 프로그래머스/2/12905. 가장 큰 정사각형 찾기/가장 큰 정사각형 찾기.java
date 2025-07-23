@@ -4,28 +4,30 @@ class Solution
     {
         int n = board.length;
         int m = board[0].length;
-        int[][] dp = new int[n][m];
         
+        int[][] dp = new int[n][m];
+
         int max = 0;
         
         for(int i = 0; i < n; i++) {
-            dp[i][0] = board[i][0];
-            max = Math.max(max, dp[i][0]);
-        }
-        for(int i = 0; i < m; i++) {
-            dp[0][i] = board[0][i];
-            max = Math.max(max, dp[0][i]);
+            for(int j = 0; j < m; j++) {
+                dp[i][j] = board[i][j];
+                max = Math.max(max, dp[i][j]);
+            }
         }
         
-        for(int i = 1; i < n; i++) {
-            for(int j = 1; j < m; j++) {
-                if(board[i][j] == 1) {
-                    dp[i][j] = Math.min(dp[i-1][j-1], Math.min(dp[i-1][j], dp[i][j-1])) + 1;
-                    max = Math.max(max, dp[i][j] * dp[i][j]);
+        for(int r = 1; r < n; r++) {
+            for(int c = 1; c < m; c++) {
+                if(dp[r][c] == 1) {
+                    int min = Math.min(dp[r - 1][c - 1], Math.min(dp[r - 1][c], dp[r][c - 1]));
+                    if(min > 0) {
+                        dp[r][c] = min + 1;
+                    }
+                    max = Math.max(max, dp[r][c]);
                 }
             }
         }
         
-        return max;
+        return max * max;
     }
 }
