@@ -1,7 +1,6 @@
 import java.util.*;
 
 class Solution {
-    
     List<int[]> answerList = new ArrayList<>();
     
     public int[][] solution(int n) {
@@ -14,7 +13,6 @@ class Solution {
             answerList.add(new int[]{from, to});
             return;
         }
-        
         hanoi(n - 1, from, via, to);
         answerList.add(new int[]{from, to});
         hanoi(n - 1, via, to, from);
