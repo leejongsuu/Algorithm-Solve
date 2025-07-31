@@ -2,7 +2,7 @@ import java.util.*;
 
 class Solution {
     public int solution(String[][] relation) {
-
+        
         int n = relation.length;
         int m = relation[0].length;
         
@@ -23,7 +23,7 @@ class Solution {
     
     private boolean isMinimal(int subset, List<Integer> candidates) {
         for(int candidate : candidates) {
-            if((candidate & subset) == candidate) {
+            if((subset & candidate) == candidate) {
                 return false;
             }
         }
@@ -40,8 +40,7 @@ class Solution {
                     sb.append(relation[i][j]);
                 }
             }
-            String key = sb.toString();
-            if(!seen.add(key)) {
+            if(!seen.add(sb.toString())) {
                 return false;
             }
         }
