@@ -1,21 +1,34 @@
-import java.util.Queue;
-import java.util.LinkedList;
+import java.util.Stack;
 
 class Solution {
+    
+    class Stock {
+        int index;
+        int price;
+        
+        public Stock(int index, int price) {
+            this.index = index;
+            this.price = price;
+        }
+    }
+
     public int[] solution(int[] prices) {
-        
-        int N = prices.length;
-        int[] result = new int[N];
-        
-        for(int i = 0; i < N - 1; i++) {
-            for(int j = i + 1; j < N; j++) {
-                result[i]++;
-                if(prices[j] < prices[i]) {
-                    break;
-                }
+        int len = prices.length;
+        int[] result = new int[len];
+
+        Stack<Stock> stack = new Stack<>();
+        for(int i = 0; i < len; i++) {
+            while(!stack.isEmpty() && stack.peek().price > prices[i]) {
+                Stock stock = stack.pop();
+                result[stock.index] = i - stock.index;
             }
+            stack.push(new Stock(i, prices[i]));
         }
         
+        while(!stack.isEmpty()) {
+            Stock stock = stack.pop();
+            result[stock.index] = len - (stock.index + 1);
+        }
         return result;
     }
 }
