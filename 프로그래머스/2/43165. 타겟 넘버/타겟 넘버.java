@@ -1,21 +1,18 @@
 class Solution {
     
-    static int way = 0;
-    static int len = 0;
+    int result = 0;
+
     public int solution(int[] numbers, int target) {
-        
-        len = numbers.length;
-        DFS(0, 0, numbers, target);
-        
-        return way;
+        dfs(0, 0, numbers, target);
+        return result;
     }
     
-    public void DFS(int L, int sum, int[] numbers, int target) {
-        if(L == len) {
-            if(sum == target) way++;
-        } else {
-            DFS(L+1, sum + numbers[L], numbers, target);
-            DFS(L+1, sum - numbers[L], numbers, target);
+    private void dfs(int depth, int sum, int[] numbers, int target) {
+        if(depth == numbers.length) {
+            result += sum == target ? 1 : 0;
+            return;
         }
+        dfs(depth + 1, sum + numbers[depth], numbers, target);
+        dfs(depth + 1, sum - numbers[depth], numbers, target);
     }
 }
