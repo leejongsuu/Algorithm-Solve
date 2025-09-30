@@ -1,32 +1,34 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        char[] ch = br.readLine().toCharArray();
+        String input = br.readLine();
 
-        int oneToZeroCount = 0;
         int zeroToOneCount = 0;
+        int oneToZeroCount = 0;
 
-        if (ch[0] == '0') {
+        if (input.charAt(0) == '0') {
             zeroToOneCount++;
         } else {
             oneToZeroCount++;
         }
 
-        for (int i = 1; i < ch.length; i++) {
-            if (ch[i] != ch[i - 1]) {
-                if (ch[i] == '0') {
-                    zeroToOneCount++;
-                } else {
+        for (int i = 0; i < input.length() - 1; i++) {
+            if (input.charAt(i) != input.charAt(i + 1)) {
+                if (input.charAt(i + 1) == '1') {
                     oneToZeroCount++;
+                } else {
+                    zeroToOneCount++;
                 }
             }
         }
 
-        System.out.println(Math.min(zeroToOneCount, oneToZeroCount));
+        System.out.println(Math.min(oneToZeroCount, zeroToOneCount));
     }
 }
