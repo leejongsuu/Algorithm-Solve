@@ -1,34 +1,22 @@
-import java.util.Stack;
-
 class Solution {
-    
-    class Stock {
-        int index;
-        int price;
-        
-        public Stock(int index, int price) {
-            this.index = index;
-            this.price = price;
-        }
-    }
-
     public int[] solution(int[] prices) {
-        int len = prices.length;
-        int[] result = new int[len];
-
-        Stack<Stock> stack = new Stack<>();
-        for(int i = 0; i < len; i++) {
-            while(!stack.isEmpty() && stack.peek().price > prices[i]) {
-                Stock stock = stack.pop();
-                result[stock.index] = i - stock.index;
-            }
-            stack.push(new Stock(i, prices[i]));
+        
+        int n = prices.length;
+        int[] result = new int[n];
+        
+        for(int i = 0; i < n; i++) {
+            result[i] = (n - i - 1);
         }
         
-        while(!stack.isEmpty()) {
-            Stock stock = stack.pop();
-            result[stock.index] = len - (stock.index + 1);
+        for(int i = 0; i < n - 1; i++) {
+            for(int j = i + 1; j < n; j++) {
+                if(prices[i] > prices[j]) {
+                    result[i] = j - i;
+                    break;
+                }
+            }
         }
+        
         return result;
     }
 }
