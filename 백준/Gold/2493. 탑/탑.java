@@ -19,26 +19,24 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+        int[] result = new int[n];
 
-        int[] topHeights = new int[N];
-        for (int i = 0; i < N; i++) {
-            topHeights[i] = Integer.parseInt(st.nextToken());
-        }
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
         Stack<TOP> stack = new Stack<>();
 
-        int[] result = new int[N];
-
-        for (int i = 0; i < N; i++) {
-            while (!stack.isEmpty() && stack.peek().height < topHeights[i]) {
+        for (int i = 0; i < n; i++) {
+            int height = Integer.parseInt(st.nextToken());
+            while (!stack.isEmpty() && stack.peek().height <= height) {
                 stack.pop();
             }
-            if (!stack.isEmpty()) {
+
+            if (!stack.isEmpty() && stack.peek().height > height) {
                 result[i] = stack.peek().index;
             }
-            stack.push(new TOP(i + 1, topHeights[i]));
+
+            stack.push(new TOP(i + 1, height));
         }
 
         StringBuilder sb = new StringBuilder();
