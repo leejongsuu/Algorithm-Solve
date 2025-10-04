@@ -11,37 +11,41 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            String str = br.readLine();
 
-            sb.append(checkPalindrome(0, str.length() - 1, str)).append('\n');
+        for (int i = 0; i < n; i++) {
+            String input = br.readLine();
+            int result = checkPalindrome(input);
+            sb.append(result).append('\n');
         }
+
         System.out.println(sb);
     }
 
-    private static int checkPalindrome(int left, int right, String str) {
-        while (left < right) {
-            if (str.charAt(left) == str.charAt(right)) {
-                left++;
-                right--;
-            } else {
-                boolean isSkipLeft = isPalindrome(left + 1, right, str);
-                boolean isSkipRight = isPalindrome(left, right - 1, str);
-                if (isSkipLeft || isSkipRight) return 1;
-                else return 2;
+    public static int checkPalindrome(String str) {
+        int lt = 0, rt = str.length() - 1;
+        while (lt < rt) {
+            if (str.charAt(lt) != str.charAt(rt)) {
+                boolean leftSkip = isPseudoPalindrome(lt + 1, rt, str);
+                boolean rightSkip = isPseudoPalindrome(lt, rt - 1, str);
+                if (leftSkip || rightSkip) {
+                    return 1;
+                } else {
+                    return 2;
+                }
             }
+            lt++;
+            rt--;
         }
-
         return 0;
     }
 
-    private static boolean isPalindrome(int left, int right, String str) {
-        while (left < right) {
-            if (str.charAt(left) != str.charAt(right)) {
+    public static boolean isPseudoPalindrome(int lt, int rt, String str) {
+        while (lt < rt) {
+            if (str.charAt(lt) != str.charAt(rt)) {
                 return false;
             }
-            left++;
-            right--;
+            lt++;
+            rt--;
         }
         return true;
     }
