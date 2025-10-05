@@ -6,66 +6,63 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int N, M;
+    static int[][] room;
+    static int[][] dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        st = new StringTokenizer(br.readLine(), " ");
+        st = new StringTokenizer(br.readLine());
         int r = Integer.parseInt(st.nextToken());
         int c = Integer.parseInt(st.nextToken());
         int d = Integer.parseInt(st.nextToken());
 
-        int[][] room = new int[N][M];
+        room = new int[N][M];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
                 room[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        int result = solution(r, c, d, room);
-
-        System.out.println(result);
+        System.out.println(solution(r, c, d));
     }
 
-    private static int solution(int r, int c, int d, int[][] room) {
-
-        int clean = 0;
-
-        int[] dy = {-1, 0, 1, 0};
-        int[] dx = {0, 1, 0, -1};
+    public static int solution(int r, int c, int d) {
+        int cleanCount = 0;
 
         while (true) {
             if (room[r][c] == 0) {
-                clean++;
                 room[r][c] = 2;
+                cleanCount++;
             }
 
-            boolean isNotClean = true;
+            boolean moved = false;
 
             for (int i = 0; i < 4; i++) {
                 d = (d + 3) % 4;
-                int nr = r + dy[d];
-                int nc = c + dx[d];
-                if (isIn(nr, nc) && room[nr][nc] == 0) {
+
+                int nr = r + dir[d][0];
+                int nc = c + dir[d][1];
+
+                if (nr >= 0 && nr < N && nc >= 0 && nc < M && room[nr][nc] == 0) {
                     r = nr;
                     c = nc;
-                    isNotClean = false;
+                    moved = true;
                     break;
                 }
             }
 
-            if (isNotClean) {
-                int temp_d = (d + 2) % 4;
-                int nr = r + dy[temp_d];
-                int nc = c + dx[temp_d];
+            if (!moved) {
+                int nr = r - dir[d][0];
+                int nc = c - dir[d][1];
 
-                if (isIn(nr, nc) && room[nr][nc] != 1) {
+                if (nr >= 0 && nr < N && nc >= 0 && nc < M && room[nr][nc] != 1) {
                     r = nr;
                     c = nc;
                 } else {
@@ -74,10 +71,6 @@ public class Main {
             }
         }
 
-        return clean;
-    }
-
-    private static boolean isIn(int r, int c) {
-        return r >= 0 && c >= 0 && r < N && c < M;
+        return cleanCount;
     }
 }
