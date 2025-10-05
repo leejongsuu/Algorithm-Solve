@@ -1,25 +1,30 @@
+import java.util.*;
+
 class Solution {
     public int solution(String s) {
         
-        int len = s.length();
-        int result = s.length();
+        List<Integer> resultList = new ArrayList<>();
         
-        for(int i = 1; i <= len / 2; i++) {
-            StringBuffer sb = new StringBuffer();
-            String before = s.substring(0, i);
-            int count = 1;
+        int size = s.length();
+        
+        for(int len = 1; len <= size / 2; len++) {
+            StringBuilder sb = new StringBuilder();
             
-            for(int j = i; j < len; j += i) {
-                String current = s.substring(j, Math.min(j + i, len));
-                if(current.equals(before)) {
-                    count++;
-                } else {
+            int count = 1;
+            String before = s.substring(0, len);
+            
+            for(int i = len; i <= size; i += len) {
+                String current = s.substring(i, Math.min(i + len, size));
+                
+                if(!current.equals(before)) {
                     if(count > 1) {
                         sb.append(count);
                         count = 1;
                     }
                     sb.append(before);
                     before = current;
+                } else {
+                    count++;
                 }
             }
             if(count > 1) {
@@ -27,9 +32,12 @@ class Solution {
                 count = 1;
             }
             sb.append(before);
-            result = Math.min(result, sb.length());
+            
+            resultList.add(sb.length());
         }
         
-        return result;
+        Collections.sort(resultList);
+        
+        return resultList.isEmpty() ? 1 : resultList.get(0);
     }
 }
