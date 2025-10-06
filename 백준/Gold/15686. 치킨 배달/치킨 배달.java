@@ -1,72 +1,64 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static class Point {
-        int y, x;
+    static int N, M, result = Integer.MAX_VALUE;
+    static int[][] city;
+    static List<int[]> houses, chickens;
 
-        public Point(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-    }
-
-    static int N, M, chickenSize, answer = Integer.MAX_VALUE;
-    static int[] combination;
-    static ArrayList<Point> homeList = new ArrayList<>();
-    static ArrayList<Point> chickenList = new ArrayList<>();
-
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
+        city = new int[N][N];
+        houses = new ArrayList<>();
+        chickens = new ArrayList<>();
+
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
-                int num = Integer.parseInt(st.nextToken());
-                if (num == 1) homeList.add(new Point(i, j));
-                else if (num == 2) chickenList.add(new Point(i, j));
+                city[i][j] = Integer.parseInt(st.nextToken());
+                if (city[i][j] == 1) houses.add(new int[]{i, j});
+                else if (city[i][j] == 2) chickens.add(new int[]{i, j});
             }
         }
 
-        combination = new int[M];
-        chickenSize = chickenList.size();
+        dfs(0, 0, new int[M]);
 
-        DFS(0, 0);
-
-        System.out.println(answer);
+        System.out.println(result);
     }
 
-    private static void DFS(int L, int start) {
+    private static void dfs(int L, int start, int[] combi) {
         if (L == M) {
-            answer = Math.min(answer, calculate_distance(combination));
+            int distance = getDistance(combi);
+            result = Math.min(result, distance);
             return;
         }
 
-        for (int i = start; i < chickenSize; i++) {
-            combination[L] = i;
-            DFS(L + 1, i + 1);
+        for (int i = start; i < chickens.size(); i++) {
+            combi[L] = i;
+            dfs(L + 1, i + 1, combi);
         }
     }
 
-    private static int calculate_distance(int[] combination) {
-
-        int sum_distance = 0;
-        for (Point h : homeList) {
-            int min_distance = Integer.MAX_VALUE;
-            for (int i : combination) {
-                Point c = chickenList.get(i);
-                min_distance = Math.min(min_distance, Math.abs(h.y - c.y) + Math.abs(h.x - c.x));
+    private static int getDistance(int[] combi) {
+        int sum = 0;
+        for (int[] house : houses) {
+            int distance = Integer.MAX_VALUE;
+            for (int c : combi) {
+                int[] chicken = chickens.get(c);
+                distance = Math.min(distance, Math.abs(chicken[0] - house[0]) + Math.abs(chicken[1] - house[1]));
             }
-            sum_distance += min_distance;
+            sum += distance;
         }
-
-        return sum_distance;
+        return sum;
     }
 }
