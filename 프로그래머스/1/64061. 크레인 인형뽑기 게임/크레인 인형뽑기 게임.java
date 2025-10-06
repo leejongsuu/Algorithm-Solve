@@ -2,34 +2,36 @@ import java.util.*;
 
 class Solution {
     public int solution(int[][] board, int[] moves) {
-        int N = board.length;
-        Queue<Integer>[] machineQueues = new Queue[N];
-        for(int i = 0; i < N; i++) {
-            machineQueues[i] = new LinkedList<>();
-        }
-        
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                if(board[i][j] != 0) {
-                    machineQueues[j].add(board[i][j]);
-                }
-            }
-        }
         
         int result = 0;
-        Stack<Integer> basketStack = new Stack<>();
-        for(int move : moves) {
-            if(!machineQueues[move - 1].isEmpty()) {
-                int doll = machineQueues[move - 1].poll();
-                if(!basketStack.isEmpty() && basketStack.peek() == doll) {
-                    basketStack.pop();
-                    result += 2;
-                } else {
-                    basketStack.push(doll);
+        
+        int n = board.length;
+        
+        Stack<Integer>[] dolls = new Stack[n];
+        for(int i = 0; i < n; i++) {
+            dolls[i] = new Stack<>();
+            for(int j = n - 1; j >= 0 ; j--) {
+                if(board[j][i] != 0) {
+                    dolls[i].push(board[j][i]);
                 }
             }
         }
         
+        Stack<Integer> picks = new Stack<>();
+        
+        for(int move : moves) {
+            if(dolls[move - 1].isEmpty()) {
+               continue; 
+            }
+            
+            int doll = dolls[move - 1].pop();
+            if(!picks.isEmpty() && picks.peek() == doll) {
+                picks.pop();
+                result += 2;
+            } else {
+                picks.push(doll);
+            }
+        }
         return result;
     }
 }
