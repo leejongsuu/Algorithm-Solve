@@ -3,16 +3,17 @@ import java.util.*;
 class Solution {
     public int solution(String[][] clothes) {
         
-        Map<String, Integer> clothesMap = new HashMap<>();
-        for(String[] kind : clothes) {
-            clothesMap.put(kind[1], clothesMap.getOrDefault(kind[1], 0) + 1);
+        int result = 1;
+        
+        Map<String, Integer> map = new HashMap<>();
+        for(String[] strArr : clothes) {
+            map.put(strArr[1], map.getOrDefault(strArr[1], 1) + 1);
         }
         
-        int sum = 1;
-        for(int count : clothesMap.values()) {
-            sum *= (count + 1);
+        for(int cnt : map.values()) {
+            result *= cnt;
         }
         
-        return sum - 1;
+        return Math.max(result - 1, 1);
     }
 }
