@@ -2,44 +2,47 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] operations) {
-        int[] answer = new int[2];
         
-        TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+        List<Integer> list = new ArrayList<>();
         
         for(String operation : operations) {
-            String[] strArr = operation.split(" ");
+            String[] parts = operation.split(" ");
             
-            if(strArr[0].equals("I")) {
-                int key = Integer.parseInt(strArr[1]);
-                treeMap.put(key, treeMap.getOrDefault(key, 0)+1);
-            } else if(!treeMap.isEmpty()) {
-                if(strArr[1].equals("-1")) {
-                    int key = treeMap.firstKey();
-                    int value = treeMap.get(key);
-                    if(value == 1) {
-                        treeMap.remove(key);
-                    } else {
-                        treeMap.put(key, value - 1);
-                    }
+            String command = parts[0];
+            int value = Integer.parseInt(parts[1]);
+            
+            if(command.equals("I")) {
+                int index = binarySearch(value, list);
+                list.add(index, value);
+            } else {
+                if(list.isEmpty()) {
+                    continue;
+                }
+                
+                if(value == -1) {
+                    list.remove(0);
                 } else {
-                    int key = treeMap.lastKey();
-                    int value = treeMap.get(key);
-                    if(value == 1) {
-                        treeMap.remove(key);
-                    } else {
-                        treeMap.put(key, value - 1);
-                    }
+                    list.remove(list.size() - 1);
                 }
             }
         }
         
-        if(treeMap.isEmpty()) {
-            answer[0] = answer[1] = 0;
-        } else {
-            answer[0] = treeMap.lastKey();
-            answer[1] = treeMap.firstKey();
+        return list.isEmpty() ? new int[]{0, 0} : new int[]{list.get(list.size() - 1), list.get(0)};
+    }
+    
+    public int binarySearch(int target, List<Integer> list) {
+        int lt = 0, rt = list.size();
+        
+        while(lt < rt) {
+            int mid = lt + (rt - lt) / 2;
+            
+            if(list.get(mid) < target) {
+                lt = mid + 1;
+            } else {
+                rt = mid;
+            }
         }
         
-        return answer;
+        return lt;
     }
 }
