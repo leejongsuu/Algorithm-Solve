@@ -1,34 +1,46 @@
 import java.util.*;
 
 class Solution {
+    
     class Process {
-        int index;
+        int location;
         int priority;
         
-        public Process(int index, int priority) {
-            this.index = index;
+        Process(int location, int priority) {
+            this.location = location;
             this.priority = priority;
         }
     }
+    
     public int solution(int[] priorities, int location) {
         
-        Queue<Process> queue = new LinkedList<>();
+        int result = 1;
         int len = priorities.length;
+        
+        Queue<Process> queue = new LinkedList<>();
+        
         for(int i = 0; i < len; i++) {
             queue.offer(new Process(i, priorities[i]));
         }
         
-        Arrays.sort(priorities);
+        int[] sortedPriorities = Arrays.copyOfRange(priorities, 0, len);
         
-        for(int i = 1; !queue.isEmpty();) {
+        Arrays.sort(sortedPriorities);
+        
+        int index = len - 1;
+        while(!queue.isEmpty() && index >= 0) {
             Process current = queue.poll();
-            if(current.priority == priorities[len - i]) {
-                if(current.index == location) {
-                    return i;
+            
+            if(current.priority == sortedPriorities[index]) {
+                if(current.location == location) {
+                    return result;
                 }
-                i++;
+                result++;
+                index--;
+                
                 continue;
             }
+            
             queue.offer(current);
         }
         
