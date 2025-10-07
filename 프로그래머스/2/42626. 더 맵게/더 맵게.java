@@ -3,24 +3,33 @@ import java.util.*;
 class Solution {
     public int solution(int[] scoville, int K) {
         
+        int result = 0;
+        
         PriorityQueue<Integer> pq = new PriorityQueue<>();
         for(int s : scoville) {
             pq.offer(s);
         }
         
-        int count = 0;
         while(!pq.isEmpty()) {
+            
             int first = pq.poll();
             
-            if(first >= K) return count;
-            else if(pq.isEmpty()) return -1;
-            else {
-                int second = pq.poll();
-                pq.offer(first + (second * 2));
+            if(first >= K) {
+                return result;
             }
-            count++;
+            
+            if(pq.isEmpty()) {
+                return -1;
+            }
+            
+            int second = pq.poll();
+            int newScoville = first + second * 2;
+            
+            pq.offer(newScoville);
+            
+            result++;
         }
         
-        return count;
+        return -1;
     }
 }
