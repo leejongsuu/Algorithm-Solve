@@ -2,33 +2,26 @@ import java.util.*;
 
 class Solution {
     public String solution(int[] numbers) {
-        String answer = "";
         
-        Comparator<String> comp = new Comparator<String>() {
-            @Override
-            public int compare(String a, String b) {
-                return (b+a).compareTo(a+b);
-            }
-        };
+        int len = numbers.length;
         
-        String[] strArr = new String[numbers.length];
-        for(int i=0; i<numbers.length; i++) {
-            strArr[i]= String.valueOf(numbers[i]);
+        String[] strNumbers = new String[len];
+        
+        for(int i = 0; i < len; i++) {
+            strNumbers[i] = String.valueOf(numbers[i]);
         }
         
-        Arrays.sort(strArr, comp);
+        Arrays.sort(strNumbers, (a, b) -> (b + a).compareTo(a + b));
+        
+        if(strNumbers[0].equals("0")) {
+            return "0";
+        }
         
         StringBuilder sb = new StringBuilder();
-        for(String str : strArr) {
-            sb.append(str);
+        for(String strNumber : strNumbers) {
+            sb.append(strNumber);
         }
         
-        answer = sb.toString();
-        
-        if(answer.charAt(0)=='0') {
-            answer = "0";
-        }
-        
-        return answer;
+        return sb.toString();
     }
 }
