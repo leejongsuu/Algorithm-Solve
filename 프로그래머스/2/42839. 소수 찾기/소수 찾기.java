@@ -1,39 +1,59 @@
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 class Solution {
-    
-    private Set<Integer> numberSet = new HashSet<>();
-    
+
+    Set<Integer> candidateSet = new HashSet<>();
+    boolean[] visited; 
+
     public int solution(String numbers) {
-        int answer = 0;
+        visited = new boolean[numbers.length()];
         
-        generateNumber("", numbers);
+        dfs("", numbers);
         
-        for(int num : numberSet) {
-            if(isPrime(num)) answer++;
+        int primeCount = 0;
+        for (int candidate : candidateSet) {
+            if (isPrime(candidate)) {
+                primeCount++;
+            }
         }
         
-        return answer;
+        return primeCount;
     }
-    
-    private void generateNumber(String prefix, String remaining) {
-        
-        if(!prefix.isEmpty()) {
-            numberSet.add(Integer.parseInt(prefix));
+
+    public void dfs(String currentStr, String numbers) {
+        if (!currentStr.isEmpty()) {
+            candidateSet.add(Integer.parseInt(currentStr));
         }
-        for(int i=0; i<remaining.length(); i++) {
-            generateNumber(prefix + remaining.charAt(i), remaining.substring(0,i) + remaining.substring(i+1));
+
+        for (int i = 0; i < numbers.length(); i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                dfs(currentStr + numbers.charAt(i), numbers);
+                visited[i] = false;
+            }
         }
     }
-    
-    private boolean isPrime(int num) {
-        
-        if(num == 0 || num == 1) return false;
-        
-        for(int i=2; i <= Math.sqrt(num); i++) {
-            if(num % i == 0) return false;
+
+    public boolean isPrime(int num) {
+        if (num < 2) {
+            return false;
         }
         
-        return true;
+        if (num == 2) {
+            return true;
+        }
+        
+        if (num % 2 == 0) {
+            return false;
+        }
+
+        for (int i = 3; i <= Math.sqrt(num); i += 2) {
+            if (num % i == 0) {
+                return false; 
+            }
+        }
+        
+        return true; 
     }
 }
