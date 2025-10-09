@@ -1,47 +1,47 @@
-import java.util.*;
-
 class Solution {
+    
+    int n, result = Integer.MAX_VALUE;
+    
+    String target;
+    String[] words;
+    boolean[] visited;
+    
     public int solution(String begin, String target, String[] words) {
-        int answer = 0;
+        this.target = target;
+        this.words = words;
         
-        boolean[] visited = new boolean[words.length];
+        n = words.length;
+        visited = new boolean[n];
         
-        Queue<String> Q = new LinkedList<>();
-        Q.offer(begin);
+        dfs(0, begin);
         
-        int level = 0;
-        while(!Q.isEmpty()) {
-            
-            int size = Q.size();
-            for(int i=0; i<size; i++) {
-                String current = Q.poll();
-                if(current.equals(target)) {
-                    return level;
-                }
-                
-                for(int j=0; j<words.length; j++) {
-                    if(check(current, words[j]) && !visited[j]) {
-                        visited[j] = true;
-                        Q.offer(words[j]);
-                    }
-                }
-            }
-            
-            level++;
-        }
-        return answer;
+        return result == Integer.MAX_VALUE ? 0 : result;
     }
     
-    public boolean check(String a, String b) {
-        int diffCount = 0;
-        
-        for(int i=0; i<a.length(); i++) {
-            if(a.charAt(i) != b.charAt(i)) {
-                diffCount++;
-            }
-            if(diffCount > 1) return false;
+    public void dfs(int L, String current) {
+        if(current.equals(target)) {
+            result = Math.min(result, L);
+            return;
         }
         
-        return diffCount == 1;
+        for(int i = 0; i < n; i++) {
+            if(!visited[i]) {
+                visited[i] = true;
+                if(diffCount(current, words[i]) == 1) {
+                    dfs(L + 1, words[i]);
+                }
+                visited[i] = false;
+            }
+        }
+    }
+    
+    public int diffCount(String a, String b) {
+        int count = 0;
+        for(int i = 0; i < a.length(); i++) {
+            if(a.charAt(i) != b.charAt(i)) {
+                count++;
+            }
+        }
+        return count;
     }
 }
