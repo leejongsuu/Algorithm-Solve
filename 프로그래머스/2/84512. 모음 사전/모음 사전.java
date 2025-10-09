@@ -2,29 +2,37 @@ import java.util.*;
 
 class Solution {
     
-    static int index = 1;
-    static final int INF = 5;
-    static Map<String, Integer> map = new HashMap<>();
-    static char[] ch = new char[]{'A', 'E', 'I', 'O', 'U'};
-    static StringBuilder sb = new StringBuilder();
+    final int N = 5;
+    final char[] alphabet = {'A', 'E', 'I', 'O', 'U'};
+    
+    int num = 0, result = -1;
+    boolean isFound = false;
+    String target;
     
     public int solution(String word) {
+        this.target = word;    
+
+        dfs(0, "");
         
-        DFS(0);
-        
-        return map.get(word);
+        return result;
     }
     
-    private void DFS(int L) {
-        if(L == INF) {
+    public void dfs(int L, String str) {
+        
+        if(!str.isEmpty() && str.equals(target)) {
+            result = num;
+            isFound = true;
             return;
         }
         
-        for(int i = 0; i < INF; i++) {
-            sb.append(ch[i]);
-            map.put(sb.toString(), index++);
-            DFS(L + 1);
-            sb.deleteCharAt(sb.length() - 1);
+        if(L == N || isFound) {
+            return;
+        }
+        
+        
+        for(int i = 0; i < N; i++) {
+            num++;
+            dfs(L + 1, str + alphabet[i]);
         }
     }
 }
