@@ -1,47 +1,51 @@
+import java.util.*;
+
 class Solution {
     
+    int[] unf;
+    
     public int solution(int n, int[][] wires) {
-        
+                
         int result = Integer.MAX_VALUE;
-        int len = wires.length;
         
-        for(int i = 0; i < len; i++) {
-            int[] unf = init(n);
-            int cnt = 0;
-            int cnt2 = 0;
-            
-            for(int j = 0; j < len; j++) {
-                if(i == j) continue;
-                union(wires[j][0], wires[j][1], unf);
+        for(int i = 0; i < wires.length; i++) {
+            unf = new int[n + 1];
+            for(int j = 1; j <= n; j++) {
+                unf[j] = j;
             }
             
-            for(int v = 1; v <= n; v++) {
-                if(find(v, unf) == find(wires[i][0], unf)) cnt++;
-                else if(find(v, unf) == find(wires[i][1], unf)) cnt2++;
+            for(int j = 0; j < wires.length; j++) {
+                if(i == j)  continue;
+                union(wires[j][0], wires[j][1]);
+            }
+
+            Map<Integer, Integer> electMap = new HashMap<>();
+            
+            for(int j = 1; j <= n; j++) {
+                int num = find(j);
+                electMap.put(num, electMap.getOrDefault(num, 0) + 1);
             }
             
-            result = Math.min(result, Math.abs(cnt - cnt2));
+            if(electMap.size() == 2) {
+                List<Integer> list = new ArrayList<>();
+                for(int value : electMap.values()) {
+                    list.add(value);
+                }
+                
+                result = Math.min(result, Math.abs(list.get(0) - list.get(1)));
+            }
         }
-        
         return result;
     }
     
-    int[] init(int n) {
-        int[] unf = new int[n + 1];
-        for(int v = 1; v <= n; v++) {
-            unf[v] = v;
-        }
-        return unf;
-    }
-    
-    void union(int a, int b, int[] unf) {
-        int fa = find(a, unf);
-        int fb = find(b, unf);
+    public void union(int a, int b) {
+        int fa = find(a);
+        int fb = find(b);
         if(fa != fb) unf[fa] = fb;
     }
     
-    int find(int v, int[] unf) {
+    public int find(int v) {
         if(v == unf[v]) return v;
-        else return unf[v] = find(unf[v], unf);
+        return unf[v] = find(unf[v]);
     }
 }
