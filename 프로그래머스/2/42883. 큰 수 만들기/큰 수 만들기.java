@@ -1,22 +1,31 @@
+import java.util.*;
+
 class Solution {
     public String solution(String number, int k) {
         
         int len = number.length();
-        int top = -1;
-        int keep = len - k;
-        char[] stack = new char[len];
         
-        for(int i = 0; i < len; i++) {
-            char c = number.charAt(i);
-            
-            while(top >= 0 && k > 0 && stack[top] < c) {
-                top--;
+        Stack<Character> stack = new Stack<>();
+        stack.push(number.charAt(0));
+        
+        for(int i = 1; i < len; i++) {
+            while(k > 0 && !stack.isEmpty() && stack.peek() < number.charAt(i)) {
+                stack.pop();
                 k--;
             }
-            
-            stack[++top] = c;
+            stack.push(number.charAt(i));
         }
         
-        return new String(stack, 0, keep);
+        while(k > 0 && !stack.isEmpty()) {
+            stack.pop();
+            k--;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()) {
+            sb.insert(0, stack.pop());
+        }
+        
+        return sb.toString();
     }
-}
+} 
