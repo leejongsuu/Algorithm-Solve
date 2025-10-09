@@ -1,26 +1,47 @@
+import java.util.*;
+
 class Solution {
+    
+    int[] unf;
+    
     public int solution(int n, int[][] computers) {
-        int answer = 0;
         
-        for(int i = 0; i < computers.length; i++) {
-            for(int j =0; j < computers[i].length; j++) {
-                if(computers[i][j] == 1) {
-                    answer++;
-                    DFS(i, computers);
+        Set<Integer> set = new HashSet<>();
+        
+        unf = new int[n];
+        for(int i = 0; i < n; i++) {
+            unf[i] = i;
+        }
+        
+        for(int[] computer : computers) {
+            for(int i = 0; i < n - 1; i++) {
+                if(computer[i] == 0) continue;
+                for(int j = i + 1; j < n; j++) {
+                    if(computer[j] == 1) {
+                        union(i, j);
+                    }
                 }
             }
         }
         
-        return answer;
+        for(int i = 0; i < n; i++) {
+            set.add(find(unf[i]));
+        }
+        
+        return set.size();
     }
     
-    private void DFS(int v, int[][] computers) {
-        
-        for(int i = 0; i < computers.length; i++) {
-            if(computers[v][i] == 1) {
-                computers[v][i] = computers[i][v] = 0;
-                DFS(i, computers);
-            }
-        }
+    public int find(int v) {
+        if(v == unf[v]) return v;
+        return unf[v] = find(unf[v]);
     }
+    
+    public void union(int a, int b) {
+        int fa = find(a);
+        int fb = find(b);
+        
+        if(fa != fb) unf[fa] = fb;
+    }
+    
+    
 }
