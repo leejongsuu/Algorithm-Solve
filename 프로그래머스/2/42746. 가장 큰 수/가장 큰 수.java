@@ -5,21 +5,20 @@ class Solution {
         
         int len = numbers.length;
         
-        String[] strNumbers = new String[len];
-        
+        String[] sNumbers = new String[len];
         for(int i = 0; i < len; i++) {
-            strNumbers[i] = String.valueOf(numbers[i]);
+            sNumbers[i] = String.valueOf(numbers[i]);
         }
         
-        Arrays.sort(strNumbers, (a, b) -> (b + a).compareTo(a + b));
+        Arrays.sort(sNumbers, (a, b) -> (b + a).compareTo(a + b));
         
-        if(strNumbers[0].equals("0")) {
+        if(sNumbers[0].equals("0")) {
             return "0";
         }
         
         StringBuilder sb = new StringBuilder();
-        for(String strNumber : strNumbers) {
-            sb.append(strNumber);
+        for(int i = 0; i < len; i++) {
+            sb.append(sNumbers[i]);
         }
         
         return sb.toString();
