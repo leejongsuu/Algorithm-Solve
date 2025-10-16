@@ -3,53 +3,50 @@ import java.util.*;
 class Solution {
     
     class Stage implements Comparable<Stage> {
-        int num;
-        double failureRate;
+        int index;
+        double failure;
         
-        public Stage(int num, double failureRate) {
-            this.num = num;
-            this.failureRate = failureRate;
+        Stage(int index, double failure) {
+            this.index = index;
+            this.failure = failure;
         }
         
         @Override
         public int compareTo(Stage o) {
-            int comp = Double.compare(o.failureRate, this.failureRate);
-            if(comp == 0) return this.num - o.num;
-            else return comp;
+            return Double.compare(o.failure, this.failure);
         }
     }
     
     public int[] solution(int N, int[] stages) {
-        
-        List<Stage> stageList = new ArrayList<>();
+        int[] result = new int[N];
         
         Arrays.sort(stages);
         
-        int len = stages.length;
-        int challenger = len;
+        Stage[] stageArr = new Stage[N];
         
-        for(int i = 1, j = 0; i <= N; i++) {
-            int notClear = 0;
-            while(j < len  && i == stages[j]) {
-                notClear++;
-                j++;
+        int people = stages.length;
+        int index = 0;
+        
+        // 1 2 2 3 3 4 6
+        for(int i = 1; i <= N; i++) {
+            int cnt = 0;
+            while(index < stages.length && stages[index] <= i) {
+                index++;                
+                cnt++;
             }
             
-            if(challenger <= 0) {
-                stageList.add(new Stage(i, 0));
-                continue;
+            double fail = 0;
+            if(people > 0) {
+                fail = (double) cnt / people;
             }
-            
-            double failureRate = (double) notClear / challenger;
-            stageList.add(new Stage(i, failureRate));
-            challenger -= notClear;
+            stageArr[i - 1] = new Stage(i, fail);
+            people -= cnt;
         }
         
-        Collections.sort(stageList);
+        Arrays.sort(stageArr);
         
-        int[] result = new int[N];
         for(int i = 0; i < N; i++) {
-            result[i] = stageList.get(i).num;
+            result[i] = stageArr[i].index;
         }
         
         return result;
