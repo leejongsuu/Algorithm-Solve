@@ -1,102 +1,98 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
-class Main {
+public class Main {
 
-    static class Point {
-        int y, x;
-
-        public Point(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-    }
-
-    static int N, M, maxSafeArea;
+    static int N, M, result = 0;
     static int[][] board;
-    static ArrayList<Point> virusList = new ArrayList<>();
+    static List<int[]> virus = new ArrayList<>();
 
-    public static void main(String[] args) throws Exception {
+    final static int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        board = new int[N][M];
 
+        board = new int[N][M];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
                 board[i][j] = Integer.parseInt(st.nextToken());
                 if (board[i][j] == 2) {
-                    virusList.add(new Point(i, j));
+                    virus.add(new int[]{i, j});
                 }
             }
         }
 
-        maxSafeArea = 0;
-        DFS(0);
-        System.out.println(maxSafeArea);
+        dfs(0, 0, new int[3]);
+
+        System.out.println(result);
     }
 
-    private static void DFS(int L) {
-
+    public static void dfs(int L, int start, int[] arr) {
         if (L == 3) {
-            int safeArea = BFS();
-            maxSafeArea = Math.max(maxSafeArea, safeArea);
+            int count = solution(arr);
+            result = Math.max(result, count);
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (board[i][j] == 0) {
-                    board[i][j] = 1;
-                    DFS(L + 1);
-                    board[i][j] = 0;
-                }
+        for (int i = start; i < N * M; i++) {
+            int r = i / M;
+            int c = i % M;
+            if (board[r][c] == 0) {
+                arr[L] = i;
+                dfs(L + 1, i + 1, arr);
             }
         }
     }
 
-    private static int BFS() {
+    public static int solution(int[] arr) {
 
-        int[][] tempBoard = new int[N][M];
+        int count = 0;
+
+        int[][] temp = new int[N][M];
         for (int i = 0; i < N; i++) {
-            System.arraycopy(board[i], 0, tempBoard[i], 0, M);
+            temp[i] = Arrays.copyOf(board[i], M);
         }
 
-        Queue<Point> queue = new LinkedList<>();
-        int[] dy = new int[]{1, 0, -1, 0};
-        int[] dx = new int[]{0, 1, 0, -1};
-        for (Point p : virusList) {
-            queue.offer(p);
+        for (int i : arr) {
+            int r = i / M;
+            int c = i % M;
+            temp[r][c] = 1;
         }
 
-        while (!queue.isEmpty()) {
-            Point current = queue.poll();
-            for (int i = 0; i < 4; i++) {
-                int ny = current.y + dy[i];
-                int nx = current.x + dx[i];
-                if (ny >= 0 && ny < N && nx >= 0 && nx < M && tempBoard[ny][nx] == 0) {
-                    tempBoard[ny][nx] = 2;
-                    queue.add(new Point(ny, nx));
-                }
-            }
+        for (int[] v : virus) {
+            spread(v[0], v[1], temp);
         }
 
-        int safeCount = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if (tempBoard[i][j] == 0) {
-                    safeCount++;
+                if (temp[i][j] == 0) {
+                    count++;
                 }
             }
         }
 
-        return safeCount;
+
+        return count;
+    }
+
+    public static void spread(int r, int c, int[][] temp) {
+        temp[r][c] = 2;
+        for (int d = 0; d < 4; d++) {
+            int nr = r + dirs[d][0];
+            int nc = c + dirs[d][1];
+            if (nr >= 0 && nr < N && nc >= 0 && nc < M && temp[nr][nc] == 0) {
+                spread(nr, nc, temp);
+            }
+        }
     }
 }
