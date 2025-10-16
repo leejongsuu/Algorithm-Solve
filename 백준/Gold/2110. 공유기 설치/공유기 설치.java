@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        // 1 2 4 8 9
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int C = Integer.parseInt(st.nextToken());
@@ -25,33 +24,34 @@ public class Main {
     }
 
     public static int binarySearch(int[] houses, int C) {
-        int lo = 0;
-        int hi = houses[houses.length - 1] - houses[0];
-        int max = 0;
+        // hi를 '불가능한 최소 거리'의 시작점으로 보기 위해 +1
+        int lo = 1; 
+        int hi = houses[houses.length - 1] - houses[0] + 1; 
 
-        while (lo <= hi) {
+        // while (lo < hi)
+        while (lo < hi) {
             int mid = lo + (hi - lo) / 2;
 
             int count = 1;
             int lastInstalled = houses[0];
-
             for (int i = 1; i < houses.length; i++) {
-                int dis = houses[i] - lastInstalled;
-                if (dis >= mid) {
-                    lastInstalled = houses[i];
+                if (houses[i] - lastInstalled >= mid) {
                     count++;
+                    lastInstalled = houses[i];
                 }
-                if (count == C) break;
             }
 
             if (count >= C) {
-                max = mid;
+                // mid 거리가 가능하므로, 더 큰 거리를 찾아 오른쪽으로
                 lo = mid + 1;
             } else {
-                hi = mid - 1;
+                // mid 거리가 불가능하므로, hi를 mid로 좁힘
+                hi = mid;
             }
         }
 
-        return max;
+        // 루프가 끝나면 lo는 '설치 불가능한 최소 거리'
+        // 따라서 가능한 최대 거리는 lo - 1
+        return lo - 1;
     }
 }
