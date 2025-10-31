@@ -1,4 +1,4 @@
-WITH RANKED_ECOLI AS (
+WITH RANKED_COLONY AS (
     SELECT
         ID,
         NTILE(4) OVER (
@@ -9,15 +9,13 @@ WITH RANKED_ECOLI AS (
 
 SELECT
     ID,
-    (
-        CASE NTILE_GROUP
-            WHEN 1 THEN 'CRITICAL'
-            WHEN 2 THEN 'HIGH'
-            WHEN 3 THEN 'MEDIUM'
-            WHEN 4 THEN 'LOW'
-        END
-    ) AS COLONY_NAME
+    (CASE NTILE_GROUP
+        WHEN 1 THEN 'CRITICAL'
+        WHEN 2 THEN 'HIGH'
+        WHEN 3 THEN 'MEDIUM'
+        WHEN 4 THEN 'LOW'
+    END) AS COLONY_NAME
 FROM
-    RANKED_ECOLI
+    RANKED_COLONY
 ORDER BY
     ID
