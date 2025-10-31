@@ -1,0 +1,10 @@
+-- 코드를 입력하세요
+SELECT
+    FLOOR(PRICE / 10000) * 10000 AS PG,
+    COUNT(*) AS COUNT
+FROM
+    PRODUCT
+GROUP BY
+    PG
+ORDER BY
+    PG
