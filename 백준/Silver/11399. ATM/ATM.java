@@ -2,33 +2,31 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        int[] times = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String[] input = br.readLine().split(" ");
-
+        int[] people = new int[N];
         for (int i = 0; i < N; i++) {
-            times[i] = Integer.parseInt(input[i]);
+            people[i] = Integer.parseInt(st.nextToken());
         }
 
-        // 오름차순으로 정렬
-        Arrays.sort(times);
+        Arrays.sort(people);
 
-        int totalTime = 0; // 각 사람이 돈을 인출하는데 필요한 시간의 합의 최솟값을 구하기 위한 변수
-        int cumulativeTime = 0; // 다음 사람의 인출 시작 시간을 위한 누적 시간 변수
+        int time = 0;
+        int result = 0;
 
-        for (int i = 0; i < N; i++) {
-            cumulativeTime += times[i];
-            totalTime += cumulativeTime; // 각 사람의 누적 시간을 더하여 총 시간에 추가
+        for (int p : people) {
+            time += p;
+            result += time;
         }
 
-        System.out.println(totalTime);
+        System.out.println(result);
     }
 }
