@@ -1,47 +1,26 @@
-import java.util.*;
-
 class Solution {
-    
-    int[] unf;
-    
     public int solution(int n, int[][] computers) {
         
-        Set<Integer> set = new HashSet<>();
+        int result = 0;
+        boolean[] visited = new boolean[n];
         
-        unf = new int[n];
         for(int i = 0; i < n; i++) {
-            unf[i] = i;
-        }
-        
-        for(int[] computer : computers) {
-            for(int i = 0; i < n - 1; i++) {
-                if(computer[i] == 0) continue;
-                for(int j = i + 1; j < n; j++) {
-                    if(computer[j] == 1) {
-                        union(i, j);
-                    }
-                }
+            if(!visited[i]) {
+                result++;
+                dfs(i, n, visited, computers);
             }
         }
         
-        for(int i = 0; i < n; i++) {
-            set.add(find(unf[i]));
+        return result;
+    }
+    
+    public void dfs(int current, int n, boolean[] visited, int[][] computers) {
+        visited[current] = true;
+        
+        for(int next = 0; next < n; next++) {
+            if(computers[current][next] == 1 && !visited[next]) {
+                dfs(next, n, visited, computers);
+            }
         }
-        
-        return set.size();
     }
-    
-    public int find(int v) {
-        if(v == unf[v]) return v;
-        return unf[v] = find(unf[v]);
-    }
-    
-    public void union(int a, int b) {
-        int fa = find(a);
-        int fb = find(b);
-        
-        if(fa != fb) unf[fa] = fb;
-    }
-    
-    
 }
