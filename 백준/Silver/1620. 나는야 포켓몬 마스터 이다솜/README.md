@@ -4,15 +4,15 @@
 
 ### 성능 요약
 
-메모리: 56700 KB, 시간: 544 ms
+메모리: 59236 KB, 시간: 496 ms
 
 ### 분류
 
-자료 구조, 해시를 사용한 집합과 맵
+자료 구조, 집합과 맵, 해시를 사용한 집합과 맵
 
 ### 제출 일자
 
-2024년 3월 18일 16:42:25
+2025년 11월 10일 19:37:11
 
 ### 문제 설명
 
@@ -100,21 +100,21 @@
 
 <p>이다솜 : 헐랭... 나를 우습게보네.... 한번 두고 보시지! 그럼 대결이닷!</p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/pb.PNG" style="height:181px; width:274px"></p>
+<p><img alt="" src="" style="height:181px; width:274px"></p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/pc.PNG" style="height:183px; width:274px"></p>
+<p><img alt="" src="" style="height:183px; width:274px"></p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/pd.PNG" style="height:182px; width:274px"></p>
+<p><img alt="" src="" style="height:182px; width:274px"></p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/pe.PNG" style="height:183px; width:274px"></p>
+<p><img alt="" src="" style="height:183px; width:274px"></p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/pf.PNG" style="height:183px; width:274px"></p>
+<p><img alt="" src="" style="height:183px; width:274px"></p>
 
 <p><img alt="" src="https://www.acmicpc.net/upload/201004/pg.PNG" style="height:181px; width:274px"></p>
 
 <p><img alt="" src="https://www.acmicpc.net/upload/201004/ph.PNG" style="height:184px; width:274px"></p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/pi.PNG" style="height:184px; width:274px"></p>
+<p><img alt="" src="" style="height:184px; width:274px"></p>
 
 <p>이다솜 : 휴... 이겼다.</p>
 

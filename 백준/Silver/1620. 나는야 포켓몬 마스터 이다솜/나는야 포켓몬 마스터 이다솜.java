@@ -2,42 +2,39 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String[] input = br.readLine().split(" ");
-        int N = Integer.parseInt(input[0]);
-        int M = Integer.parseInt(input[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        HashMap<String, String> map1 = new HashMap<>(N);
-        HashMap<String, String> map2 = new HashMap<>(N);
+        int M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
 
-        for (int i = 1; i <= N; i++) {
-            String data = br.readLine();
-            map1.put(data, String.valueOf(i));
-            map2.put(String.valueOf(i), data);
+        Map<String, String> pocketmonMap = new HashMap<>();
+        Map<String, String> pocketmonMap2 = new HashMap<>();
+
+        for (int i = 0; i < M; i++) {
+            String name = br.readLine();
+            pocketmonMap.put(name, String.valueOf(i + 1));
+            pocketmonMap2.put(String.valueOf(i + 1), name);
         }
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < M; i++) {
-            String search = br.readLine();
-            if (Character.isDigit(search.charAt(0))) {
-                sb.append(map2.get(search)).append('\n');
+        for (int i = 0; i < N; i++) {
+            String key = br.readLine();
+            if (pocketmonMap.containsKey(key)) {
+                sb.append(pocketmonMap.get(key)).append('\n');
             } else {
-                sb.append(map1.get(search)).append('\n');
+                sb.append(pocketmonMap2.get(key)).append('\n');
             }
         }
 
         System.out.println(sb);
     }
-
-
 }
-
-
-
