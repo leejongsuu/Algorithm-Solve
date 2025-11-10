@@ -1,23 +1,23 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
         String[] input = br.readLine().split(" ");
         int N = Integer.parseInt(input[0]);
         int M = Integer.parseInt(input[1]);
 
         HashMap<String, Integer> map = new HashMap<>();
+
         for (int i = 0; i < N; i++) {
-            map.put(br.readLine(), 0);
+            String str = br.readLine();
+            map.put(str, i);
         }
 
         TreeSet<String> answer = new TreeSet<>();
@@ -28,11 +28,16 @@ public class Main {
             }
         }
 
+        StringBuilder sb = new StringBuilder();
         sb.append(answer.size()).append('\n');
-        for (String str : answer) {
-            sb.append(str).append('\n');
+
+        for (String s : answer) {
+            sb.append(s).append('\n');
         }
-        
+
         System.out.println(sb);
     }
 }
+
+
+
