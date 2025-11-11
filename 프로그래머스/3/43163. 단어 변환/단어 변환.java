@@ -1,47 +1,53 @@
+import java.util.*;
+
 class Solution {
-    
-    int n, result = Integer.MAX_VALUE;
-    
-    String target;
-    String[] words;
-    boolean[] visited;
-    
     public int solution(String begin, String target, String[] words) {
-        this.target = target;
-        this.words = words;
         
-        n = words.length;
-        visited = new boolean[n];
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
         
-        dfs(0, begin);
+        queue.offer(begin);
+        visited.add(begin);
         
-        return result == Integer.MAX_VALUE ? 0 : result;
-    }
-    
-    public void dfs(int L, String current) {
-        if(current.equals(target)) {
-            result = Math.min(result, L);
-            return;
-        }
-        
-        for(int i = 0; i < n; i++) {
-            if(!visited[i]) {
-                visited[i] = true;
-                if(diffCount(current, words[i]) == 1) {
-                    dfs(L + 1, words[i]);
-                }
-                visited[i] = false;
-            }
-        }
-    }
-    
-    public int diffCount(String a, String b) {
         int count = 0;
-        for(int i = 0; i < a.length(); i++) {
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            for(int i = 0; i < size; i++) {
+                String current = queue.poll();
+                if(current.equals(target)) {
+                    return count;
+                }
+                
+                for(String word : words) {
+                    if(visited.contains(word)) {
+                        continue;
+                    }
+                    
+                    if(oneDiffCheck(current, word)) {
+                        queue.offer(word);
+                        visited.add(word);
+                    }
+                }
+            }
+            count++;
+        }
+        
+        return 0;
+    }
+    
+    public boolean oneDiffCheck(String a, String b) {
+        int len = a.length();
+        
+        int count = 0;
+        for(int i = 0; i < len; i++) {
             if(a.charAt(i) != b.charAt(i)) {
                 count++;
+                if(count > 1) {
+                    return false;
+                }
             }
         }
-        return count;
+        
+        return true;
     }
 }
