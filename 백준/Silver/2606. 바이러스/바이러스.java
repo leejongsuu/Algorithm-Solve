@@ -8,44 +8,42 @@ public class Main {
     static int[] unf;
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
-        int M = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
 
-        unf = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
+        unf = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
             unf[i] = i;
         }
 
-        for (int i = 0; i < M; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int m = Integer.parseInt(br.readLine());
+        for (int i = 0; i < m; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            Union(a, b);
+            union(a, b);
         }
 
-        int cnt = 0;
-        for (int i = 2; i <= N; i++) {
-            if (Find(1) == Find(i)) {
-                cnt++;
+        int result = 0;
+        for (int i = 2; i <= n; i++) {
+            if (find(1) == find(i)) {
+                result++;
             }
         }
 
-        System.out.println(cnt);
+        System.out.println(result);
     }
 
-    static void Union(int a, int b) {
-        int fa = Find(a);
-        int fb = Find(b);
-        if (fa != fb) {
-            unf[fa] = fb;
-        }
+    public static void union(int a, int b) {
+        int fa = find(a);
+        int fb = find(b);
+
+        if (fa != fb) unf[fa] = fb;
     }
 
-    static int Find(int v) {
+    public static int find(int v) {
         if (v == unf[v]) return v;
-        return unf[v] = Find(unf[v]);
+        else return unf[v] = find(unf[v]);
     }
 }
