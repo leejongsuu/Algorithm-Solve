@@ -4,34 +4,33 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    static int[] digit = {1, 2, 3};
-    static int N;
-    static int cnt;
-
-    static void DFS(int sum) {
-        if (sum > N) return;
-
-        if (sum == N) {
-            cnt++;
-        } else {
-            for (int i = 0; i < digit.length; i++) {
-                DFS(sum + digit[i]);
-            }
-        }
-    }
+    static int count = 0;
+    final static int[] num = {1, 2, 3};
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
+
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < T; i++) {
-            N = Integer.parseInt(br.readLine());
-            cnt = 0;
-            DFS(0);
-            sb.append(cnt).append('\n');
+            int n = Integer.parseInt(br.readLine());
+            count = 0;
+            dfs(n, 0);
+            sb.append(count).append("\n");
         }
+
         System.out.println(sb);
+    }
+
+    public static void dfs(int n, int sum) {
+        if (sum >= n) {
+            if (sum == n) count++;
+            return;
+        }
+
+        for (int i = 0; i < num.length; i++) {
+            dfs(n, sum + num[i]);
+        }
     }
 }
