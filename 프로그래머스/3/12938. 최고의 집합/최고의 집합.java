@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 class Solution {
     public int[] solution(int n, int s) {
         
@@ -11,7 +9,10 @@ class Solution {
         int remain = s % n;
         
         int[] result = new int[n];
-        Arrays.fill(result, base);
+        
+        for(int i = 0; i < n; i++) {
+            result[i] = base;
+        }
         
         for(int i = 1; i <= remain; i++) {
             result[n - i]++;
