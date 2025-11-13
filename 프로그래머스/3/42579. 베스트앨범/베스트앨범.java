@@ -1,7 +1,27 @@
 import java.util.*;
 
 class Solution {
-    class Genre {
+    
+    class Music implements Comparable<Music> {
+        int id;
+        int play;
+        
+        Music(int id, int play) {
+            this.id = id;
+            this.play = play;
+        }
+        
+        @Override
+        public int compareTo(Music o) {
+            if(o.play == this.play) {
+                return this.id - o.id;
+            }
+            return o.play - this.play;
+        }
+    }
+    
+    
+    class Genre implements Comparable<Genre> {
         String genre;
         int totalPlay;
         
@@ -9,34 +29,23 @@ class Solution {
             this.genre = genre;
             this.totalPlay = totalPlay;
         }
-    }
-    
-    class Album implements Comparable<Album> {
-        int index;
-        int play;
-        Album(int index, int play) {
-            this.index = index;
-            this.play = play;
-        }
         
         @Override
-        public int compareTo(Album o) {
-            if(o.play == this.play) return this.index - o.index;
-            else return o.play - this.play;
+        public int compareTo(Genre o) {
+            return o.totalPlay - this.totalPlay;
         }
     }
     
     public int[] solution(String[] genres, int[] plays) {
-        
+
         int len = genres.length;
         
+        Map<String, List<Music>> map = new HashMap<>();
         Map<String, Integer> genreMap = new HashMap<>();
-        Map<String, List<Album>> albumMap = new HashMap<>();
         
         for(int i = 0; i < len; i++) {
-            genreMap.put(genres[i], genreMap.getOrDefault(genres[i], 0) + plays[i]);
-            albumMap.computeIfAbsent(
-                genres[i], k -> new ArrayList<>()).add(new Album(i, plays[i]));
+            map.computeIfAbsent(genres[i], k -> new ArrayList<>()).add(new Music(i, plays[i]));
+            genreMap.merge(genres[i], plays[i], Integer::sum);
         }
         
         List<Genre> genreList = new ArrayList<>();
@@ -44,22 +53,20 @@ class Solution {
             genreList.add(new Genre(genre, genreMap.get(genre)));
         }
         
-        Collections.sort(genreList, (a, b) -> b.totalPlay - a.totalPlay);
+        Collections.sort(genreList);
         
         List<Integer> result = new ArrayList<>();
         
-        for(Genre g : genreList) {
-            String genre = g.genre;
+        for(Genre genre : genreList) {
+            List<Music> list = map.get(genre.genre);
+            Collections.sort(list);
             
-            List<Album> albums = albumMap.get(genre);
-            
-            Collections.sort(albums);
-            
-            for(int i = 0; i < 2 && i < albums.size(); i++) {
-                result.add(albums.get(i).index);
+            int size = Math.min(2, list.size());
+            for(int i = 0; i < size; i++) {
+                result.add(list.get(i).id);
             }
         }
-        
+    
         return result.stream().mapToInt(Integer::intValue).toArray();
     }
 }
