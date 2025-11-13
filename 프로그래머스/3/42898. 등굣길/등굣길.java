@@ -1,48 +1,45 @@
 class Solution {
-    
     public int solution(int m, int n, int[][] puddles) {
         
         final int MOD = 1_000_000_007;
         
-        int[][] dp = new int[n][m];
+        int[][] board = new int[n + 1][m + 1];
         
         for(int[] puddle : puddles) {
-            dp[puddle[1] - 1][puddle[0] - 1] = -1;
+            board[puddle[1]][puddle[0]] = -1;
         }
         
-        dp[0][0] = 1;
+        board[1][1] = 1;
         
-        for(int r = 1; r < n; r++) {
-            if(dp[r][0] == -1 || dp[r - 1][0] == 0) {
-                dp[r][0] = 0; 
-            } else {
-                dp[r][0] = 1;
+        for(int r = 2; r <= n; r++) {
+            if(board[r][1] == -1) {
+                board[r][1] = 0;
+                continue;
             }
+            
+            board[r][1] = board[r - 1][1] + board[r][0];
         }
         
-        for(int c = 1; c < m; c++) {
-            if(dp[0][c] == -1 || dp[0][c - 1] == 0) {
-                dp[0][c] = 0;
-            } else {
-                dp[0][c] = 1;
+        for(int c = 2; c <= m; c++) {
+            if(board[1][c] == -1) {
+                board[1][c] = 0;
+                continue;
             }
+            
+            board[1][c] = board[1][c - 1] + board[0][c];
         }
         
-        for(int r = 1; r < n; r++) {
-            for(int c = 1; c < m; c++) {
-                
-                if(dp[r][c] == -1) {
-                    dp[r][c] = 0;
+        for(int r = 2; r <= n; r++) {
+            for(int c = 2; c <= m; c++) {
+                if(board[r][c] == -1) {
+                    board[r][c] = 0;
                     continue;
                 }
                 
-                int fromUp = dp[r - 1][c];
-                int fromLeft = dp[r][c - 1];
-                
-                dp[r][c] = (int)(((long)fromUp + fromLeft) % MOD);
+                board[r][c] = (board[r - 1][c] + board[r][c - 1]) % MOD;
             }
         }
-
-        return dp[n - 1][m - 1];
+        
+        return board[n][m];
     }
 }
