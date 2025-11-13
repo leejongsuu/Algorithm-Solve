@@ -17,7 +17,7 @@ public class Main {
         int[] dp = new int[n + 1];
 
         dp[1] = scores[1];
-        if (n >= 2) {
+        if (n > 1) {
             dp[2] = scores[1] + scores[2];
         }
 
