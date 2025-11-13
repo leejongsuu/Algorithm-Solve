@@ -1,58 +1,52 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        int max = 0;
-        int[] tree = new int[N];
-
-        st = new StringTokenizer(br.readLine(), " ");
+        int[] heights = new int[N];
+        st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            tree[i] = Integer.parseInt(st.nextToken());
-            if (tree[i] > max) {
-                max = tree[i];
+            heights[i] = Integer.parseInt(st.nextToken());
+        }
+
+        long lt = 0;
+        long rt = Arrays.stream(heights).max().getAsInt() + 1;
+
+        while (lt < rt) {
+            long mid = lt + (rt - lt) / 2;
+
+            long length = getLength(mid, heights);
+
+            if (length >= M) {
+                lt = mid + 1;
+            } else {
+                rt = mid;
             }
         }
 
-        System.out.println(binarySearch(max, M, tree));
+        System.out.println(lt - 1);
     }
 
-    static int binarySearch(int hi, int M, int[] tree) {
+    public static long getLength(long mid, int[] heights) {
+        long result = 0;
 
-        int lo = 0;
-
-        while (lo < hi) {
-            int mid = (lo + hi) / 2;
-
-            long sum = 0;
-            for (int i = 0; i < tree.length; i++) {
-                int sub = tree[i] - mid;
-                if (sub > 0) {
-                    sum += sub;
-                }
-            }
-
-            if (sum < M) {
-                hi = mid;
-            } else {
-                lo = mid + 1;
+        for (int height : heights) {
+            if (height > mid) {
+                result += (int) (height - mid);
             }
         }
-        return lo - 1;
+
+        return result;
     }
 }
-
-
-
-
-
