@@ -1,56 +1,65 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
-    static int N, M, cnt = 0;
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {1, -1, 0, 0};
+    static int N, M, result = 0;
     static char[][] campus;
+    static boolean[][] visited;
+
+    final static int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String[] input = br.readLine().split(" ");
-        N = Integer.parseInt(input[0]);
-        M = Integer.parseInt(input[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        int r = 0;
+        int c = 0;
 
         campus = new char[N][M];
-        int px = 0, py = 0;
-
         for (int i = 0; i < N; i++) {
-            String str = br.readLine();
+            String input = br.readLine();
             for (int j = 0; j < M; j++) {
-                campus[i][j] = str.charAt(j);
+                campus[i][j] = input.charAt(j);
                 if (campus[i][j] == 'I') {
-                    py = i;
-                    px = j;
+                    r = i;
+                    c = j;
                 }
             }
         }
 
-        DFS(py, px);
+        visited = new boolean[N][M];
 
-        if (cnt == 0) System.out.println("TT");
-        else System.out.println(cnt);
+        dfs(r, c);
+
+        System.out.println(result == 0 ? "TT" : result);
+
     }
 
-    static void DFS(int y, int x) {
+    private static void dfs(int r, int c) {
+        visited[r][c] = true;
 
-        if (campus[y][x] == 'P') {
-            cnt++;
+        if (campus[r][c] == 'P') {
+            result++;
         }
 
-        campus[y][x] = 'X';
+        for (int[] dir : dirs) {
+            int nr = r + dir[0];
+            int nc = c + dir[1];
 
-        for (int i = 0; i < 4; i++) {
-            int ny = y + dy[i];
-            int nx = x + dx[i];
-            if (ny >= 0 && nx >= 0 && ny < N && nx < M && campus[ny][nx] != 'X') {
-                DFS(ny, nx);
+            if (isIn(nr, nc) && !visited[nr][nc] && campus[nr][nc] != 'X') {
+                dfs(nr, nc);
             }
         }
+    }
+
+    private static boolean isIn(int r, int c) {
+        return r >= 0 && r < N && c >= 0 && c < M;
     }
 }
